@@ -52,8 +52,17 @@ var cmdList = &cobra.Command{
 	Long: 	 `use list to list everything you want form cpe`,
 	Args:    cobra.MinimumNArgs(1),
 
-	Run: func(_ *cobra.Command, args []string) {
-		net.SearchMany(args)
+	Run: func(cmd *cobra.Command, args []string) {
+		mseven, err := cmd.Flags().GetBool("Mseven")
+		if err != nil {
+			fmt.Println("getBool err: ", err)
+			return
+		}
+		if mseven {
+			showSevenMany(args)
+		} else {
+			showMany(args)
+		}
 	},
 }
 
@@ -68,10 +77,18 @@ func show(sn string) {
 	net.Search(sn)
 }
 
-
 func showSeven(sn string) {
 	net.SearchSeven(sn)
 }
+
+func showMany(sns []string) {
+	net.SearchMany(sns)
+}
+
+func showSevenMany(sns []string) {
+	net.SearchSevenMany(sns)
+}
+
 // Run cmd
 func Run() {
 	RootCmd.Execute()

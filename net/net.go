@@ -42,7 +42,7 @@ var (
 )
 
 func init() {
-	path := "./url.rules"
+	path := "/etc/aixc/url.rules"
 	if cr, err = initURL(path); err != nil {
 		os.Exit(9)
 	}
@@ -60,12 +60,50 @@ func SearchSeven(sn string) {
 		os.Exit(13)
 	}
 	isSnInMode(sn, m)
-	mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime := getCpePop(m)
-	fmt.Printf("updatetime: %s", updatetime)
-	fmt.Printf("masterpop: %s mastercpe: %s", masterpopip, mastercpeip)
-	fmt.Printf("\nbackuppop: %s backupcpe: %s\n", backuppopip, backupcpeip)
+	model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime := getCpePop(m)
+	tableData := [][]string{
+		{sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip},
+	}
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
+	for _, v := range tableData {
+		table.Append(v)
+	}
+	table.Render()
 
 	getDvc(sn, m)
+	fmt.Printf("%v\n", vd)
+}
+
+// SearchSevenMany 6.x
+func SearchSevenMany(snMany []string) {
+	// 已知mode数据6.x版本
+	var mode string
+	// table
+	var tableData = make([][]string, 0)
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+	// 多线程查询 属于哪个平台
+	for _, sn := range snMany {
+		mode = snInSevenMode(sn)
+		if mode == "unknown" {
+			os.Exit(14)
+		}
+		break
+	}
+	fmt.Printf("sevencpemode: %s\n", mode)
+
+	for _, sn := range snMany {
+		tables := make([]string, 0)
+		isSnInMode(sn, mode)
+		model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime := getCpePop(mode)
+		tableData = append(tableData, append(tables, sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
+	}
+
+	table.AppendBulk(tableData)
+	table.Render()
 }
 
 //Search 6.x/7.x
@@ -77,9 +115,9 @@ func Search(sn string) {
 		os.Exit(14)
 	}
 	// isSnInMode(sn, m)
-	mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime := getCpePop(m)
+	model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime := getCpePop(m)
 	tableData := [][]string{
-		{sn, vc.Model, vc.SoftwareVersion, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip},
+		{sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip},
 	}
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
@@ -101,7 +139,8 @@ func SearchMany(snMany []string) {
 	var tableData = make([][]string, 0)
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
 	// 多线程查询 属于哪个平台
 	for _, sn := range snMany {
 		mode = getSnInMode(sn)
@@ -110,17 +149,19 @@ func SearchMany(snMany []string) {
 		}
 		break
 	}
+	fmt.Printf("cpemode: %s\n", mode)
 
 	for _, sn := range snMany {
 		tables := make([]string, 0)
 		isSnInMode(sn, mode)
-		mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime := getCpePop(mode)
-		tableData = append(tableData, append(tables, sn, vc.Model, vc.SoftwareVersion, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
+		model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime := getCpePop(mode)
+		tableData = append(tableData, append(tables, sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
 	}
 
-	for _, v := range tableData {
-		table.Append(v)
-	}
+	// for _, v := range tableData {
+	// 	table.Append(v)
+	// }
+	table.AppendBulk(tableData)
 	table.Render()
 }
 
@@ -188,12 +229,14 @@ func isSnInMode(sn, mode string) bool {
 	return false
 }
 
-func getCpePop(mode string) (string, string, string, string, string) {
-	var mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime string
+func getCpePop(mode string) (string, string, string, string, string, string, string) {
+	var model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime string
 	popURL := cr.GetPopUrlPath(mode)
 	switch mode {
 	case "valor":
 		{
+			model = vc.Model
+			version = vc.SoftwareVersion
 			mastercpeip = vc.MasterPopIP
 			backupcpeip = vc.BackupPopIP
 			masterpopid := vc.MasterPopID
@@ -212,6 +255,8 @@ func getCpePop(mode string) (string, string, string, string, string) {
 		}
 	case "nexus":
 		{
+			model = nb.Model
+			version = nb.SoftwareVersion
 			mastercpeip = nb.MasterEntryIP
 			backupcpeip = nb.BackupEntryIP
 			masterpopid := nb.MasterEntryID
@@ -230,6 +275,8 @@ func getCpePop(mode string) (string, string, string, string, string) {
 		}
 	case "watsons":
 		{
+			model = wv.Model
+			version = wv.SoftwareVersion
 			mastercpeip = wv.MasterEntryIP
 			backupcpeip = wv.BackupEntryIP
 			masterpopid := wv.MasterEntryID
@@ -248,6 +295,8 @@ func getCpePop(mode string) (string, string, string, string, string) {
 		}
 	case "watsons_ha":
 		{
+			model = whv.Model
+			version = whv.SoftwareVersion
 			mastercpeip = whv.MasterEntryIP
 			backupcpeip = whv.BackupEntryIP
 			masterpopid := whv.MasterEntryID
@@ -266,6 +315,8 @@ func getCpePop(mode string) (string, string, string, string, string) {
 		}
 	case "tassadar":
 		{
+			model = zc.Model
+			version = zc.SoftwareVersion
 			mastercpeip = zc.MasterPopIP
 			backupcpeip = zc.BackupPopIP
 			masterpopid := zc.MasterPopID
@@ -283,7 +334,7 @@ func getCpePop(mode string) (string, string, string, string, string) {
 			}
 		}
 	}
-	return mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime
+	return model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime
 }
 
 func getDvc(sn, mode string) {
