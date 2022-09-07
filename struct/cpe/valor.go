@@ -13,7 +13,7 @@ func (v Valor) IsSn(sn string) (bool, Cpe) {
 	return false, cpe
 }
 
-func (v Valor) GetCpeStruct(sn string) Cpe {
+func (v Valor) GetCpeStructBySn(sn string) Cpe {
 
 	for _, c := range v {
 		if sn == c.Sn {

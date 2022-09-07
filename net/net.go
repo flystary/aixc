@@ -247,10 +247,10 @@ func getCpePop(mode string) (string, string, string, string, string, string, str
 				os.Exit(12)
 			}
 			if ok, mp = pv.IsId(masterpopid); ok != false {
-				masterpopip = pv.GetPopStruct(masterpopid).PopIP
+				masterpopip = mp.PopIP
 			}
 			if ok, bp = pv.IsId(backuppopid); ok != false {
-				backuppopip = pv.GetPopStruct(backuppopid).PopIP
+				backuppopip = bp.PopIP
 			}
 		}
 	case "nexus":
@@ -267,10 +267,10 @@ func getCpePop(mode string) (string, string, string, string, string, string, str
 				os.Exit(12)
 			}
 			if ok, me = pn.IsId(masterpopid); ok != false {
-				masterpopip = pn.GetPopStruct(masterpopid).EntryIP
+				masterpopip = me.EntryIP
 			}
 			if ok, be = pn.IsId(backuppopid); ok != false {
-				backuppopip = pn.GetPopStruct(backuppopid).EntryIP
+				backuppopip = be.EntryIP
 			}
 		}
 	case "watsons":
@@ -287,10 +287,10 @@ func getCpePop(mode string) (string, string, string, string, string, string, str
 				os.Exit(12)
 			}
 			if ok, me = pw.IsId(masterpopid); ok != false {
-				masterpopip = pw.GetPopStruct(masterpopid).EntryIP
+				masterpopip = me.EntryIP
 			}
 			if ok, be = pw.IsId(backuppopid); ok != false {
-				backuppopip = pw.GetPopStruct(backuppopid).EntryIP
+				backuppopip = be.EntryIP
 			}
 		}
 	case "watsons_ha":
@@ -307,10 +307,10 @@ func getCpePop(mode string) (string, string, string, string, string, string, str
 				os.Exit(12)
 			}
 			if ok, me = pwh.IsId(masterpopid); ok != false {
-				masterpopip = pwh.GetPopStruct(masterpopid).EntryIP
+				masterpopip = me.EntryIP
 			}
 			if ok, be = pwh.IsId(backuppopid); ok != false {
-				backuppopip = pwh.GetPopStruct(backuppopid).EntryIP
+				backuppopip = be.EntryIP
 			}
 		}
 	case "tassadar":
@@ -327,10 +327,10 @@ func getCpePop(mode string) (string, string, string, string, string, string, str
 				os.Exit(12)
 			}
 			if ok, ms = pz.IsId(masterpopid); ok != false {
-				masterpopip = pz.GetPopStruct(masterpopid).EntryIP
+				masterpopip = ms.EntryIP
 			}
 			if ok, bs = pz.IsId(backuppopid); ok != false {
-				backuppopip = pz.GetPopStruct(backuppopid).EntryIP
+				backuppopip = bs.EntryIP
 			}
 		}
 	}
@@ -368,7 +368,7 @@ func getDvc(sn, mode string) {
 			if err != nil {
 				os.Exit(15)
 			}
-			ok, vd = d.IsSn(sn)
+			ok, zd = d.IsSn(sn)
 			if ok == false {
 				os.Exit(16)
 			}
@@ -390,7 +390,7 @@ func getDvc(sn, mode string) {
 			if err != nil {
 				os.Exit(15)
 			}
-			ok, wd = d.IsSn(sn)
+			ok, whd = d.IsSn(sn)
 			if ok == false {
 				os.Exit(16)
 			}

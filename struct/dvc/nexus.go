@@ -14,7 +14,7 @@ func (n Nexus) IsSn(sn string) (bool, Ndvc) {
 	return false, ndvc
 }
 //GetStructBySn 根据SN获取struct
-func (n Nexus) GetStructBySn(sn string) Ndvc {
+func (n Nexus) GetDvcStructBySn(sn string) Ndvc {
 	var dvc Ndvc
 	for _, d := range n {
 		if sn == d.Sn {

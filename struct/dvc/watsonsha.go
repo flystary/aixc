@@ -14,7 +14,7 @@ func (wh WatsonsHa) IsSn(sn string) (bool, Wdvc) {
 	return false, wdvc
 }
 
-func (wh WatsonsHa) GetStructBySn(sn string) Wdvc {
+func (wh WatsonsHa) GetDvcStructBySn(sn string) Wdvc {
 	var dvc Wdvc
 	for _, d := range wh {
 		if sn == d.Sn {

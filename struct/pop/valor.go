@@ -14,7 +14,7 @@ func (v Valor) IsId(id int) (bool, Pop) {
 	return false, pop
 }
 
-func (n Valor) GetPopStruct(id int) Pop {
+func (n Valor) GetPopStructBySn(id int) Pop {
 
 	for _, p := range n {
 		if id == p.ID {

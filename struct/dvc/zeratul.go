@@ -15,7 +15,7 @@ func (z Zeratul) IsSn(sn string) (bool, Vdvc) {
 	return false, vdvc
 }
 
-func (z Zeratul) GetStructBySn(sn string) Vdvc {
+func (z Zeratul) GetDvcStructBySn(sn string) Vdvc {
 	var dvc Vdvc
 	for _, d := range z {
 		if sn == d.Sn {

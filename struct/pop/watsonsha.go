@@ -13,7 +13,7 @@ func (wh WatsonsHa) IsId(id int) (bool, Entry) {
 	return false, entry
 }
 
-func (wh WatsonsHa) GetPopStruct(id int) Entry {
+func (wh WatsonsHa) GetPopStructBySn(id int) Entry {
 
 	for _, e := range wh {
 		if id == e.ID {

@@ -12,7 +12,7 @@ func (z Zeratul) IsSn(sn string) (bool, Cpe) {
 	return false, cpe
 }
 
-func (z Zeratul) GetCpeStruct(sn string) Cpe {
+func (z Zeratul) GetCpeStructBySn(sn string) Cpe {
 	for _, c := range z {
 		if sn == c.Sn {
 			cpe = c

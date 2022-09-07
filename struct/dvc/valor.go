@@ -14,7 +14,7 @@ func (v Valor) IsSn(sn string) (bool, Vdvc) {
 	return false, vdvc
 }
 
-func (v Valor) GetStructBySn(sn string) Vdvc {
+func (v Valor) GetDvcStructBySn(sn string) Vdvc {
 	var dvc Vdvc
 	for _, d := range v {
 		if sn == d.Sn {

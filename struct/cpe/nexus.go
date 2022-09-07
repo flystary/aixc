@@ -14,7 +14,7 @@ func (n Nexus) IsSn(sn string) (bool, Box) {
 	return false, box
 }
 
-func (n Nexus) GetCpeStruct(sn string) Box {
+func (n Nexus) GetCpeStructBySn(sn string) Box {
 
 	for _, b := range n {
 		if sn == b.Sn {

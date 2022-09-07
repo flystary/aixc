@@ -13,7 +13,7 @@ func (w Watsons) IsSn(sn string) (bool, VBox){
 	return false, vbox
 }
 
-func (w Watsons) GetCpeStruct(sn string) VBox {
+func (w Watsons) GetCpeStructBySn(sn string) VBox {
 
 	for _, vb := range w {
 		if sn == vb.Sn {

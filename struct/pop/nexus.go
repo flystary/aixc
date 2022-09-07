@@ -15,7 +15,7 @@ func (n Nexus) IsId(id int) (bool, Entry) {
 	return false, entry
 }
 
-func (n Nexus) GetPopStruct(id int) Entry {
+func (n Nexus) GetPopStructBySn(id int) Entry {
 
 	for _, e := range n {
 		if id == e.ID {
