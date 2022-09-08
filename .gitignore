@@ -1,5 +1,7 @@
 .DS_Store
- 
+ aixc
+
 # Editor directories and files
 .idea
 .vscode
+.gitignore
