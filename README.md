@@ -1,10 +1,9 @@
 # aixc
 使用golang实现的cli
 
+```bash
 xc 2.0.0
 flyZer0 <flyoney@163.com>
-
-```bash
 
 USAGE:
     xc [SUBCOMMAND]
