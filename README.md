@@ -2,35 +2,41 @@
 使用golang实现的cli
 
 ```bash
-xc 2.0.0
-flyZer0 <flyoney@163.com>
+[root@centos ~]# aixc show -h
+use show to show everything you want form cpe
+Usage:
+  aixc [command]
 
-USAGE:
-    xc [SUBCOMMAND]
+Available Commands:
+  completion  Generate the autocompletion script for the specified shell
+  conn        Use this function to connect CPE or node
+  help        Help about any command
+  list        Print multiple rows of data in tabular form
+  show        Print single line data in tabular form
+  version     Print the version number of xc
 
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+Flags:
+  -h, --help   help for aixc
+```
+```bash
+[root@centos ~]# aixc list -h
+use list to list everything you want form cpe
 
-SUBCOMMANDS:
-    connet    Connect can be used to remotely connect CPE and display the process on the terminal.
-    help      Prints this message or the help of the given subcommand(s)
-    show      Use show to obtain CPE information and display it on the current terminal
-    update    Use update to update local CPE information
+Usage:
+  aixc list [<SN>, <SN>,....] [flags]
 
-Use show to obtain CPE information and display it on the current terminal
+Flags:
+  -m, --Mseven   If ucpe belongs to 6.X platform, Please use it
+  -h, --help     help for list
+```
+```bash
+[root@centos ~]# aixc show -h
+use show to show everything you want form cpe
 
-USAGE:
-    xc show [OPTIONS] <sn>
+Usage:
+  aixc show <SN> [flags]
 
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
-
-OPTIONS:
-    -m <mode>        Use show to select the CPE, the default version is nexus. [possible values: nexus, valor, watsons,
-                     watsons_ha, tassadar]
-
-ARGS:
-    <sn>    cpe serial number
+Flags:
+  -m, --Mseven   If ucpe belongs to 6.X platform, Please use it
+  -h, --help     help for show
 ```
