@@ -7,7 +7,7 @@ import (
 
 )
 
-func leadURL(path string) (conf.Rules, error) {
+func loadURL(path string) (conf.Rules, error) {
 		var rules conf.Rules
 		io, err := ioutil.ReadFile(path)
 		if err != nil {
