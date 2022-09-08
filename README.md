@@ -4,7 +4,8 @@
 xc 2.0.0
 flyZer0 <flyoney@163.com>
 
-'''bash
+```bash
+
 USAGE:
     xc [SUBCOMMAND]
 
@@ -33,4 +34,4 @@ OPTIONS:
 
 ARGS:
     <sn>    cpe serial number
-'''
+```
