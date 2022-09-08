@@ -26,7 +26,7 @@ type Watsons   Mode
 type Tassadar  Mode
 type WatsonsHa Mode
 
-func (r *Rules) GetPopUrlPath(mode string) string {
+func (r *Rules) PopRouteByMode(mode string) string {
 	switch mode {
 		case "nexus":
 			return fmt.Sprintf("%s/nexus/%s?", r.URL, r.Nexus.Pop)
@@ -43,7 +43,7 @@ func (r *Rules) GetPopUrlPath(mode string) string {
 	}
 }
 
-func (r *Rules) GetCpeUrlPath(mode string) string {
+func (r *Rules) CpeRouteByMode(mode string) string {
 	switch mode {
 		case "nexus":
 			return fmt.Sprintf("%s/nexus/%s?", r.URL, r.Nexus.Cpe)
@@ -60,7 +60,7 @@ func (r *Rules) GetCpeUrlPath(mode string) string {
 	}
 }
 
-func (r *Rules) GetDvcUrlPath(mode string) string {
+func (r *Rules) DeviceRouteByMode(mode string) string {
 	switch mode {
 		case "nexus":
 			return fmt.Sprintf("%s/nexus/%s?", r.URL, r.Nexus.Dvc)
@@ -77,10 +77,10 @@ func (r *Rules) GetDvcUrlPath(mode string) string {
 	}
 }
 
-func (r *Rules) GetOperationUrlPath() string {
+func (r *Rules) OperationRouteByMode() string {
 	return fmt.Sprintf("%s/%s?", r.URL, r.Operation)
 }
 
-func (r *Rules) GetTokenUrlPath() string {
+func (r *Rules) TokenRouteByMode() string {
 	return fmt.Sprintf("%s/%s?", r.URL, r.Toekn)
 }

@@ -44,20 +44,20 @@ func init() {
 	if cr, err = loadURL(path); err != nil {
 		os.Exit(9)
 	}
-	if token, err = getResponseToken(cr.GetTokenUrlPath()); err != nil {
+	if token, err = getToken(cr.TokenRouteByMode()); err != nil {
 		os.Exit(10)
 	}
 }
 
 func snInSevenMode(sn string) string {
-	if opo, err = getOperationData(token, cr.GetOperationUrlPath()); err != nil {
+	if opo, err = getOperationData(token, cr.OperationRouteByMode()); err != nil {
 		os.Exit(11)
 	}
 	return opo.SnInMode(sn)
 }
 
 func isSnInMode(sn, mode string) bool {
-	URL := cr.GetCpeUrlPath(mode)
+	URL := cr.CpeRouteByMode(mode)
 	switch mode {
 	case "valor":
 		{
@@ -115,7 +115,7 @@ func isSnInMode(sn, mode string) bool {
 
 func getCpePop(mode string) (string, string, string, string, string, string, string) {
 	var model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime string
-	popURL := cr.GetPopUrlPath(mode)
+	popURL := cr.PopRouteByMode(mode)
 	switch mode {
 	case "valor":
 		{
@@ -222,7 +222,7 @@ func getCpePop(mode string) (string, string, string, string, string, string, str
 }
 
 func getDvc(sn, mode string) {
-	dvcURL := cr.GetDvcUrlPath(mode)
+	dvcURL := cr.DeviceRouteByMode(mode)
 	switch mode {
 	case "nexus":
 		{
@@ -281,3 +281,10 @@ func getDvc(sn, mode string) {
 		}
 	}
 }
+
+// seven
+//传入sn
+//根据sn获取盒子版本
+//
+
+// six

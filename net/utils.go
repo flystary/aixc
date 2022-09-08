@@ -13,9 +13,7 @@ func timeUnix(e time.Time) int64 {
 	return e.UnixNano() / 1e6
 }
 
-func getResponseToken(URL string) (string, error) {
-
-	// tokenurl := "http://internal.oss.7x-networks.net/matrix/oauth/token"
+func getToken(URL string) (string, error) {
 
 	data := make(url.Values)
 	data["username"] = []string{"matrix"}
