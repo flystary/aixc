@@ -43,7 +43,7 @@ var (
 
 func init() {
 	path := "/etc/aixc/url.rules"
-	if cr, err = initURL(path); err != nil {
+	if cr, err = leadURL(path); err != nil {
 		os.Exit(9)
 	}
 	if token, err = getResponseToken(cr.GetTokenUrlPath()); err != nil {
