@@ -2,7 +2,7 @@
 使用golang实现的cli
 
 ```bash
-[root@centos ~]# aixc show -h
+[root@centos ~]# aixc -h
 use show to show everything you want form cpe
 Usage:
   aixc [command]
