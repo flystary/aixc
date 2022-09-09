@@ -1,51 +1,27 @@
 package net
 
 import (
-	"encoding/json"
+	"os"
 	"fmt"
-	"io/ioutil"
-	"net/http"
-	"net/url"
 	"time"
+	"sync"
 )
+
+var (
+	arr  []map[string]string
+	channel = make(chan map[string]string, 15)
+)
+
+func init() {
+	go modeController()
+	arr = make([]map[string]string, 1)
+	arr[0] = make(map[string]string)
+
+}
 
 func timeUnix(e time.Time) int64 {
 	return e.UnixNano() / 1e6
 }
-
-func getToken(URL string) (string, error) {
-
-	data := make(url.Values)
-	data["username"] = []string{"matrix"}
-	data["password"] = []string{"c8d064e2ad4670f418ba02ef342b33d1"}
-	data["client_id"] = []string{"browser"}
-	data["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
-	data["grant_type"] = []string{"password"}
-	
-	res, err := http.PostForm(URL, data)
-	if err != nil {
-		fmt.Println(err.Error())
-		return "", err
-	}
-
-	defer res.Body.Close()
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return "", err
-	}
-
-	result := make(map[string]interface{})
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return "", err
-	}
-
-	token := result["access_token"].(string)
-	
-	return token, nil
-}
-
 
 func useMapArrgetMode(marr []map[string]string) string {
 	arr := make([]string, 0)
@@ -73,4 +49,52 @@ func useMapArrgetMode(marr []map[string]string) string {
 		m = "unknown"
 	}
 	return m
+}
+
+func modeController() {
+	for simc := range channel {
+		arr = append(arr, simc)
+	}
+}
+
+func threadQueryMode(sn string) string {
+	wg := &sync.WaitGroup{}
+	limit := make(chan bool, 20)
+	for i := 1; i < 6; i++ {
+		wg.Add(1)
+		limit <- true
+		mode := Mtype(i).enum()
+		go getMapByChan(sn, mode, limit, wg)
+	}
+	wg.Wait()
+
+	close(channel)
+	return useMapArrgetMode(arr)
+}
+
+func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
+	// var relationMap map[string]string
+	defer wg.Done()
+	relationMap := make(map[string]string, 6)
+	is  := "No"
+	if syncDataMemorybySnMode(sn, mode) {
+		is = "Yes"
+	}
+	relationMap[mode] = is
+	select {
+		case channel <- relationMap: {
+			time.Sleep(1*time.Second)
+		}
+		default:
+			fmt.Println("通道已满", len(channel))
+			close(channel)
+	}
+	<- limit
+}
+
+func snInSevenMode(sn string) string {
+	if opo, err = getOperationData(token, rules.OperationRouteByMode()); err != nil {
+		os.Exit(11)
+	}
+	return opo.SnInMode(sn)
 }

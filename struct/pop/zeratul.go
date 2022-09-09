@@ -12,7 +12,7 @@ func (z Zeratul) IsId(id int) (bool, SPop) {
 	return false, spop
 }
 
-func (z Zeratul) GetPopStructBySn(id int) SPop {
+func (z Zeratul) GetPopStructById(id int) SPop {
 	var pop  SPop
 	for _, p := range z {
 		if id == p.ID {

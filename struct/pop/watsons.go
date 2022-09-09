@@ -13,7 +13,7 @@ func (w Watsons) IsId(id int) (bool, Entry) {
 	return false, entry
 }
 
-func (w Watsons) GetPopStructBySn(id int) Entry {
+func (w Watsons) GetPopStructById(id int) Entry {
 
 	for _, e := range w {
 		if id == e.ID {
