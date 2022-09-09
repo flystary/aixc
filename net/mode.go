@@ -38,12 +38,47 @@ type ucpe struct {
 	updatetime 	string
 }
 
+//Mtype 自定义int
+type Mtype int
+
+const (
+	valor Mtype = iota + 1
+	nexus
+	watsons
+	watsonsHa
+	tassadar
+)
+
+func (m Mtype) enum() string {
+	var mode string
+	switch m {
+		case valor:{
+			mode = "valor"
+		}
+		case nexus:{
+			mode = "nexus"
+		}
+		case watsons:{
+			mode = "watsons"
+		}
+		case watsonsHa:{
+			mode = "watsons_ha"
+		}
+		case tassadar:{
+			mode = "tassadar"
+		}
+		default:{
+			mode = "unknown"
+		}
+	}
+	return mode
+}
+
 // 已知mode获取cpe,dvc,pop数据并放入到内存
 func syncDataMemorybyMode(mode string) {
 	cpeURL := rules.CpeRouteByMode(mode)
 	popURL := rules.PopRouteByMode(mode)
 	dvcURL := rules.DeviceRouteByMode(mode)
-
 	switch mode {
 		case "valor":{
 			cv, err = getValorData(token, cpeURL)
@@ -124,97 +159,92 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 	popURL := rules.PopRouteByMode(mode)
 	dvcURL := rules.DeviceRouteByMode(mode)
 	switch mode {
-		case "valor":
-			{
-				cv, err = getValorData(token, cpeURL)
-				if err != nil {
-					os.Exit(12)
-				}
-				pv, err = getValorPopData(token, popURL)
-				if err != nil {
-					os.Exit(13)
-				}
-				dv, err = getDvcValorData(token, dvcURL)
-				if err != nil {
-					os.Exit(15)
-				}
-				if ok, _ := cv.IsSn(sn); ok != false {
-					return true
-				}
+		case "valor":{
+			cv, err = getValorData(token, cpeURL)
+			if err != nil {
+				os.Exit(12)
 			}
-		case "nexus":
-			{
-				cn, err = getNexusData(token, cpeURL)
-				if err != nil {
-					os.Exit(12)
-				}
-				pn, err = getNexusEntryData(token, popURL)
-				if err != nil {
-					os.Exit(13)
-				}
-				dn, err = getDvcNexusData(token, dvcURL)
-				if err != nil {
-					os.Exit(15)
-				}
-				if ok, _ := cn.IsSn(sn); ok != false {
-					return true
-				}
+			pv, err = getValorPopData(token, popURL)
+			if err != nil {
+				os.Exit(13)
 			}
-		case "watsons":
-			{
-				cw, err = getWatsonsData(token, cpeURL)
-				if err != nil {
-					os.Exit(12)
-				}
-				pw, err = getWatsonsEntryData(token, popURL)
-				if err != nil {
-					os.Exit(13)
-				}
-				dw, err = getDvcWatsonsData(token, dvcURL)
-				if err != nil {
-					os.Exit(15)
-				}
-				if ok, _ := cw.IsSn(sn); ok != false {
-					return true
-				}
+			dv, err = getDvcValorData(token, dvcURL)
+			if err != nil {
+				os.Exit(15)
 			}
-		case "watsons_ha":
-			{
-				ch, err = getWatsonsHaData(token, cpeURL)
-				if err != nil {
-					os.Exit(12)
-				}
-				ph, err = getWatsonsHaEntryData(token, popURL)
-				if err != nil {
-					os.Exit(13)
-				}
-				dh, err = getDvcWatsonsHaData(token, dvcURL)
-				if err != nil {
-					os.Exit(15)
-				}
-				if ok, _ := ch.IsSn(sn); ok != false {
-					return true
-				}
-			}
-		case "tassadar":
-			{
-				cz, err = getZeratulData(token, cpeURL)
-				if err != nil {
-					os.Exit(12)
-				}
-				pz, err = getZeratulPopData(token, popURL)
-				if err != nil {
-					os.Exit(13)
-				}
-				dz, err = getDvcZeratulData(token, dvcURL)
-				if err != nil {
-					os.Exit(15)
-				}
-				if ok, _ := cz.IsSn(sn); ok != false {
-					return true
-				}
+			if ok, _ := cv.IsSn(sn); ok != false {
+				return true
 			}
 		}
+		case "nexus":{
+			cn, err = getNexusData(token, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			pn, err = getNexusEntryData(token, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			dn, err = getDvcNexusData(token, dvcURL)
+			if err != nil {
+				os.Exit(15)
+			}
+			if ok, _ := cn.IsSn(sn); ok != false {
+				return true
+			}
+		}
+		case "watsons":{
+			cw, err = getWatsonsData(token, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			pw, err = getWatsonsEntryData(token, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			dw, err = getDvcWatsonsData(token, dvcURL)
+			if err != nil {
+				os.Exit(15)
+			}
+			if ok, _ := cw.IsSn(sn); ok != false {
+				return true
+			}
+		}
+		case "watsons_ha":{
+			ch, err = getWatsonsHaData(token, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			ph, err = getWatsonsHaEntryData(token, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			dh, err = getDvcWatsonsHaData(token, dvcURL)
+			if err != nil {
+				os.Exit(15)
+			}
+			if ok, _ := ch.IsSn(sn); ok != false {
+				return true
+			}
+		}
+		case "tassadar":{
+			cz, err = getZeratulData(token, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			pz, err = getZeratulPopData(token, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			dz, err = getDvcZeratulData(token, dvcURL)
+			if err != nil {
+				os.Exit(15)
+			}
+			if ok, _ := cz.IsSn(sn); ok != false {
+				return true
+			}
+		}
+	}
 	return false
 }
 
