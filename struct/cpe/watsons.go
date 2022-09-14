@@ -10,17 +10,17 @@ func (w Watsons) IsSn(sn string) (bool, VBox){
 		} 
 		continue
 	}
-	return false, vbox
+	return false, vox
 }
 
 func (w Watsons) GetCpeStructBySn(sn string) VBox {
 
 	for _, vb := range w {
 		if sn == vb.Sn {
-			vbox = vb
+			vox = vb
 			break
 		}
 		continue
 	}
-	return vbox
+	return vox
 }

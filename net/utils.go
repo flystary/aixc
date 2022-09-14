@@ -92,7 +92,7 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 	<- limit
 }
 
-func snInSevenMode(sn string) string {
+func getModebySevenSn(sn string) string {
 	if opo, err = getOperationData(token, rules.OperationRouteByMode()); err != nil {
 		os.Exit(11)
 	}

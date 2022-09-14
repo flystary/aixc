@@ -10,17 +10,17 @@ func (wh WatsonsHa) IsSn(sn string) (bool, VBox) {
 		} 
 		continue
 	}
-	return false, vbox
+	return false, vox
 }
 
 func (wh WatsonsHa) GetCpeStructBySn(sn string) VBox {
 
 	for _, vb := range wh {
 		if sn == vb.Sn {
-			vbox = vb
+			vox = vb
 			break
 		}
 		continue
 	}
-	return vbox
+	return vox
 }

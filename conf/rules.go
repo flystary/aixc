@@ -2,6 +2,7 @@ package conf
 
 import "fmt"
 
+// Rules 文件
 type Rules struct {
 	URL	        string		`yaml:"url"`
 	Operation 	string		`yaml:"operation"`
@@ -14,18 +15,24 @@ type Rules struct {
 	Modes   	[]string	`yaml:"modes"`
 }
 
+// Mode 信息类别
 type Mode struct {
 	Cpe  string  	`yaml:"cpe"`
 	Pop  string  	`yaml:"pop"`
 	Dvc  string  	`yaml:"dvc"`
 }
-
+// Valor sdwan7
 type Valor     Mode
+// Nexus sdwan6
 type Nexus     Mode
+// Watsons 屈臣氏
 type Watsons   Mode
+// Tassadar sase2
 type Tassadar  Mode
+// WatsonsHa 屈臣氏仓库
 type WatsonsHa Mode
 
+// PopRouteByMode pop路由
 func (r *Rules) PopRouteByMode(mode string) string {
 	switch mode {
 		case "nexus":
@@ -43,6 +50,7 @@ func (r *Rules) PopRouteByMode(mode string) string {
 	}
 }
 
+// CpeRouteByMode cpe路由
 func (r *Rules) CpeRouteByMode(mode string) string {
 	switch mode {
 		case "nexus":
@@ -60,6 +68,7 @@ func (r *Rules) CpeRouteByMode(mode string) string {
 	}
 }
 
+// DeviceRouteByMode devic路由
 func (r *Rules) DeviceRouteByMode(mode string) string {
 	switch mode {
 		case "nexus":
@@ -77,10 +86,12 @@ func (r *Rules) DeviceRouteByMode(mode string) string {
 	}
 }
 
+// OperationRouteByMode Operation路由
 func (r *Rules) OperationRouteByMode() string {
 	return fmt.Sprintf("%s/%s?", r.URL, r.Operation)
 }
 
+// TokenRouteByMode token路由
 func (r *Rules) TokenRouteByMode() string {
 	return fmt.Sprintf("%s/%s?", r.URL, r.Toekn)
 }

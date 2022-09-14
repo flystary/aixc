@@ -21,7 +21,7 @@ var (
 
 //SearchSeven 6.x
 func SearchSeven(sn string) {
-	mode = snInSevenMode(sn)
+	mode = getModebySevenSn(sn)
 	fmt.Printf("sevencpemode: %s\n", mode)
 	if mode == "unknown" {
 		os.Exit(13)
@@ -29,19 +29,19 @@ func SearchSeven(sn string) {
 	syncDataMemorybyMode(mode)
 	switch mode {
 		case "valor":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyValor(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyValor(sn)
 		}
 		case "nexus":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyNexus(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyNexus(sn)
 		}
 		case "watsons":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyWatsons(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsons(sn)
 		}
 		case "watsons_ha":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyWatsonsHa(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyZeratul(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyZeratul(sn)
 		}
 	}
 	tableData := [][]string{
@@ -65,7 +65,7 @@ func SearchSevenMany(snMany []string) {
 	table.SetCenterSeparator("|")
 	// 多线程查询 属于哪个平台
 	for _, sn := range snMany {
-		mode = snInSevenMode(sn)
+		mode = getModebySevenSn(sn)
 		if mode == "unknown" {
 			os.Exit(14)
 		}
@@ -78,19 +78,19 @@ func SearchSevenMany(snMany []string) {
 		tables := make([]string, 0)
 		switch mode {
 			case "valor":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyValor(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyValor(sn)
 			}
 			case "nexus":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyNexus(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyNexus(sn)
 			}
 			case "watsons":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyWatsons(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsons(sn)
 			}
 			case "watsons_ha":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyWatsonsHa(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsonsHa(sn)
 			}
 			case "tassadar":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyZeratul(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyZeratul(sn)
 			}
 		}
 		tableData = append(tableData, append(tables, sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
@@ -109,19 +109,19 @@ func Search(sn string) {
 	}
 	switch mode {
 		case "valor":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyValor(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyValor(sn)
 		}
 		case "nexus":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyNexus(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyNexus(sn)
 		}
 		case "watsons":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyWatsons(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsons(sn)
 		}
 		case "watsons_ha":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyWatsonsHa(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyZeratul(sn)
+			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyZeratul(sn)
 		}
 	}
 	tableData := [][]string{
@@ -157,26 +157,23 @@ func SearchMany(snMany []string) {
 		tables := make([]string, 0)
 		switch mode {
 			case "valor":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyValor(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyValor(sn)
 			}
 			case "nexus":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyNexus(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyNexus(sn)
 			}
 			case "watsons":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyWatsons(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsons(sn)
 			}
 			case "watsons_ha":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyWatsonsHa(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsonsHa(sn)
 			}
 			case "tassadar":{
-				model, version, mastercpeip, masterpopip, backupcpeip, backuppopip, updatetime = getCpebyZeratul(sn)
+				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyZeratul(sn)
 			}
 		}
 		tableData = append(tableData, append(tables, sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
 	}
-	// for _, v := range tableData {
-	// 	table.Append(v)
-	// }
 	table.AppendBulk(tableData)
 	table.Render()
 }

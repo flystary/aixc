@@ -57,6 +57,63 @@ type Cpe struct {
 	Mode                         interface{} `json:"mode"`
 }
 
+type SCpe struct {
+	ID                           int         `json:"id"`
+	Model                        string      `json:"model"`
+	Sn                           string      `json:"sn"`
+	Alias                        string      `json:"alias"`
+	WanCount                     string 	 `json:"wanCount"`
+	SoftwareVersion              string      `json:"softwareVersion"`
+	Status                       string 	 `json:"status"`
+	ServerAddr                   string 	 `json:"serverAddr"`
+	ServerPort                   int		 `json:"serverPort"`
+	Wan1IP                       string		 `json:"wan1IP"`
+	Wan1GW                       string		 `json:"wan1GW"`
+	Wan1Netmask                  string		 `json:"wan1Netmask"`
+	Wan2IP                       string		 `json:"wan2IP"`
+	Wan2GW                       string 	 `json:"wan2GW"`
+	Wan2Netmask                  string		 `json:"wan2Netmask"`
+	PubIP                        string		 `json:"pubIP"`
+	Customer                     Customer    `json:"customer"`
+	MasterPopID                  int         `json:"masterPopId"`
+	BackupPopID                  int         `json:"backupPopId"`
+	Mobile4GInPopID              int 		 `json:"mobile4gInPopId"`
+	Mobile5GInPopID              int 		 `json:"mobile5gInPopId"`
+	MasterPopFecMode             string      `json:"masterPopFecMode"`
+	MasterPopEnableKcp           bool        `json:"masterPopEnableKcp"`
+	BackupPopFecMode             string      `json:"backupPopFecMode"`
+	BackupPopEnableKcp           bool        `json:"backupPopEnableKcp"`
+	Mobile4GInPopFecMode         string      `json:"mobile4gInPopFecMode"`
+	Mobile4GInPopEnableKcp       bool        `json:"mobile4gInPopEnableKcp"`
+	Mobile5GInPopFecMode         string      `json:"mobile5gInPopFecMode"`
+	Mobile5GInPopEnableKcp       bool        `json:"mobile5gInPopEnableKcp"`
+	Mobile4GOutPopID             int         `json:"mobile4gOutPopId"`
+	Mobile4GOutPopType           string      `json:"mobile4gOutPopType"`
+	Mobile4GOutPopFecMode        string      `json:"mobile4gOutPopFecMode"`
+	Mobile4GOutPopEnableKcp      bool        `json:"mobile4gOutPopEnableKcp"`
+	Enable                       bool        `json:"enable"`
+	Support4G                    bool        `json:"support4G"`
+	Support5G                    bool        `json:"support5G"`
+	CustomerName                 string      `json:"customerName"`
+	RedteaContainerID            int         `json:"redteaContainerId"`
+	ShanjinContainerID           int 		 `json:"shanjinContainerId"`
+	MobileProvider               string      `json:"mobileProvider"`
+	AgencyID                     int		 `json:"agencyId"`
+	VpnServerIP1                 string 	 `json:"vpnServerIp1"`
+	VpnServerIP2                 string 	 `json:"vpnServerIp2"`
+	MasterPopType                string      `json:"masterPopType"`
+	BackupPopType                string      `json:"backupPopType"`
+	Mobile4GInPopType            string      `json:"mobile4gInPopType"`
+	Mobile5GInPopType            string      `json:"mobile5gInPopType"`
+	MasterPopIP                  string      `json:"masterPopIp"`
+	BackupPopIP                  string      `json:"backupPopIp"`
+	Mobile4GInPopIP              string      `json:"mobile4gInPopIp"`
+	Mobile5GInPopIP              string      `json:"mobile5gInPopIp"`
+	PopUpdateTime                string      `json:"popUpdateTime"`
+	MobileRedteaCID              int		 `json:"mobileRedteaCID"`
+	Mode                         interface{} `json:"mode"`
+}
+
 type Box struct {
 	ID				int `json:"id"`
 	Model 			string `json:"model"`
@@ -185,6 +242,7 @@ type VBox struct {
 
 var (
    cpe  Cpe
+   spe 	SCpe
    box  Box
-   vbox VBox    
+   vox 	VBox
 )
