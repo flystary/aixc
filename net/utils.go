@@ -81,7 +81,7 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 	relationMap[mode] = is
 	select {
 		case channel <- relationMap: {
-			time.Sleep(1*time.Millisecond)
+			time.Sleep(1*time.Nanosecond)
 		}
 		default:
 			// fmt.Println("通道已满", len(channel))
