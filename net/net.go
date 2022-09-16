@@ -191,9 +191,9 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(13)
 			}
 			// dv, err = getDvcValorData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 			if ok, _ := cv.IsSn(sn); ok != false {
 				return true
 			}
@@ -208,9 +208,9 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(13)
 			}
 			// dn, err = getDvcNexusData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 			if ok, _ := cn.IsSn(sn); ok != false {
 				return true
 			}
@@ -225,9 +225,9 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(13)
 			}
 			// dw, err = getDvcWatsonsData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 			if ok, _ := cw.IsSn(sn); ok != false {
 				return true
 			}
@@ -242,9 +242,9 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(13)
 			}
 			// dh, err = getDvcWatsonsHaData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 			if ok, _ := ch.IsSn(sn); ok != false {
 				return true
 			}
@@ -259,9 +259,9 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(13)
 			}
 			// dz, err = getDvcZeratulData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 			if ok, _ := cz.IsSn(sn); ok != false {
 				return true
 			}
