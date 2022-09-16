@@ -1,8 +1,6 @@
 package net
 
 import (
-	"os"
-	"fmt"
 	"time"
 	"sync"
 )
@@ -83,18 +81,11 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 	relationMap[mode] = is
 	select {
 		case channel <- relationMap: {
-			time.Sleep(1*time.Second)
+			time.Sleep(1*time.Millisecond)
 		}
 		default:
-			fmt.Println("通道已满", len(channel))
+			// fmt.Println("通道已满", len(channel))
 			close(channel)
 	}
 	<- limit
-}
-
-func getModebySevenSn(sn string) string {
-	if opo, err = getOperationData(token, rules.OperationRouteByMode()); err != nil {
-		os.Exit(11)
-	}
-	return opo.SnInMode(sn)
 }

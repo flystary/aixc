@@ -2,7 +2,6 @@ package net
 
 import (
 	"os"
-	"fmt"
 	"net/url"
 	"net/http"
 	"io/ioutil"
@@ -76,7 +75,6 @@ func getToken(URL string) error {
 	
 	res, err := http.PostForm(URL, requestData)
 	if err != nil {
-		fmt.Println(err.Error())
 		return err
 	}
 
@@ -102,7 +100,7 @@ func getToken(URL string) error {
 func syncDataMemorybyMode(mode string) {
 	cpeURL := rules.CpeRouteByMode(mode)
 	popURL := rules.PopRouteByMode(mode)
-	dvcURL := rules.DeviceRouteByMode(mode)
+	// dvcURL := rules.DeviceRouteByMode(mode)
 	switch mode {
 		case "valor":{
 			cv, err = getValorData(token, cpeURL)
@@ -113,10 +111,10 @@ func syncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			dv, err = getDvcValorData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// dv, err = getDvcValorData(token, dvcURL)
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 		}
 		case "nexus":{
 			cn, err = getNexusData(token, cpeURL)
@@ -127,10 +125,10 @@ func syncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			dn, err = getDvcNexusData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// dn, err = getDvcNexusData(token, dvcURL)
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 		}
 		case "watsons":{
 			cw, err = getWatsonsData(token, cpeURL)
@@ -141,10 +139,10 @@ func syncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			dw, err = getDvcWatsonsData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// dw, err = getDvcWatsonsData(token, dvcURL)
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 		}
 		case "watsons_ha":{
 			ch, err = getWatsonsHaData(token, cpeURL)
@@ -155,10 +153,10 @@ func syncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			dh, err = getDvcWatsonsHaData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// dh, err = getDvcWatsonsHaData(token, dvcURL)
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 		}
 		case "tassadar":{
 			cz, err = getZeratulData(token, cpeURL)
@@ -169,10 +167,10 @@ func syncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			dz, err = getDvcZeratulData(token, dvcURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// dz, err = getDvcZeratulData(token, dvcURL)
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 		}
 	}
 }
@@ -181,7 +179,7 @@ func syncDataMemorybyMode(mode string) {
 func syncDataMemorybySnMode(sn, mode string) bool {
 	cpeURL := rules.CpeRouteByMode(mode)
 	popURL := rules.PopRouteByMode(mode)
-	dvcURL := rules.DeviceRouteByMode(mode)
+	// dvcURL := rules.DeviceRouteByMode(mode)
 	switch mode {
 		case "valor":{
 			cv, err = getValorData(token, cpeURL)
@@ -192,7 +190,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			dv, err = getDvcValorData(token, dvcURL)
+			// dv, err = getDvcValorData(token, dvcURL)
 			if err != nil {
 				os.Exit(15)
 			}
@@ -209,7 +207,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			dn, err = getDvcNexusData(token, dvcURL)
+			// dn, err = getDvcNexusData(token, dvcURL)
 			if err != nil {
 				os.Exit(15)
 			}
@@ -226,7 +224,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			dw, err = getDvcWatsonsData(token, dvcURL)
+			// dw, err = getDvcWatsonsData(token, dvcURL)
 			if err != nil {
 				os.Exit(15)
 			}
@@ -243,7 +241,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			dh, err = getDvcWatsonsHaData(token, dvcURL)
+			// dh, err = getDvcWatsonsHaData(token, dvcURL)
 			if err != nil {
 				os.Exit(15)
 			}
@@ -260,7 +258,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			dz, err = getDvcZeratulData(token, dvcURL)
+			// dz, err = getDvcZeratulData(token, dvcURL)
 			if err != nil {
 				os.Exit(15)
 			}
@@ -270,4 +268,11 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 		}
 	}
 	return false
+}
+
+func getModebySevenSn(sn string) string {
+	if opo, err = getOperationData(token, rules.OperationRouteByMode()); err != nil {
+		os.Exit(11)
+	}
+	return opo.SnInMode(sn)
 }
