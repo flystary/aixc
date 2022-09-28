@@ -1,13 +1,14 @@
 package net
 
 import (
-	"encoding/json"
 	"fmt"
+	"time"
 	"io/ioutil"
 	"net/http"
-	"aixc/struct/cpe"
-	"aixc/struct/opt"
-	"time"
+	"encoding/json"
+
+	"aixc/model/cpe"
+	"aixc/model/opt"
 )
 
 func getCpeBytes(token, url string) ([]byte, error) {
@@ -95,7 +96,7 @@ func getWatsonsHaData(token, url string) (cpe.WatsonsHa, error) {
 
 func getZeratulData(token,url string)  (cpe.Zeratul, error) {
 	var zeratul cpe.Zeratul
-	
+
 	body, err := getCpeBytes(token, url)
 	if err != nil {
 		return nil, err

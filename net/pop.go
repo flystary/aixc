@@ -1,12 +1,12 @@
 package net
 
 import (
-	"aixc/struct/pop"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"time"
+	"net/http"
+	"io/ioutil"
+	"encoding/json"
+	"aixc/model/pop"
 )
 
 func getPopBytes(token, url string) ([]byte, error) {

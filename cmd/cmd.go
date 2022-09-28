@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"aixc/net"
 	"github.com/spf13/cobra"
+
+	"aixc/net"
 )
 
 func init() {}

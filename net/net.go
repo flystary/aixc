@@ -1,19 +1,18 @@
 package net
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"net/http"
-	"net/url"
 	"os"
-
+	"net/url"
+	"net/http"
+	"io/ioutil"
+	"encoding/json"
 	"gopkg.in/yaml.v3"
 
 	"aixc/conf"
-	"aixc/struct/cpe"
-	"aixc/struct/dvc"
-	"aixc/struct/opt"
-	"aixc/struct/pop"
+	"aixc/model/cpe"
+	"aixc/model/dvc"
+	"aixc/model/opt"
+	"aixc/model/pop"
 )
 
 var (

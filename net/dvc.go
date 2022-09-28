@@ -1,12 +1,13 @@
 package net
 
 import (
-	"encoding/json"
 	"fmt"
+	"time"
 	"io/ioutil"
 	"net/http"
-	"aixc/struct/dvc"
-	"time"
+	"encoding/json"
+
+	"aixc/model/dvc"
 )
 
 func getDvcBytes(token, url string) ([]byte, error) {

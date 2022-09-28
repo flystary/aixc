@@ -1,12 +1,12 @@
 package net
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"io"
 	"os"
 	"sync"
 	"time"
+	"crypto/md5"
+	"encoding/hex"
 
 	"github.com/olekukonko/tablewriter"
 )

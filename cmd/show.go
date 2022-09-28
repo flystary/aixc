@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +19,7 @@ var showCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		mseven, err := cmd.Flags().GetBool("Mseven")
 		if err != nil {
-			fmt.Println("getBool err: ", err)
+			println("getBool err: ", err)
 			return
 		}
 		if mseven {

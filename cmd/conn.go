@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"aixc/net"
 	"github.com/spf13/cobra"
 )
 
@@ -18,6 +17,6 @@ var connCmd = &cobra.Command{
 	Args:    cobra.MinimumNArgs(1),
 
 	Run: func(_ *cobra.Command, args []string) {
-		net.Search(args[0])
+		show(args[0])
 	},
 }
