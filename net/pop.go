@@ -1,12 +1,12 @@
 package net
 
 import (
+	"aixc/struct/pop"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
-	"aixc/struct/pop"
 )
 
 func getPopBytes(token, url string) ([]byte, error) {
@@ -26,7 +26,7 @@ func getPopBytes(token, url string) ([]byte, error) {
 	return bytes, nil
 }
 
-func getNexusEntryData(token, url string)  (pop.Nexus, error) {
+func getNexusEntryData(token, url string) (pop.Nexus, error) {
 	var nexus pop.Nexus
 	bytes, err := getPopBytes(token, url)
 	if err != nil {
@@ -38,7 +38,7 @@ func getNexusEntryData(token, url string)  (pop.Nexus, error) {
 	return nexus, nil
 }
 
-func getValorPopData(token, url string)  (pop.Valor, error) {
+func getValorPopData(token, url string) (pop.Valor, error) {
 	var valor pop.Valor
 	bytes, err := getPopBytes(token, url)
 	if err != nil {
@@ -51,7 +51,7 @@ func getValorPopData(token, url string)  (pop.Valor, error) {
 	return valor, nil
 }
 
-func getWatsonsEntryData(token, url string)  (pop.Watsons, error) {
+func getWatsonsEntryData(token, url string) (pop.Watsons, error) {
 	var watsons pop.Watsons
 	bytes, err := getPopBytes(token, url)
 	if err != nil {
@@ -64,7 +64,7 @@ func getWatsonsEntryData(token, url string)  (pop.Watsons, error) {
 	return watsons, nil
 }
 
-func getWatsonsHaEntryData(token, url string)  (pop.WatsonsHa, error) {
+func getWatsonsHaEntryData(token, url string) (pop.WatsonsHa, error) {
 	var watsonsha pop.WatsonsHa
 	bytes, err := getPopBytes(token, url)
 	if err != nil {
@@ -77,8 +77,7 @@ func getWatsonsHaEntryData(token, url string)  (pop.WatsonsHa, error) {
 	return watsonsha, nil
 }
 
-
-func getZeratulPopData(token, url string)  (pop.Zeratul, error) {
+func getZeratulPopData(token, url string) (pop.Zeratul, error) {
 	var zeratul pop.Zeratul
 	bytes, err := getPopBytes(token, url)
 	if err != nil {

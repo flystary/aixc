@@ -1,8 +1,14 @@
 package net
 
 import (
-	"time"
+	"crypto/md5"
+	"encoding/hex"
+	"io"
+	"os"
 	"sync"
+	"time"
+
+	"github.com/olekukonko/tablewriter"
 )
 
 var (
@@ -14,11 +20,34 @@ func init() {
 	go modeController()
 	arr = make([]map[string]string, 1)
 	arr[0] = make(map[string]string)
-
 }
 
 func timeUnix(e time.Time) int64 {
 	return e.UnixNano() / 1e6
+}
+
+func newMD5(code string) string {
+	MD5 := md5.New()
+	_, _ = io.WriteString(MD5, code)
+	return hex.EncodeToString(MD5.Sum(nil))
+}
+
+func tableBasic(data [][]string) {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
+	for _, v := range data {
+		table.Append(v)
+	}
+	table.Render()
+}
+
+func tableMarkdown(data [][]string) {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+	table.AppendBulk(data)
+	table.Render()
 }
 
 func useMapArrgetMode(marr []map[string]string) string {
@@ -32,7 +61,7 @@ func useMapArrgetMode(marr []map[string]string) string {
 			}
 		}
 	}
-	
+
 	if len(arr) >= 2 {
 		for _, i := range arr {
 			m = "unknown"
@@ -71,7 +100,6 @@ func threadQueryMode(sn string) string {
 }
 
 func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
-	// var relationMap map[string]string
 	defer wg.Done()
 	relationMap := make(map[string]string, 6)
 	is  := "No"
@@ -80,11 +108,9 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 	}
 	relationMap[mode] = is
 	select {
-		case channel <- relationMap: {
-			time.Sleep(1*time.Nanosecond)
-		}
+		case channel <- relationMap:
+			time.Sleep(1*time.Millisecond)
 		default:
-			// fmt.Println("通道已满", len(channel))
 			close(channel)
 	}
 	<- limit

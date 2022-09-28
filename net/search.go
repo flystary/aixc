@@ -4,7 +4,6 @@ package net
 import (
 	"os"
 	"fmt"
-	"github.com/olekukonko/tablewriter"
 )
 
 var (
@@ -47,22 +46,13 @@ func SearchSeven(sn string) {
 	tableData := [][]string{
 		{sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip},
 	}
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	for _, v := range tableData {
-		table.Append(v)
-	}
-	table.Render()
+	tableMarkdown(tableData)
 }
 
 // SearchSevenMany 6.x
 func SearchSevenMany(snMany []string) {
 	// table
 	var tableData = make([][]string, 0)
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	table.SetCenterSeparator("|")
 	// 多线程查询 属于哪个平台
 	for _, sn := range snMany {
 		mode = getModebySevenSn(sn)
@@ -95,8 +85,7 @@ func SearchSevenMany(snMany []string) {
 		}
 		tableData = append(tableData, append(tables, sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
 	}
-	table.AppendBulk(tableData)
-	table.Render()
+	tableBasic(tableData)
 }
 
 //Search 6.x/7.x
@@ -127,22 +116,12 @@ func Search(sn string) {
 	tableData := [][]string{
 		{sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip},
 	}
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	for _, v := range tableData {
-		table.Append(v)
-	}
-	table.Render()
+	tableMarkdown(tableData)
 }
 
 // SearchMany 6.x/7.x
 func SearchMany(snMany []string) {
 	var tableData = make([][]string, 0)
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	table.SetCenterSeparator("|")
-
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	for _, sn := range snMany {
 		mode = threadQueryMode(sn)
@@ -174,6 +153,5 @@ func SearchMany(snMany []string) {
 		}
 		tableData = append(tableData, append(tables, sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
 	}
-	table.AppendBulk(tableData)
-	table.Render()
+	tableBasic(tableData)
 }

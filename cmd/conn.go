@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	rootCmd.AddCommand(connCmd)
+    rootCmd.AddCommand(connCmd)
 	connCmd.Flags().BoolP("Mseven", "m", false, "If ucpe belongs to 6.X platform, Please use it")
 }
 

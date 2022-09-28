@@ -1,17 +1,18 @@
 package net
 
 import (
-	"os"
-	"net/url"
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+
 	"gopkg.in/yaml.v3"
 
 	"aixc/conf"
-	"aixc/struct/opt"
 	"aixc/struct/cpe"
 	"aixc/struct/dvc"
+	"aixc/struct/opt"
 	"aixc/struct/pop"
 )
 
@@ -57,7 +58,7 @@ func loadURL(path string)  error {
 	if err != nil {
 		return err
 	}
-	err = yaml.Unmarshal(io, &rules) 
+	err = yaml.Unmarshal(io, &rules)
 	if err != nil {
 		return  err
 	}
@@ -68,11 +69,11 @@ func loadURL(path string)  error {
 func getToken(URL string) error {
 	requestData := make(url.Values)
 	requestData["username"]		 = []string{"matrix"}
-	requestData["password"]		 = []string{"c8d064e2ad4670f418ba02ef342b33d1"}
+	requestData["password"]		 = []string{newMD5(newMD5("4A9sOpYL"))}
 	requestData["client_id"]	 = []string{"browser"}
 	requestData["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
 	requestData["grant_type"]	 = []string{"password"}
-	
+
 	res, err := http.PostForm(URL, requestData)
 	if err != nil {
 		return err
