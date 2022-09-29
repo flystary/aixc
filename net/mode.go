@@ -1,14 +1,5 @@
 package net
 
-type ucpe struct {
-	model       string
-	version     string
-	mastercpeip string
-	masterpopip string
-	backupcpeip string
-	backuppopip string
-	updatetime  string
-}
 
 //Mtype 自定义int
 type Mtype int
@@ -38,7 +29,7 @@ func (m Mtype) enum() string {
 		}
 	case watsonsHa:
 		{
-			mode = "watsons_ha"
+			mode = "watsonsha"
 		}
 	case tassadar:
 		{
@@ -52,71 +43,74 @@ func (m Mtype) enum() string {
 	return mode
 }
 
-func getCpebyValor(sn string) (string, string, string, string, string, string, string) {
+func getCpebyValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
-
-	model := cpe.Model
-	version := cpe.SoftwareVersion
-	updatetime := cpe.EntryUpdateTime
-	mastercpeip := cpe.MasterPopIP
-	masterpopip := pv.GetPopStructById(cpe.MasterPopID).PopIP
-	backupcpeip := cpe.BackupPopIP
-	backuppopip := pv.GetPopStructById(cpe.BackupPopID).PopIP
-
-	return model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip
+	return []string {
+		cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		pv.GetPopStructById(cpe.MasterPopID).PopIP,
+		cpe.MasterPopIP,
+		pv.GetPopStructById(cpe.BackupPopID).PopIP,
+		cpe.BackupPopIP,
+	}
 }
 
-func getCpebyNexus(sn string) (string, string, string, string, string, string, string) {
+func getCpebyNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 
-	model := cpe.Model
-	version := cpe.SoftwareVersion
-	updatetime := cpe.EntryUpdateTime
-	mastercpeip := cpe.MasterEntryIP
-	masterpopip := pn.GetPopStructById(cpe.MasterEntryID).EntryIP
-	backupcpeip := cpe.BackupEntryIP
-	backuppopip := pn.GetPopStructById(cpe.BackupEntryID).EntryIP
-
-	return model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip
+	return []string {
+		cyan(sn),
+		cpe.Model,cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		pn.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+	}
 }
 
-func getCpebyWatsons(sn string) (string, string, string, string, string, string, string) {
+func getCpebyWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
 
-	model := cpe.Model
-	version := cpe.SoftwareVersion
-	updatetime := cpe.EntryUpdateTime
-	mastercpeip := cpe.MasterEntryIP
-	masterpopip := pw.GetPopStructById(cpe.MasterEntryID).EntryIP
-	backupcpeip := cpe.BackupEntryIP
-	backuppopip := pw.GetPopStructById(cpe.BackupEntryID).EntryIP
-
-	return model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip
+	return []string {
+		cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		pw.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		pw.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+	}
 }
 
-func getCpebyWatsonsHa(sn string) (string, string, string, string, string, string, string) {
+func getCpebyWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
 
-	model := cpe.Model
-	version := cpe.SoftwareVersion
-	updatetime := cpe.EntryUpdateTime
-	mastercpeip := cpe.MasterEntryIP
-	masterpopip := ph.GetPopStructById(cpe.MasterEntryID).EntryIP
-	backupcpeip := cpe.BackupEntryIP
-	backuppopip := ph.GetPopStructById(cpe.BackupEntryID).EntryIP
-
-	return model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip
+	return []string {
+		cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		ph.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		ph.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+	}
 }
 
-func getCpebyZeratul(sn string) (string, string, string, string, string, string, string) {
+func getCpebyZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
-	model := spe.Model
-	version := spe.SoftwareVersion
-	updatetime  := spe.PopUpdateTime
-	mastercpeip := spe.MasterPopIP
-	masterpopip := pz.GetPopStructById(spe.MasterPopID).EntryIP
-	backupcpeip := spe.BackupPopIP
-	backuppopip := pz.GetPopStructById(spe.BackupPopID).EntryIP
-
-	return model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip
+	return []string {
+		cyan(sn),
+		spe.Model,
+		spe.SoftwareVersion,
+		spe.PopUpdateTime,
+		pz.GetPopStructById(spe.MasterPopID).EntryIP,
+		spe.MasterPopIP,
+		pz.GetPopStructById(spe.BackupPopID).EntryIP,
+		spe.BackupPopIP,
+	}
 }

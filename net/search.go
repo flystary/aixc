@@ -8,51 +8,45 @@ import (
 
 var (
 	mode	string
+	slices = make([][]string, 0)
+	ucpes = make([]string, 0)
 
-	model	string
-	version	string
-	mastercpeip	string
-	masterpopip	string
-	backupcpeip	string
-	backuppopip string
-	updatetime	string
 )
 
 //SearchSeven 6.x
 func SearchSeven(sn string) {
 	mode = getModebySevenSn(sn)
-	fmt.Printf("sevencpemode: %s\n", mode)
+	// red := color.New(color.FgBlue, color.Bold).SprintFunc()
+	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
 	if mode == "unknown" {
 		os.Exit(13)
 	}
 	syncDataMemorybyMode(mode)
+
 	switch mode {
 		case "valor":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyValor(sn)
+			ucpes = getCpebyValor(sn)
 		}
 		case "nexus":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyNexus(sn)
+			ucpes = getCpebyNexus(sn)
 		}
 		case "watsons":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsons(sn)
+			ucpes = getCpebyWatsons(sn)
 		}
-		case "watsons_ha":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsonsHa(sn)
+		case "watsonsha":{
+			ucpes = getCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyZeratul(sn)
+			ucpes = getCpebyZeratul(sn)
 		}
 	}
-	tableData := [][]string{
-		{sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip},
-	}
-	tableMarkdown(tableData)
+	slices = append(slices, ucpes)
+	tableMarkdown(slices)
 }
 
 // SearchSevenMany 6.x
 func SearchSevenMany(snMany []string) {
 	// table
-	var tableData = make([][]string, 0)
 	// 多线程查询 属于哪个平台
 	for _, sn := range snMany {
 		mode = getModebySevenSn(sn)
@@ -61,67 +55,63 @@ func SearchSevenMany(snMany []string) {
 		}
 		break
 	}
-	fmt.Printf("sevencpemode: %s\n", mode)
+	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
 	// 同步数据到内存
 	syncDataMemorybyMode(mode)
 	for _, sn := range snMany {
-		tables := make([]string, 0)
 		switch mode {
 			case "valor":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyValor(sn)
+				ucpes = getCpebyValor(sn)
 			}
 			case "nexus":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyNexus(sn)
+				ucpes = getCpebyNexus(sn)
 			}
 			case "watsons":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsons(sn)
+				ucpes = getCpebyWatsons(sn)
 			}
-			case "watsons_ha":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsonsHa(sn)
+			case "watsonsha":{
+				ucpes = getCpebyWatsonsHa(sn)
 			}
 			case "tassadar":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyZeratul(sn)
+				ucpes = getCpebyZeratul(sn)
 			}
 		}
-		tableData = append(tableData, append(tables, sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
+		slices = append(slices, ucpes)
 	}
-	tableBasic(tableData)
+	tableBasic(slices)
 }
 
 //Search 6.x/7.x
 func Search(sn string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	mode = threadQueryMode(sn)
-	fmt.Printf("cpemode: %s\n", mode)
+	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
 	if mode == "unknown" {
 		os.Exit(14)
 	}
 	switch mode {
 		case "valor":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyValor(sn)
+			ucpes = getCpebyValor(sn)
 		}
 		case "nexus":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyNexus(sn)
+			ucpes = getCpebyNexus(sn)
 		}
 		case "watsons":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsons(sn)
+			ucpes = getCpebyWatsons(sn)
 		}
-		case "watsons_ha":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsonsHa(sn)
+		case "watsonsha":{
+			ucpes = getCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyZeratul(sn)
+			ucpes = getCpebyZeratul(sn)
 		}
 	}
-	tableData := [][]string{
-		{sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip},
-	}
-	tableMarkdown(tableData)
+	slices = append(slices, ucpes)
+	tableMarkdown(slices)
 }
 
 // SearchMany 6.x/7.x
 func SearchMany(snMany []string) {
-	var tableData = make([][]string, 0)
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	for _, sn := range snMany {
 		mode = threadQueryMode(sn)
@@ -130,28 +120,27 @@ func SearchMany(snMany []string) {
 		}
 		break
 	}
-	fmt.Printf("cpemode: %s\n", mode)
+	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
 
 	for _, sn := range snMany {
-		tables := make([]string, 0)
 		switch mode {
 			case "valor":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyValor(sn)
+				ucpes = getCpebyValor(sn)
 			}
 			case "nexus":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyNexus(sn)
+				ucpes = getCpebyNexus(sn)
 			}
 			case "watsons":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsons(sn)
+				ucpes = getCpebyWatsons(sn)
 			}
-			case "watsons_ha":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyWatsonsHa(sn)
+			case "watsonsha":{
+				ucpes = getCpebyWatsonsHa(sn)
 			}
 			case "tassadar":{
-				model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip = getCpebyZeratul(sn)
+				ucpes = getCpebyZeratul(sn)
 			}
 		}
-		tableData = append(tableData, append(tables, sn, model, version, updatetime, masterpopip, mastercpeip, backuppopip, backupcpeip))
+		slices = append(slices, ucpes)
 	}
-	tableBasic(tableData)
+	tableBasic(slices)
 }

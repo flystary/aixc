@@ -1,11 +1,12 @@
 package net
 
 import (
-	"os"
-	"net/url"
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+
 	"gopkg.in/yaml.v3"
 
 	"aixc/conf"
@@ -22,23 +23,23 @@ var (
 
 	opo opt.Operation
 
-	cv  cpe.Valor     //valor
-	cn  cpe.Nexus     //nexus
-	cw  cpe.Watsons   //watsons
-	ch  cpe.WatsonsHa //watsonsha
-	cz 	cpe.Zeratul   //zeratul
+	cv cpe.Valor     //valor
+	cn cpe.Nexus     //nexus
+	cw cpe.Watsons   //watsons
+	ch cpe.WatsonsHa //watsonsha
+	cz cpe.Zeratul   //zeratul
 
-	pv 	pop.Valor
-	pn	pop.Nexus
-	pw	pop.Watsons
-	ph 	pop.WatsonsHa
-	pz	pop.Zeratul
+	pv pop.Valor
+	pn pop.Nexus
+	pw pop.Watsons
+	ph pop.WatsonsHa
+	pz pop.Zeratul
 
-	dv  dvc.Valor
-	dn  dvc.Nexus
-	dw  dvc.Watsons
-	dh  dvc.WatsonsHa
-	dz  dvc.Zeratul
+	dv dvc.Valor
+	dn dvc.Nexus
+	dw dvc.Watsons
+	dh dvc.WatsonsHa
+	dz dvc.Zeratul
 )
 
 // 加载url路由规则
@@ -52,14 +53,14 @@ func init() {
 	}
 }
 
-func loadURL(path string)  error {
+func loadURL(path string) error {
 	io, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
 	}
 	err = yaml.Unmarshal(io, &rules)
 	if err != nil {
-		return  err
+		return err
 	}
 	return nil
 }
@@ -67,11 +68,11 @@ func loadURL(path string)  error {
 // 获取token
 func getToken(URL string) error {
 	requestData := make(url.Values)
-	requestData["username"]		 = []string{"matrix"}
-	requestData["password"]		 = []string{newMD5(newMD5("4A9sOpYL"))}
-	requestData["client_id"]	 = []string{"browser"}
+	requestData["username"] = []string{"matrix"}
+	requestData["password"] = []string{newMD5(newMD5("4A9sOpYL"))}
+	requestData["client_id"] = []string{"browser"}
 	requestData["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
-	requestData["grant_type"]	 = []string{"password"}
+	requestData["grant_type"] = []string{"password"}
 
 	res, err := http.PostForm(URL, requestData)
 	if err != nil {
@@ -102,7 +103,8 @@ func syncDataMemorybyMode(mode string) {
 	popURL := rules.PopRouteByMode(mode)
 	// dvcURL := rules.DeviceRouteByMode(mode)
 	switch mode {
-		case "valor":{
+	case "valor":
+		{
 			cv, err = getValorData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -116,7 +118,8 @@ func syncDataMemorybyMode(mode string) {
 			// 	os.Exit(15)
 			// }
 		}
-		case "nexus":{
+	case "nexus":
+		{
 			cn, err = getNexusData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -130,7 +133,8 @@ func syncDataMemorybyMode(mode string) {
 			// 	os.Exit(15)
 			// }
 		}
-		case "watsons":{
+	case "watsons":
+		{
 			cw, err = getWatsonsData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -144,7 +148,8 @@ func syncDataMemorybyMode(mode string) {
 			// 	os.Exit(15)
 			// }
 		}
-		case "watsons_ha":{
+	case "watsonsha":
+		{
 			ch, err = getWatsonsHaData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -158,7 +163,8 @@ func syncDataMemorybyMode(mode string) {
 			// 	os.Exit(15)
 			// }
 		}
-		case "tassadar":{
+	case "tassadar":
+		{
 			cz, err = getZeratulData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -181,7 +187,8 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 	popURL := rules.PopRouteByMode(mode)
 	// dvcURL := rules.DeviceRouteByMode(mode)
 	switch mode {
-		case "valor":{
+	case "valor":
+		{
 			cv, err = getValorData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -198,7 +205,8 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				return true
 			}
 		}
-		case "nexus":{
+	case "nexus":
+		{
 			cn, err = getNexusData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -215,7 +223,8 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				return true
 			}
 		}
-		case "watsons":{
+	case "watsons":
+		{
 			cw, err = getWatsonsData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -232,7 +241,8 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				return true
 			}
 		}
-		case "watsons_ha":{
+	case "watsonsha":
+		{
 			ch, err = getWatsonsHaData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)
@@ -249,7 +259,8 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 				return true
 			}
 		}
-		case "tassadar":{
+	case "tassadar":
+		{
 			cz, err = getZeratulData(token, cpeURL)
 			if err != nil {
 				os.Exit(12)

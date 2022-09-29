@@ -16,9 +16,9 @@ func (o Operation) IsSn(sn string) bool {
 
 func(o Operation) SnInMode(sn string) string {
 	var mode string
-	
+
 	for i := 0; i < len(o.Data); i++ {
-		
+
 		if sn == o.Data[i].Sn {
 			mode = o.Data[i].Platform
 			break
@@ -31,7 +31,7 @@ func(o Operation) SnInMode(sn string) string {
 	}else if mode =="nuxes-watsons" {
 		mode = "watsons"
 	} else if mode =="watsons-ha" {
-		mode = "watsons_ha"
+		mode = "watsonsha"
 	}
 
 	return mode

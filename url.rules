@@ -20,7 +20,7 @@ watsons:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries
     dvc: nexus/device/boxes
-watsons_ha:
+watsonsha:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries
     dvc: nexus/device/boxes
@@ -29,4 +29,4 @@ modes:
   - tassadar
   - nexus
   - watsons
-  - watsons_ha
+  - watsonsha

@@ -11,7 +11,7 @@ type Rules struct {
 	Nexus		Nexus		`yaml:"nexus"`
 	Watsons		Watsons		`yaml:"watsons"`
 	Tassadar	Tassadar	`yaml:"tassadar"`
-	WatsonsHa	WatsonsHa	`yaml:"watsons_ha"`
+	WatsonsHa	WatsonsHa	`yaml:"watsonsha"`
 	Modes   	[]string	`yaml:"modes"`
 }
 
@@ -41,7 +41,7 @@ func (r *Rules) PopRouteByMode(mode string) string {
 			return fmt.Sprintf("%s/valor/%s?", r.URL, r.Valor.Pop)
 		case "watsons":
 			return fmt.Sprintf("%s/watsons/%s?", r.URL, r.Watsons.Pop)
-		case "watsons_ha":
+		case "watsonsha":
 			return fmt.Sprintf("%s/watsons_ha/%s?", r.URL, r.WatsonsHa.Pop)
 		case "tassadar":
 			return fmt.Sprintf("%s/tassadar/%s?", r.URL, r.Tassadar.Pop)
@@ -59,7 +59,7 @@ func (r *Rules) CpeRouteByMode(mode string) string {
 			return fmt.Sprintf("%s/valor/%s?", r.URL, r.Valor.Cpe)
 		case "watsons":
 			return fmt.Sprintf("%s/watsons/%s?", r.URL, r.Watsons.Cpe)
-		case "watsons_ha":
+		case "watsonsha":
 			return fmt.Sprintf("%s/watsons_ha/%s?", r.URL, r.WatsonsHa.Cpe)
 		case "tassadar":
 			return fmt.Sprintf("%s/tassadar/%s?", r.URL, r.Tassadar.Cpe)
@@ -77,7 +77,7 @@ func (r *Rules) DeviceRouteByMode(mode string) string {
 			return fmt.Sprintf("%s/valor/%s?", r.URL, r.Valor.Dvc)
 		case "watsons":
 			return fmt.Sprintf("%s/watsons/%s?", r.URL, r.Watsons.Dvc)
-		case "watsons_ha":
+		case "watsonsha":
 			return fmt.Sprintf("%s/watsons_ha/%s?", r.URL, r.WatsonsHa.Dvc)
 		case "tassadar":
 			return fmt.Sprintf("%s/tassadar/%s?", r.URL, r.Tassadar.Dvc)

@@ -1,12 +1,14 @@
 package net
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"io"
 	"os"
 	"sync"
 	"time"
-	"crypto/md5"
-	"encoding/hex"
+
+	"github.com/fatih/color"
 
 	"github.com/olekukonko/tablewriter"
 )
@@ -20,6 +22,31 @@ func init() {
 	go modeController()
 	arr = make([]map[string]string, 1)
 	arr[0] = make(map[string]string)
+}
+
+func red(iput string) string {
+	red := color.New(color.FgRed, color.Bold).SprintFunc()
+	return red(iput)
+}
+
+func green(iput string) string {
+	green := color.New(color.FgGreen, color.Bold).SprintFunc()
+	return green(iput)
+}
+
+func cyan(iput string) string {
+	cyan := color.New(color.FgCyan, color.Bold).SprintFunc()
+	return cyan(iput)
+}
+
+func blue(iput string) string {
+	blue := color.New(color.FgBlue, color.Bold).SprintFunc()
+	return blue(iput)
+}
+
+func white(iput string) string {
+	white := color.New(color.FgWhite, color.Bold).SprintFunc()
+	return white(iput)
 }
 
 func timeUnix(e time.Time) int64 {
