@@ -44,7 +44,7 @@ var (
 
 // 加载url路由规则
 func init() {
-	path := "/etc/aixc/url.rules"
+	path := "./url.rules"
 	if err = loadURL(path); err != nil {
 		os.Exit(9)
 	}
