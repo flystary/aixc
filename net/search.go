@@ -8,8 +8,10 @@ import (
 
 var (
 	mode	string
+	// VERSION 默认第一个版本
+	VERSION string
 	slices = make([][]string, 0)
-	ucpes = make([]string, 0)
+	ucpes  = make([]string, 0)
 
 )
 
@@ -76,6 +78,14 @@ func SearchSevenMany(snMany []string) {
 				ucpes = getCpebyZeratul(sn)
 			}
 		}
+		//版本号不一样区别显示
+		if VERSION == ""{
+			VERSION = ucpes[2]
+		}else {
+			if ucpes[2] != VERSION {
+				ucpes[2] = red(ucpes[2])
+			}
+		}
 		slices = append(slices, ucpes)
 	}
 	tableBasic(slices)
@@ -140,6 +150,14 @@ func SearchMany(snMany []string) {
 				ucpes = getCpebyZeratul(sn)
 			}
 		}
+		if VERSION == ""{
+			VERSION = ucpes[2]
+		}else {
+			if ucpes[2] != VERSION {
+				ucpes[2] = red(ucpes[2])
+			}
+		}
+
 		slices = append(slices, ucpes)
 	}
 	tableBasic(slices)

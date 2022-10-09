@@ -117,7 +117,7 @@ func threadQueryMode(sn string) string {
 	for i := 1; i < 6; i++ {
 		wg.Add(1)
 		limit <- true
-		mode := Mtype(i).enum()
+		mode := M(i).enum()
 		go getMapByChan(sn, mode, limit, wg)
 	}
 	wg.Wait()

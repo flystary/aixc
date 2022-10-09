@@ -1,18 +1,18 @@
 package net
 
 
-//Mtype 自定义int
-type Mtype int
+//M 自定义int
+type M int
 
 const (
-	valor Mtype = iota + 1
+	valor M = iota + 1
 	nexus
 	watsons
 	watsonsHa
 	tassadar
 )
 
-func (m Mtype) enum() string {
+func (m M) enum() string {
 	var mode string
 	switch m {
 	case valor:
@@ -59,7 +59,6 @@ func getCpebyValor(sn string) []string {
 
 func getCpebyNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
-
 	return []string {
 		cyan(sn),
 		cpe.Model,cpe.SoftwareVersion,
@@ -73,7 +72,6 @@ func getCpebyNexus(sn string) []string {
 
 func getCpebyWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
-
 	return []string {
 		cyan(sn),
 		cpe.Model,
@@ -88,7 +86,6 @@ func getCpebyWatsons(sn string) []string {
 
 func getCpebyWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
-
 	return []string {
 		cyan(sn),
 		cpe.Model,
