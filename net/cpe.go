@@ -1,19 +1,29 @@
 package net
 
 import (
+	"encoding/json"
 	"fmt"
-	"time"
 	"io/ioutil"
 	"net/http"
-	"encoding/json"
+	"time"
 
 	"aixc/model/cpe"
 	"aixc/model/opt"
 )
 
-func getCpeBytes(token, url string) ([]byte, error) {
+var (
+	op opt.Operation
+
+	cv cpe.Valor     //valor
+	cn cpe.Nexus     //nexus
+	cw cpe.Watsons   //watsons
+	ch cpe.WatsonsHa //watsonsha
+	cz cpe.Zeratul   //zeratul
+)
+
+func getCpeBytes(TOKEN, URL string) ([]byte, error) {
 	Unix := timeUnix(time.Now())
-	cpeURL := fmt.Sprintf("%saccess_token=%s&_=%d", url, token, Unix)
+	cpeURL := fmt.Sprintf("%saccess_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(cpeURL)
 	if err != nil {
@@ -28,83 +38,75 @@ func getCpeBytes(token, url string) ([]byte, error) {
 	return bytes, nil
 }
 
-func getOperationData(token, url string) (opt.Operation, error) {
-	var operation opt.Operation
-	bytes, err := getCpeBytes(token, url)
+func getOperationData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return operation, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &operation); err != nil {
-		return operation, err
+	if err = json.Unmarshal(bytes, &op); err != nil {
+		return err
 	}
-	return operation, nil
+	return nil
 }
 
-func getValorData(token, url string) (cpe.Valor, error) {
-	var valor cpe.Valor
-	bytes, err := getCpeBytes(token, url)
+func getValorData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &valor); err != nil {
-		return nil, err
+	if err = json.Unmarshal(bytes, &cv); err != nil {
+		return err
 	}
-	return valor, nil
+	return nil
 }
 
-func getNexusData(token, url string) (cpe.Nexus, error) {
-	var nexus cpe.Nexus
-	bytes, err := getCpeBytes(token, url)
+func getNexusData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &nexus); err != nil {
-		return nexus, err
+	if err = json.Unmarshal(bytes, &cn); err != nil {
+		return err
 	}
-	return nexus, nil
+	return nil
 }
 
-func getWatsonsData(token, url string) (cpe.Watsons, error) {
-	var ws cpe.Watsons
-	bytes, err := getCpeBytes(token, url)
+func getWatsonsData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &ws); err != nil {
-		return nil, err
+	if err = json.Unmarshal(bytes, &cw); err != nil {
+		return err
 	}
-	return ws, nil
+	return nil
 }
 
-func getWatsonsHaData(token, url string) (cpe.WatsonsHa, error) {
-	var whs cpe.WatsonsHa
-
-	bytes, err := getCpeBytes(token, url)
+func getWatsonsHaData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &whs); err != nil {
-		return nil, err
+	if err = json.Unmarshal(bytes, &ch); err != nil {
+		return err
 	}
-	return whs, nil
+	return nil
 }
 
-func getZeratulData(token,url string)  (cpe.Zeratul, error) {
-	var zeratul cpe.Zeratul
-
-	body, err := getCpeBytes(token, url)
+func getZeratulData(TOKEN, URL string) error {
+	body, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(body, &zeratul); err != nil {
-		return nil, err
+	if err = json.Unmarshal(body, &cz); err != nil {
+		return err
 	}
 
-	return zeratul, nil
+	return nil
 }

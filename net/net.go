@@ -10,36 +10,14 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"aixc/conf"
-	"aixc/model/cpe"
-	"aixc/model/dvc"
-	"aixc/model/opt"
-	"aixc/model/pop"
 )
 
 var (
 	rules conf.Rules
-	token string
+	// TOKEN 密钥
+	TOKEN string
 	err   error
 
-	opo opt.Operation
-
-	cv cpe.Valor     //valor
-	cn cpe.Nexus     //nexus
-	cw cpe.Watsons   //watsons
-	ch cpe.WatsonsHa //watsonsha
-	cz cpe.Zeratul   //zeratul
-
-	pv pop.Valor
-	pn pop.Nexus
-	pw pop.Watsons
-	ph pop.WatsonsHa
-	pz pop.Zeratul
-
-	dv dvc.Valor
-	dn dvc.Nexus
-	dw dvc.Watsons
-	dh dvc.WatsonsHa
-	dz dvc.Zeratul
 )
 
 // 加载url路由规则
@@ -92,8 +70,7 @@ func getToken(URL string) error {
 		return err
 	}
 
-	token = result["access_token"].(string)
-
+	TOKEN = result["access_token"].(string)
 	return nil
 }
 
@@ -105,75 +82,75 @@ func syncDataMemorybyMode(mode string) {
 	switch mode {
 	case "valor":
 		{
-			cv, err = getValorData(token, cpeURL)
+			err = getValorData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pv, err = getValorPopData(token, popURL)
+			err = getValorPopData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dv, err = getDvcValorData(token, dvcURL)
+			// err = getDvcValorData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
 	case "nexus":
 		{
-			cn, err = getNexusData(token, cpeURL)
+			err = getNexusData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pn, err = getNexusEntryData(token, popURL)
+			err = getNexusEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dn, err = getDvcNexusData(token, dvcURL)
+			// err = getDvcNexusData(token, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
 	case "watsons":
 		{
-			cw, err = getWatsonsData(token, cpeURL)
+			err = getWatsonsData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pw, err = getWatsonsEntryData(token, popURL)
+			err = getWatsonsEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dw, err = getDvcWatsonsData(token, dvcURL)
+			// err = getDvcWatsonsData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
 	case "watsonsha":
 		{
-			ch, err = getWatsonsHaData(token, cpeURL)
+			err = getWatsonsHaData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			ph, err = getWatsonsHaEntryData(token, popURL)
+			err = getWatsonsHaEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dh, err = getDvcWatsonsHaData(token, dvcURL)
+			// err = getDvcWatsonsHaData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
 	case "tassadar":
 		{
-			cz, err = getZeratulData(token, cpeURL)
+			err = getZeratulData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pz, err = getZeratulPopData(token, popURL)
+			err = getZeratulPopData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dz, err = getDvcZeratulData(token, dvcURL)
+			// err = getDvcZeratulData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -189,15 +166,15 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 	switch mode {
 	case "valor":
 		{
-			cv, err = getValorData(token, cpeURL)
+			err = getValorData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pv, err = getValorPopData(token, popURL)
+			err = getValorPopData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dv, err = getDvcValorData(token, dvcURL)
+			// err = getDvcValorData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -207,15 +184,15 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 		}
 	case "nexus":
 		{
-			cn, err = getNexusData(token, cpeURL)
+			err = getNexusData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pn, err = getNexusEntryData(token, popURL)
+			err = getNexusEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dn, err = getDvcNexusData(token, dvcURL)
+			// err = getDvcNexusData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -225,15 +202,15 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 		}
 	case "watsons":
 		{
-			cw, err = getWatsonsData(token, cpeURL)
+			err = getWatsonsData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pw, err = getWatsonsEntryData(token, popURL)
+			err = getWatsonsEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dw, err = getDvcWatsonsData(token, dvcURL)
+			// err = getDvcWatsonsData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -243,15 +220,15 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 		}
 	case "watsonsha":
 		{
-			ch, err = getWatsonsHaData(token, cpeURL)
+			err = getWatsonsHaData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			ph, err = getWatsonsHaEntryData(token, popURL)
+			err = getWatsonsHaEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dh, err = getDvcWatsonsHaData(token, dvcURL)
+			// err = getDvcWatsonsHaData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -261,15 +238,15 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 		}
 	case "tassadar":
 		{
-			cz, err = getZeratulData(token, cpeURL)
+			err = getZeratulData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pz, err = getZeratulPopData(token, popURL)
+			err = getZeratulPopData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dz, err = getDvcZeratulData(token, dvcURL)
+			// err = getDvcZeratulData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -282,8 +259,8 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 }
 
 func getModebySevenSn(sn string) string {
-	if opo, err = getOperationData(token, rules.OperationRouteByMode()); err != nil {
+	if err = getOperationData(TOKEN, rules.OperationRouteByMode()); err != nil {
 		os.Exit(11)
 	}
-	return opo.SnInMode(sn)
+	return op.SnInMode(sn)
 }
