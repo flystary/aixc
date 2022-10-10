@@ -1,9 +1,10 @@
 package net
 
-
 import (
-	"os"
 	"fmt"
+	"os"
+	"strings"
+	"time"
 )
 
 var (
@@ -80,11 +81,17 @@ func SearchSevenMany(snMany []string) {
 		}
 		//版本号不一样区别显示
 		if VERSION == ""{
-			VERSION = ucpes[2]
-		}else {
+			VERSION  = ucpes[2]
+			ucpes[2] = cyan(ucpes[2])
+		}else{
 			if ucpes[2] != VERSION {
 				ucpes[2] = red(ucpes[2])
 			}
+		}
+		var now = time.Now()
+		synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
+		if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+			ucpes[3] = fmt.Sprintf("%s✗%s", red(strings.Split(ucpes[3], " ")[0]), red(strings.Split(ucpes[3], " ")[1]))
 		}
 		slices = append(slices, ucpes)
 	}
@@ -150,14 +157,21 @@ func SearchMany(snMany []string) {
 				ucpes = getCpebyZeratul(sn)
 			}
 		}
+
 		if VERSION == ""{
-			VERSION = ucpes[2]
-		}else {
+			VERSION  = ucpes[2]
+			ucpes[2] = cyan(ucpes[2])
+		}else{
 			if ucpes[2] != VERSION {
 				ucpes[2] = red(ucpes[2])
 			}
 		}
 
+		var now = time.Now()
+		synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
+		if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+			ucpes[3] = fmt.Sprintf("%s✗%s", red(strings.Split(ucpes[3], " ")[0]), red(strings.Split(ucpes[3], " ")[1]))
+		}
 		slices = append(slices, ucpes)
 	}
 	tableBasic(slices)
