@@ -86,12 +86,12 @@ func (r *Rules) DeviceRouteByMode(mode string) string {
 	}
 }
 
-// OperationRouteByMode Operation路由
-func (r *Rules) OperationRouteByMode() string {
+// OperationRoute Operation路由
+func (r *Rules) OperationRoute() string {
 	return fmt.Sprintf("%s/%s?", r.URL, r.Operation)
 }
 
-// TokenRouteByMode token路由
-func (r *Rules) TokenRouteByMode() string {
+// TokenRoute token路由
+func (r *Rules) TokenRoute() string {
 	return fmt.Sprintf("%s/%s?", r.URL, r.Toekn)
 }

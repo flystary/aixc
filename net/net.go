@@ -2,10 +2,12 @@ package net
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
+	"sync"
 
 	"gopkg.in/yaml.v3"
 
@@ -13,38 +15,39 @@ import (
 )
 
 var (
-	rules conf.Rules
-	// TOKEN 密钥
-	TOKEN string
-	err   error
-
+	rules *conf.Rules
+	// 文件单例
+	once  = &sync.Once{}
+	// token单例
+	onces = &sync.Once{}
+ 	// TOKEN 密钥
+	TOKEN  string
+	err    error
 )
 
 // 加载url路由规则
 func init() {
 	path := "/etc/xc/url.rules"
-	if err = loadURL(path); err != nil {
-		os.Exit(9)
-	}
-	if err = getToken(rules.TokenRouteByMode()); err != nil {
-		os.Exit(10)
-	}
+	loadURL(path)
+	getToken(rules.TokenRoute())
 }
 
-func loadURL(path string) error {
-	io, err := ioutil.ReadFile(path)
-	if err != nil {
-		return err
-	}
-	err = yaml.Unmarshal(io, &rules)
-	if err != nil {
-		return err
-	}
-	return nil
+func loadURL(path string) {
+	once.Do(func() {
+		io, err := ioutil.ReadFile(path)
+		if err != nil {
+			fmt.Printf("Open File Error: %v", err)
+		}
+		err = yaml.Unmarshal(io, &rules)
+		if err != nil {
+			fmt.Printf("Unmarshal File Error: %v", err)
+		}
+	})
 }
 
 // 获取token
-func getToken(URL string) error {
+func getToken(URL string)  {
+	var result = make(map[string]interface{})
 	requestData := make(url.Values)
 	requestData["username"] = []string{"matrix"}
 	requestData["password"] = []string{newMD5(newMD5("4A9sOpYL"))}
@@ -52,26 +55,22 @@ func getToken(URL string) error {
 	requestData["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
 	requestData["grant_type"] = []string{"password"}
 
-	res, err := http.PostForm(URL, requestData)
-	if err != nil {
-		return err
-	}
-
-	defer res.Body.Close()
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	result := make(map[string]interface{})
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return err
-	}
-
-	TOKEN = result["access_token"].(string)
-	return nil
+	onces.Do(func() {
+		res, err := http.PostForm(URL, requestData)
+		if err != nil {
+			fmt.Printf("Login Error: %v", err)
+		}
+		defer res.Body.Close()
+		body, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			fmt.Printf("ReadAll IO Error: %v", err)
+		}
+		err = json.Unmarshal(body, &result)
+		if err != nil {
+			fmt.Printf("Unmarshal body Error: %v", err)
+		}
+		TOKEN = result["access_token"].(string)
+	})
 }
 
 // 已知mode获取cpe,dvc,pop数据并放入到内存
@@ -259,7 +258,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 }
 
 func getModebySevenSn(sn string) string {
-	if err = getOperationData(TOKEN, rules.OperationRouteByMode()); err != nil {
+	if err = getOperationData(TOKEN, rules.OperationRoute()); err != nil {
 		os.Exit(11)
 	}
 	return op.SnInMode(sn)
