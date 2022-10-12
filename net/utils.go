@@ -1,6 +1,7 @@
 package net
 
 import (
+	"aixc/model"
 	"crypto/md5"
 	"encoding/hex"
 	"io"
@@ -117,7 +118,7 @@ func threadQueryMode(sn string) string {
 	for i := 1; i < 6; i++ {
 		wg.Add(1)
 		limit <- true
-		mode := M(i).enum()
+		mode := model.M(i).Enum()
 		go getMapByChan(sn, mode, limit, wg)
 	}
 	wg.Wait()

@@ -6,13 +6,13 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
-
+	"aixc/model"
 	"aixc/model/cpe"
-	"aixc/model/opt"
+
 )
 
 var (
-	op opt.Operation
+	op model.Operation
 
 	cv cpe.Valor     //valor
 	cn cpe.Nexus     //nexus
@@ -109,4 +109,73 @@ func getZeratulData(TOKEN, URL string) error {
 	}
 
 	return nil
+}
+
+func getCpebyValor(sn string) []string {
+	cpe := cv.GetCpeStructBySn(sn)
+	return []string {
+		cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		pv.GetPopStructById(cpe.MasterPopID).PopIP,
+		cpe.MasterPopIP,
+		pv.GetPopStructById(cpe.BackupPopID).PopIP,
+		cpe.BackupPopIP,
+	}
+}
+
+func getCpebyNexus(sn string) []string {
+	cpe := cn.GetCpeStructBySn(sn)
+	return []string {
+		cyan(sn),
+		cpe.Model,cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		pn.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+	}
+}
+
+func getCpebyWatsons(sn string) []string {
+	cpe := cw.GetCpeStructBySn(sn)
+	return []string {
+		cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		pw.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		pw.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+	}
+}
+
+func getCpebyWatsonsHa(sn string) []string {
+	cpe := ch.GetCpeStructBySn(sn)
+	return []string {
+		cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		ph.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		ph.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+	}
+}
+
+func getCpebyZeratul(sn string) []string {
+	spe := cz.GetCpeStructBySn(sn)
+	return []string {
+		cyan(sn),
+		spe.Model,
+		spe.SoftwareVersion,
+		spe.PopUpdateTime,
+		pz.GetPopStructById(spe.MasterPopID).EntryIP,
+		spe.MasterPopIP,
+		pz.GetPopStructById(spe.BackupPopID).EntryIP,
+		spe.BackupPopIP,
+	}
 }
