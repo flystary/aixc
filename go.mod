@@ -2,18 +2,6 @@ module aixc
 
 go 1.18
 
-replace aixc/struct/cpe => ../cpe
-
-replace aixc/struct/pop => ../pop
-
-replace aixc/struct/dvc => ../dvc
-
-replace aixc/struct/opt => ../opt
-
-replace aixc/conf => ../conf
-
-replace aixc/cmd => ../cmd
-
 require (
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.4.0 // direct
