@@ -79,19 +79,30 @@ func SearchSevenMany(snMany []string) {
 				ucpes = getCpebyZeratul(sn)
 			}
 		}
-		//版本号不一样区别显示
-		if VERSION == ""{
-			VERSION  = ucpes[2]
-			ucpes[2] = cyan(ucpes[2])
-		}else{
-			if ucpes[2] != VERSION {
-				ucpes[2] = red(ucpes[2])
+
+		for i, length := 0, len(ucpes); i < length; i++ {
+			if ucpes[i] == "" {
+				break
 			}
-		}
-		var now = time.Now()
-		synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
-		if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-			ucpes[3] = fmt.Sprintf("%s✗%s", red(strings.Split(ucpes[3], " ")[0]), red(strings.Split(ucpes[3], " ")[1]))
+			//版本不一致 区别显示
+			if i == 2 {
+				if VERSION == "" {
+					VERSION  = ucpes[2]
+					ucpes[2] = cyan(ucpes[2])
+				} else {
+					if ucpes[2] != VERSION {
+						ucpes[2] = red(ucpes[2])
+					}
+				}
+			}
+			// 入口同步时间不是今天1小时内 区别显示
+			if i == 3 {
+				var now = time.Now()
+				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
+				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+					ucpes[3] = fmt.Sprintf("%s✗%s", red(strings.Split(ucpes[3], " ")[0]), red(strings.Split(ucpes[3], " ")[1]))
+				}
+			}
 		}
 		slices = append(slices, ucpes)
 	}
@@ -158,20 +169,31 @@ func SearchMany(snMany []string) {
 			}
 		}
 
-		if VERSION == ""{
-			VERSION  = ucpes[2]
-			ucpes[2] = cyan(ucpes[2])
-		}else{
-			if ucpes[2] != VERSION {
-				ucpes[2] = red(ucpes[2])
+		for i, length := 0, len(ucpes); i < length; i++ {
+			if ucpes[i] == "" {
+				break
+			}
+			//版本不一致 区别显示
+			if i == 2 {
+				if VERSION == "" {
+					VERSION  = ucpes[2]
+					ucpes[2] = cyan(ucpes[2])
+				} else {
+					if ucpes[2] != VERSION {
+						ucpes[2] = red(ucpes[2])
+					}
+				}
+			}
+			// 入口同步时间不是今天1小时内 区别显示
+			if i == 3 {
+				var now = time.Now()
+				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
+				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+					ucpes[3] = fmt.Sprintf("%s✗%s", red(strings.Split(ucpes[3], " ")[0]), red(strings.Split(ucpes[3], " ")[1]))
+				}
 			}
 		}
 
-		var now = time.Now()
-		synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
-		if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-			ucpes[3] = fmt.Sprintf("%s✗%s", red(strings.Split(ucpes[3], " ")[0]), red(strings.Split(ucpes[3], " ")[1]))
-		}
 		slices = append(slices, ucpes)
 	}
 	tableBasic(slices)
