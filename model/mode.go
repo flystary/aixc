@@ -11,7 +11,7 @@ const (
 	tassadar
 )
 
-// Enum  枚举
+// Enum 枚举
 func (m M) Enum() string {
 	var mode string
 	switch m {

@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
-	"aixc/model"
-	"aixc/model/cpe"
 
+	"aixc/model/cpe"
+	"aixc/model"
 )
 
 var (

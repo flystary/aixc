@@ -1,17 +1,16 @@
 package net
 
 import (
-	"aixc/model"
 	"crypto/md5"
 	"encoding/hex"
 	"io"
 	"os"
 	"sync"
 	"time"
-
 	"github.com/fatih/color"
 
 	"github.com/olekukonko/tablewriter"
+	"aixc/model"
 )
 
 var (

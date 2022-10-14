@@ -11,7 +11,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"aixc/conf"
+	"aixc/config"
 )
 
 var (
