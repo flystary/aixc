@@ -7,10 +7,13 @@ import (
 	"os"
 	"sync"
 	"time"
+
 	"github.com/fatih/color"
+	"github.com/mitchellh/go-homedir"
+
+	"aixc/model"
 
 	"github.com/olekukonko/tablewriter"
-	"aixc/model"
 )
 
 var (
@@ -141,4 +144,21 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 			close(channel)
 	}
 	<- limit
+}
+
+func fileExists(path string) bool {
+	_, err := os.Stat("path")
+	if err == nil {
+		return true
+	}
+	if os.IsNotExist(err) {
+		return false
+	}
+	return false
+}
+
+// HOME 用户根路径
+func HOME() string {
+	dir, _ := homedir.Dir()
+	return dir
 }
