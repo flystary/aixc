@@ -28,6 +28,9 @@ func showSevenMany(sns []string) {
 	net.SearchSevenMany(sns)
 }
 
+func showManybyMode(mode string){
+	println("此命令暂不支持!")
+}
 // Run cmd
 func Run() {
 	rootCmd.Execute()

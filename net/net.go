@@ -28,7 +28,8 @@ var (
 // 加载url路由规则
 func init() {
 	fileName := "url.rules"
-	path := fmt.Sprintf("C:/aixc/%s", fileName)
+	// path := fmt.Sprintf("/etc/aixc/%s", fileName)
+        path := fmt.Sprintf("C:/aixc/%s", fileName)
 	loadURL(path)
 	getToken(rules.TokenRoute())
 }

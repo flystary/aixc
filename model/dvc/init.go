@@ -1,8 +1,9 @@
 package dvc
 
+// Customer customer
 type Customer struct {
-	ID 				int `json:"id"`
-	Name 			string `json:"name"`
+	ID 		int `json:"id"`
+	Name 	string `json:"name"`
 }
 
 type Ndvc struct {
@@ -60,4 +61,3 @@ type Wdvc struct {
 	SupportRemote bool `json:"supportRemote"`
 	Level string `json:"level"`
 }
-
