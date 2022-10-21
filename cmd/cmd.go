@@ -17,7 +17,7 @@ func show(sn string) {
 }
 
 func showSeven(sn string) {
-	// c.SearchSeven(sn)
+	c.SearchSeven(sn)
 }
 
 func showMany(sns []string) {
@@ -25,7 +25,7 @@ func showMany(sns []string) {
 }
 
 func showSevenMany(sns []string) {
-	// c.SearchSevenMany(sns)
+	c.SearchSevenMany(sns)
 }
 
 func showManybyMode(mode string){
