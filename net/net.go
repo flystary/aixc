@@ -28,8 +28,7 @@ var (
 // 加载url路由规则
 func init() {
 	fileName := "url.rules"
-	// path := fmt.Sprintf("/etc/aixc/%s", fileName)
-        path := fmt.Sprintf("C:/aixc/%s", fileName)
+	path := fmt.Sprintf("/etc/aixc/%s", fileName)
 	loadURL(path)
 	getToken(rules.TokenRoute())
 }
@@ -76,7 +75,7 @@ func getToken(URL string)  {
 }
 
 // 已知mode获取cpe,dvc,pop数据并放入到内存
-func syncDataMemorybyMode(mode string) {
+func SyncDataMemorybyMode(mode string) {
 	cpeURL := rules.CpeRouteByMode(mode)
 	popURL := rules.PopRouteByMode(mode)
 	// dvcURL := rules.DeviceRouteByMode(mode)
@@ -160,7 +159,7 @@ func syncDataMemorybyMode(mode string) {
 }
 
 // 根据sn和mode获取cpe,dvc,pop数据并放入到内存
-func syncDataMemorybySnMode(sn, mode string) bool {
+func SyncDataMemorybySnMode(sn, mode string) bool {
 	cpeURL := rules.CpeRouteByMode(mode)
 	popURL := rules.PopRouteByMode(mode)
 	// dvcURL := rules.DeviceRouteByMode(mode)
@@ -259,7 +258,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 	return false
 }
 
-func getModebySevenSn(sn string) string {
+func GetModebySevenSn(sn string) string {
 	if err = getOperationData(TOKEN, rules.OperationRoute()); err != nil {
 		os.Exit(11)
 	}

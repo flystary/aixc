@@ -111,7 +111,7 @@ func getZeratulData(TOKEN, URL string) error {
 	return nil
 }
 
-func getCpebyValor(sn string) []string {
+func GetCpebyValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
 	return []string {
 		cyan(sn),
@@ -125,7 +125,7 @@ func getCpebyValor(sn string) []string {
 	}
 }
 
-func getCpebyNexus(sn string) []string {
+func GetCpebyNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 	return []string {
 		cyan(sn),
@@ -138,7 +138,7 @@ func getCpebyNexus(sn string) []string {
 	}
 }
 
-func getCpebyWatsons(sn string) []string {
+func GetCpebyWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
 	return []string {
 		cyan(sn),
@@ -152,7 +152,7 @@ func getCpebyWatsons(sn string) []string {
 	}
 }
 
-func getCpebyWatsonsHa(sn string) []string {
+func GetCpebyWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
 	return []string {
 		cyan(sn),
@@ -166,7 +166,7 @@ func getCpebyWatsonsHa(sn string) []string {
 	}
 }
 
-func getCpebyZeratul(sn string) []string {
+func GetCpebyZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
 	return []string {
 		cyan(sn),

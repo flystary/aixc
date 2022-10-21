@@ -1,10 +1,11 @@
-package net
+package control
 
 import (
 	"fmt"
 	"os"
 	"strings"
 	"time"
+	net "aixc/net"
 )
 
 var (
@@ -18,29 +19,29 @@ var (
 
 //SearchSeven 6.x
 func SearchSeven(sn string) {
-	mode = getModebySevenSn(sn)
+	mode = net.GetModebySevenSn(sn)
 	// red := color.New(color.FgBlue, color.Bold).SprintFunc()
 	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
 	if mode == "unknown" {
 		os.Exit(13)
 	}
-	syncDataMemorybyMode(mode)
+	net.SyncDataMemorybyMode(mode)
 
 	switch mode {
 		case "valor":{
-			ucpes = getCpebyValor(sn)
+			ucpes = net.GetCpebyValor(sn)
 		}
 		case "nexus":{
-			ucpes = getCpebyNexus(sn)
+			ucpes = net.GetCpebyNexus(sn)
 		}
 		case "watsons":{
-			ucpes = getCpebyWatsons(sn)
+			ucpes = net.GetCpebyWatsons(sn)
 		}
 		case "watsonsha":{
-			ucpes = getCpebyWatsonsHa(sn)
+			ucpes = net.GetCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			ucpes = getCpebyZeratul(sn)
+			ucpes = net.GetCpebyZeratul(sn)
 		}
 	}
 	slices = append(slices, ucpes)
@@ -52,7 +53,7 @@ func SearchSevenMany(snMany []string) {
 	// table
 	// 多线程查询 属于哪个平台
 	for _, sn := range snMany {
-		mode = getModebySevenSn(sn)
+		mode = net.GetModebySevenSn(sn)
 		if mode == "unknown" {
 			os.Exit(14)
 		}
@@ -60,23 +61,23 @@ func SearchSevenMany(snMany []string) {
 	}
 	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
 	// 同步数据到内存
-	syncDataMemorybyMode(mode)
+	net.SyncDataMemorybyMode(mode)
 	for _, sn := range snMany {
 		switch mode {
 			case "valor":{
-				ucpes = getCpebyValor(sn)
+				ucpes = net.GetCpebyValor(sn)
 			}
 			case "nexus":{
-				ucpes = getCpebyNexus(sn)
+				ucpes = net.GetCpebyNexus(sn)
 			}
 			case "watsons":{
-				ucpes = getCpebyWatsons(sn)
+				ucpes = net.GetCpebyWatsons(sn)
 			}
 			case "watsonsha":{
-				ucpes = getCpebyWatsonsHa(sn)
+				ucpes = net.GetCpebyWatsonsHa(sn)
 			}
 			case "tassadar":{
-				ucpes = getCpebyZeratul(sn)
+				ucpes = net.GetCpebyZeratul(sn)
 			}
 		}
 
@@ -112,29 +113,31 @@ func SearchSevenMany(snMany []string) {
 //Search 6.x/7.x
 func Search(sn string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
-	mode = threadQueryMode(sn)
+	mode = net.ThreadQueryMode(sn)
 	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
 	if mode == "unknown" {
 		os.Exit(14)
 	}
 	switch mode {
 		case "valor":{
-			ucpes = getCpebyValor(sn)
+			ucpes = net.GetCpebyValor(sn)
 		}
 		case "nexus":{
-			ucpes = getCpebyNexus(sn)
+			ucpes = net.GetCpebyNexus(sn)
 		}
 		case "watsons":{
-			ucpes = getCpebyWatsons(sn)
+			ucpes = net.GetCpebyWatsons(sn)
 		}
 		case "watsonsha":{
-			ucpes = getCpebyWatsonsHa(sn)
+			ucpes = net.GetCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			ucpes = getCpebyZeratul(sn)
+			ucpes = net.GetCpebyZeratul(sn)
 		}
 	}
 	slices = append(slices, ucpes)
+	fmt.Println(slices)
+
 	tableMarkdown(slices)
 }
 
@@ -142,7 +145,7 @@ func Search(sn string) {
 func SearchMany(snMany []string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	for _, sn := range snMany {
-		mode = threadQueryMode(sn)
+		mode = net.ThreadQueryMode(sn)
 		if mode == "unknown" {
 			os.Exit(14)
 		}
@@ -153,19 +156,19 @@ func SearchMany(snMany []string) {
 	for _, sn := range snMany {
 		switch mode {
 			case "valor":{
-				ucpes = getCpebyValor(sn)
+				ucpes = net.GetCpebyValor(sn)
 			}
 			case "nexus":{
-				ucpes = getCpebyNexus(sn)
+				ucpes = net.GetCpebyNexus(sn)
 			}
 			case "watsons":{
-				ucpes = getCpebyWatsons(sn)
+				ucpes = net.GetCpebyWatsons(sn)
 			}
 			case "watsonsha":{
-				ucpes = getCpebyWatsonsHa(sn)
+				ucpes = net.GetCpebyWatsonsHa(sn)
 			}
 			case "tassadar":{
-				ucpes = getCpebyZeratul(sn)
+				ucpes = net.GetCpebyZeratul(sn)
 			}
 		}
 

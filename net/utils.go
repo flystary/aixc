@@ -7,13 +7,11 @@ import (
 	"os"
 	"sync"
 	"time"
-
-	"github.com/fatih/color"
 	"github.com/mitchellh/go-homedir"
+	"github.com/fatih/color"
 
 	"aixc/model"
 
-	"github.com/olekukonko/tablewriter"
 )
 
 var (
@@ -27,29 +25,9 @@ func init() {
 	arr[0] = make(map[string]string)
 }
 
-func red(iput string) string {
-	red := color.New(color.FgRed, color.Bold).SprintFunc()
-	return red(iput)
-}
-
-func green(iput string) string {
-	green := color.New(color.FgGreen, color.Bold).SprintFunc()
-	return green(iput)
-}
-
 func cyan(iput string) string {
 	cyan := color.New(color.FgCyan, color.Bold).SprintFunc()
 	return cyan(iput)
-}
-
-func blue(iput string) string {
-	blue := color.New(color.FgBlue, color.Bold).SprintFunc()
-	return blue(iput)
-}
-
-func white(iput string) string {
-	white := color.New(color.FgWhite, color.Bold).SprintFunc()
-	return white(iput)
 }
 
 func timeUnix(e time.Time) int64 {
@@ -60,24 +38,6 @@ func newMD5(code string) string {
 	MD5 := md5.New()
 	_, _ = io.WriteString(MD5, code)
 	return hex.EncodeToString(MD5.Sum(nil))
-}
-
-func tableBasic(data [][]string) {
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	for _, v := range data {
-		table.Append(v)
-	}
-	table.Render()
-}
-
-func tableMarkdown(data [][]string) {
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	table.SetCenterSeparator("|")
-	table.AppendBulk(data)
-	table.Render()
 }
 
 func useMapArrgetMode(marr []map[string]string) string {
@@ -114,7 +74,7 @@ func modeController() {
 	}
 }
 
-func threadQueryMode(sn string) string {
+func ThreadQueryMode(sn string) string {
 	wg := &sync.WaitGroup{}
 	limit := make(chan bool, 20)
 	for i := 1; i < 6; i++ {
@@ -133,7 +93,7 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 	defer wg.Done()
 	relationMap := make(map[string]string, 6)
 	is  := "No"
-	if syncDataMemorybySnMode(sn, mode) {
+	if SyncDataMemorybySnMode(sn, mode) {
 		is = "Yes"
 	}
 	relationMap[mode] = is
