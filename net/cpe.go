@@ -111,10 +111,10 @@ func getZeratulData(TOKEN, URL string) error {
 	return nil
 }
 
-func GetCpebyValor(sn string) []string {
+func GetUcpebyValor(sn string) Ucpe {
 	cpe := cv.GetCpeStructBySn(sn)
-	return []string {
-		cyan(sn),
+	return Ucpe {
+		cpe.Sn,
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -125,10 +125,10 @@ func GetCpebyValor(sn string) []string {
 	}
 }
 
-func GetCpebyNexus(sn string) []string {
+func GetUcpebyNexus(sn string) Ucpe {
 	cpe := cn.GetCpeStructBySn(sn)
-	return []string {
-		cyan(sn),
+	return Ucpe{
+		cpe.Sn,
 		cpe.Model,cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
 		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
@@ -138,10 +138,10 @@ func GetCpebyNexus(sn string) []string {
 	}
 }
 
-func GetCpebyWatsons(sn string) []string {
+func GetUcpebyWatsons(sn string) Ucpe {
 	cpe := cw.GetCpeStructBySn(sn)
-	return []string {
-		cyan(sn),
+	return Ucpe {
+		cpe.Sn,
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -152,10 +152,10 @@ func GetCpebyWatsons(sn string) []string {
 	}
 }
 
-func GetCpebyWatsonsHa(sn string) []string {
+func GetUcpebyWatsonsHa(sn string) Ucpe {
 	cpe := ch.GetCpeStructBySn(sn)
-	return []string {
-		cyan(sn),
+	return Ucpe {
+		cpe.Sn,
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -166,10 +166,10 @@ func GetCpebyWatsonsHa(sn string) []string {
 	}
 }
 
-func GetCpebyZeratul(sn string) []string {
+func GetUcpebyZeratul(sn string) Ucpe {
 	spe := cz.GetCpeStructBySn(sn)
-	return []string {
-		cyan(sn),
+	return Ucpe {
+		spe.Sn,
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,
