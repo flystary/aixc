@@ -147,7 +147,7 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 }
 
 func fileExists(path string) bool {
-	_, err := os.Stat("path")
+	_, err := os.Stat(path)
 	if err == nil {
 		return true
 	}

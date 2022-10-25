@@ -11,7 +11,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"aixc/config"
+	conf "aixc/config"
 )
 
 var (
@@ -178,7 +178,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := cv.IsSn(sn); ok != false {
+			if is, _ := cv.IsSn(sn); is {
 				return true
 			}
 		}
@@ -196,7 +196,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := cn.IsSn(sn); ok != false {
+			if is, _ := cn.IsSn(sn); is {
 				return true
 			}
 		}
@@ -214,7 +214,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := cw.IsSn(sn); ok != false {
+			if is, _ := cw.IsSn(sn); is {
 				return true
 			}
 		}
@@ -232,7 +232,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := ch.IsSn(sn); ok != false {
+			if is, _ := ch.IsSn(sn); is {
 				return true
 			}
 		}
@@ -250,7 +250,7 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := cz.IsSn(sn); ok != false {
+			if is, _ := cz.IsSn(sn); is {
 				return true
 			}
 		}
