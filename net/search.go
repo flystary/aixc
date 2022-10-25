@@ -20,7 +20,7 @@ var (
 func SearchSeven(sn string) {
 	mode = getModebySevenSn(sn)
 	// red := color.New(color.FgBlue, color.Bold).SprintFunc()
-	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	if mode == "unknown" {
 		os.Exit(13)
 	}
@@ -58,7 +58,7 @@ func SearchSevenMany(snMany []string) {
 		}
 		break
 	}
-	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	// 同步数据到内存
 	syncDataMemorybyMode(mode)
 	for _, sn := range snMany {
@@ -88,10 +88,10 @@ func SearchSevenMany(snMany []string) {
 			if i == 2 {
 				if VERSION == "" {
 					VERSION  = ucpes[2]
-					ucpes[2] = cyan(ucpes[2])
+					ucpes[2] = Cyan(ucpes[2])
 				} else {
 					if ucpes[2] != VERSION {
-						ucpes[2] = red(ucpes[2])
+						ucpes[2] = Red(ucpes[2])
 					}
 				}
 			}
@@ -100,7 +100,7 @@ func SearchSevenMany(snMany []string) {
 				var now = time.Now()
 				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
 				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-					ucpes[3] = fmt.Sprintf("%s✗%s", red(strings.Split(ucpes[3], " ")[0]), red(strings.Split(ucpes[3], " ")[1]))
+					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
 				}
 			}
 		}
@@ -113,7 +113,7 @@ func SearchSevenMany(snMany []string) {
 func Search(sn string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	mode = threadQueryMode(sn)
-	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	if mode == "unknown" {
 		os.Exit(14)
 	}
@@ -148,7 +148,7 @@ func SearchMany(snMany []string) {
 		}
 		break
 	}
-	fmt.Printf("CPE %s is: %s\n", blue("Mode"), white(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 
 	for _, sn := range snMany {
 		switch mode {
@@ -177,10 +177,10 @@ func SearchMany(snMany []string) {
 			if i == 2 {
 				if VERSION == "" {
 					VERSION  = ucpes[2]
-					ucpes[2] = cyan(ucpes[2])
+					ucpes[2] = Cyan(ucpes[2])
 				} else {
 					if ucpes[2] != VERSION {
-						ucpes[2] = red(ucpes[2])
+						ucpes[2] = Red(ucpes[2])
 					}
 				}
 			}
@@ -189,11 +189,10 @@ func SearchMany(snMany []string) {
 				var now = time.Now()
 				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
 				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-					ucpes[3] = fmt.Sprintf("%s✗%s", red(strings.Split(ucpes[3], " ")[0]), red(strings.Split(ucpes[3], " ")[1]))
+					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
 				}
 			}
 		}
-
 		slices = append(slices, ucpes)
 	}
 	tableBasic(slices)

@@ -114,7 +114,7 @@ func getZeratulData(TOKEN, URL string) error {
 func getCpebyValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
 	return []string {
-		cyan(sn),
+		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -128,7 +128,7 @@ func getCpebyValor(sn string) []string {
 func getCpebyNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 	return []string {
-		cyan(sn),
+		Cyan(sn),
 		cpe.Model,cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
 		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
@@ -141,7 +141,7 @@ func getCpebyNexus(sn string) []string {
 func getCpebyWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
 	return []string {
-		cyan(sn),
+		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -155,7 +155,7 @@ func getCpebyWatsons(sn string) []string {
 func getCpebyWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
 	return []string {
-		cyan(sn),
+		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -169,7 +169,7 @@ func getCpebyWatsonsHa(sn string) []string {
 func getCpebyZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
 	return []string {
-		cyan(sn),
+		Cyan(sn),
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,

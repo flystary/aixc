@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"aixc/net"
+	n "aixc/net"
 )
 
 func init() {}
@@ -13,21 +13,24 @@ var rootCmd = &cobra.Command{
 }
 
 func show(sn string) {
-	net.Search(sn)
+	n.Search(sn)
 }
 
 func showSeven(sn string) {
-	net.SearchSeven(sn)
+	n.SearchSeven(sn)
 }
 
 func showMany(sns []string) {
-	net.SearchMany(sns)
+	n.SearchMany(sns)
 }
 
 func showSevenMany(sns []string) {
-	net.SearchSevenMany(sns)
+	n.SearchSevenMany(sns)
 }
 
+func showManybyMode(mode string){
+	println("此命令暂不支持!", mode)
+}
 // Run cmd
 func Run() {
 	rootCmd.Execute()
