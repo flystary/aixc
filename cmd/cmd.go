@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	c "aixc/control"
+	n "aixc/net"
 )
 
 func init() {}
@@ -13,19 +13,19 @@ var rootCmd = &cobra.Command{
 }
 
 func show(sn string) {
-	c.Search(sn)
+	n.Search(sn)
 }
 
 func showSeven(sn string) {
-	c.SearchSeven(sn)
+	n.SearchSeven(sn)
 }
 
 func showMany(sns []string) {
-	c.SearchMany(sns)
+	n.SearchMany(sns)
 }
 
 func showSevenMany(sns []string) {
-	c.SearchSevenMany(sns)
+	n.SearchSevenMany(sns)
 }
 
 func showManybyMode(mode string){

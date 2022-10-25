@@ -1,9 +1,9 @@
-%YAML 1.1
----
+# route.yaml
 
-url: http://xxxx.xxxxx.xxx/xxxx
-token: oauth/token
+initurl: http://xxxx.xxxxx.xxx/xxxx
+tokenurl: oauth/token
 operation: operation/boxes
+
 valor:
     cpe: business/cpes
     pop: vpn/entries
@@ -24,7 +24,8 @@ watsonsha:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries
     dvc: nexus/device/boxes
-modes:
+
+domain:
   - valor
   - tassadar
   - nexus

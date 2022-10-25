@@ -1,17 +1,15 @@
 package net
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-	"io"
+
 	"os"
 	"sync"
 	"time"
 	"github.com/mitchellh/go-homedir"
 	"github.com/fatih/color"
+	"github.com/olekukonko/tablewriter"
 
 	"aixc/model"
-
 )
 
 var (
@@ -25,11 +23,6 @@ func init() {
 	arr[0] = make(map[string]string)
 }
 
-func Cyan(iput string) string {
-	cyan := color.New(color.FgCyan, color.Bold).SprintFunc()
-	return cyan(iput)
-}
-
 func Red(iput string) string {
 	red := color.New(color.FgRed, color.Bold).SprintFunc()
 	return red(iput)
@@ -38,6 +31,11 @@ func Red(iput string) string {
 func Green(iput string) string {
 	green := color.New(color.FgGreen, color.Bold).SprintFunc()
 	return green(iput)
+}
+
+func Cyan(iput string) string {
+	cyan := color.New(color.FgCyan, color.Bold).SprintFunc()
+	return cyan(iput)
 }
 
 func Blue(iput string) string {
@@ -50,15 +48,26 @@ func White(iput string) string {
 	return white(iput)
 }
 
+func tableBasic(data [][]string) {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
+	for _, v := range data {
+		table.Append(v)
+	}
+	table.Render()
+}
+
+func tableMarkdown(data [][]string) {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+	table.AppendBulk(data)
+	table.Render()
+}
 
 func timeUnix(e time.Time) int64 {
 	return e.UnixNano() / 1e6
-}
-
-func newMD5(code string) string {
-	MD5 := md5.New()
-	_, _ = io.WriteString(MD5, code)
-	return hex.EncodeToString(MD5.Sum(nil))
 }
 
 func useMapArrgetMode(marr []map[string]string) string {
