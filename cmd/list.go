@@ -7,7 +7,7 @@ import (
 func init() {
 	rootCmd.AddCommand(listCmd)
 	listCmd.Flags().StringP("mode", "m", "","ucpe mode, Please use it")
-	listCmd.Flags().BoolP("seven", "s", false, "if ucpe belongs to SDWAN6 platform, Please use it")
+	listCmd.Flags().BoolP("seven", "", false, "if ucpe belongs to SDWAN6 platform, Please use it")
 }
 
 var listCmd = &cobra.Command{
