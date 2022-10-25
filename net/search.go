@@ -56,6 +56,7 @@ func SearchSevenMany(snMany []string) {
 		if mode == "unknown" {
 			os.Exit(14)
 		}
+		break
 	}
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	// 同步数据到内存
@@ -116,6 +117,7 @@ func Search(sn string) {
 	if mode == "unknown" {
 		os.Exit(14)
 	}
+
 	switch mode {
 		case "valor":{
 			ucpes = getCpebyValor(sn)
@@ -145,6 +147,7 @@ func SearchMany(snMany []string) {
 		if mode == "unknown" {
 			os.Exit(14)
 		}
+		break
 	}
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 

@@ -30,7 +30,7 @@ var listCmd = &cobra.Command{
 			return
 		}
 
-		if mode == "valor" || mode == "nexus" || mode == "watsons" || mode == "watsonsha" || mode == "tassadar" || mode == " " {
+		if mode == "valor" || mode == "nexus" || mode == "watsons" || mode == "watsonsha" || mode == "tassadar" || mode == "" {
 			// isSeven
 			if isSeven && mode == "" {
 				showSevenMany(args)
