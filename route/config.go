@@ -21,7 +21,7 @@ type Domain struct {
 	Dvc string `yaml:"dvc"`
 }
 
-type valor struct{
+type valor struct {
 	Cpe string `yaml:"cpe"`
 	Pop string `yaml:"pop"`
 	Dvc string `yaml:"dvc"`
