@@ -6,7 +6,7 @@ import (
 
 func init() {
 	rootCmd.AddCommand(showCmd)
-	showCmd.Flags().BoolP("Mseven", "m", false, "If ucpe belongs to 6.X platform, Please use it")
+	showCmd.Flags().BoolP("seven", "", false, "If ucpe belongs to SDWAN6 platform, Please use it")
 }
 
 var showCmd = &cobra.Command{
@@ -17,7 +17,7 @@ var showCmd = &cobra.Command{
 	Args:    cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
-		mseven, err := cmd.Flags().GetBool("Mseven")
+		mseven, err := cmd.Flags().GetBool("seven")
 		if err != nil {
 			println("getBool err: ", err)
 			return

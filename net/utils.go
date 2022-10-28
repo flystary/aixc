@@ -1,16 +1,15 @@
 package net
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-	"io"
+
 	"os"
 	"sync"
 	"time"
-
+	"github.com/mitchellh/go-homedir"
 	"github.com/fatih/color"
-
 	"github.com/olekukonko/tablewriter"
+
+	"aixc/model"
 )
 
 var (
@@ -24,39 +23,29 @@ func init() {
 	arr[0] = make(map[string]string)
 }
 
-func red(iput string) string {
+func Red(iput string) string {
 	red := color.New(color.FgRed, color.Bold).SprintFunc()
 	return red(iput)
 }
 
-func green(iput string) string {
+func Green(iput string) string {
 	green := color.New(color.FgGreen, color.Bold).SprintFunc()
 	return green(iput)
 }
 
-func cyan(iput string) string {
+func Cyan(iput string) string {
 	cyan := color.New(color.FgCyan, color.Bold).SprintFunc()
 	return cyan(iput)
 }
 
-func blue(iput string) string {
+func Blue(iput string) string {
 	blue := color.New(color.FgBlue, color.Bold).SprintFunc()
 	return blue(iput)
 }
 
-func white(iput string) string {
+func White(iput string) string {
 	white := color.New(color.FgWhite, color.Bold).SprintFunc()
 	return white(iput)
-}
-
-func timeUnix(e time.Time) int64 {
-	return e.UnixNano() / 1e6
-}
-
-func newMD5(code string) string {
-	MD5 := md5.New()
-	_, _ = io.WriteString(MD5, code)
-	return hex.EncodeToString(MD5.Sum(nil))
 }
 
 func tableBasic(data [][]string) {
@@ -75,6 +64,10 @@ func tableMarkdown(data [][]string) {
 	table.SetCenterSeparator("|")
 	table.AppendBulk(data)
 	table.Render()
+}
+
+func timeUnix(e time.Time) int64 {
+	return e.UnixNano() / 1e6
 }
 
 func useMapArrgetMode(marr []map[string]string) string {
@@ -111,13 +104,13 @@ func modeController() {
 	}
 }
 
-func threadQueryMode(sn string) string {
+func ThreadQueryMode(sn string) string {
 	wg := &sync.WaitGroup{}
 	limit := make(chan bool, 20)
 	for i := 1; i < 6; i++ {
 		wg.Add(1)
 		limit <- true
-		mode := Mtype(i).enum()
+		mode := model.M(i).Enum()
 		go getMapByChan(sn, mode, limit, wg)
 	}
 	wg.Wait()
@@ -130,7 +123,7 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 	defer wg.Done()
 	relationMap := make(map[string]string, 6)
 	is  := "No"
-	if syncDataMemorybySnMode(sn, mode) {
+	if SyncDataMemorybySnMode(sn, mode) {
 		is = "Yes"
 	}
 	relationMap[mode] = is
@@ -141,4 +134,21 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 			close(channel)
 	}
 	<- limit
+}
+
+func fileExists(path string) bool {
+	_, err := os.Stat("path")
+	if err == nil {
+		return true
+	}
+	if os.IsNotExist(err) {
+		return false
+	}
+	return false
+}
+
+// HOME 用户根路径
+func HOME() string {
+	dir, _ := homedir.Dir()
+	return dir
 }

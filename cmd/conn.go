@@ -6,7 +6,7 @@ import (
 
 func init() {
     rootCmd.AddCommand(connCmd)
-	connCmd.Flags().BoolP("Mseven", "m", false, "If ucpe belongs to 6.X platform, Please use it")
+	connCmd.Flags().BoolP("seven", "", false, "If ucpe belongs to SDWAN6 platform, Please use it")
 }
 
 var connCmd = &cobra.Command{

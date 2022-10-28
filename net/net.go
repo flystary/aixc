@@ -1,179 +1,133 @@
 package net
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+
+	"fmt"
 	"os"
 
-	"gopkg.in/yaml.v3"
-
-	"aixc/conf"
-	"aixc/model/cpe"
-	"aixc/model/dvc"
-	"aixc/model/opt"
-	"aixc/model/pop"
+	r "aixc/route"
 )
 
 var (
-	rules conf.Rules
-	token string
-	err   error
-
-	opo opt.Operation
-
-	cv cpe.Valor     //valor
-	cn cpe.Nexus     //nexus
-	cw cpe.Watsons   //watsons
-	ch cpe.WatsonsHa //watsonsha
-	cz cpe.Zeratul   //zeratul
-
-	pv pop.Valor
-	pn pop.Nexus
-	pw pop.Watsons
-	ph pop.WatsonsHa
-	pz pop.Zeratul
-
-	dv dvc.Valor
-	dn dvc.Nexus
-	dw dvc.Watsons
-	dh dvc.WatsonsHa
-	dz dvc.Zeratul
+ 	// TOKEN
+	TOKEN  string
+	err    error
+	route  r.Route
+	neter  Neter = &route
 )
+
+// Neter
+type Neter interface {
+	Router
+	// Requester
+	// Serializer
+}
+
+// Router
+type Router interface {
+	GetCpeFromRoute(mode string) string
+	GetPopFromRoute(mode string) string
+	GetDvcFromRoute(mode string) string
+	GetOperationFromRoute() string
+	GetTokenFromRoute() string
+}
+
+// Requester
+type Requester interface{
+	GetToken(URL string) string
+	// GetMode(service  *Service) *Service
+	// GetBytes(service *Service) *Service
+}
+
+// Serializer 序列化
+type Serializer interface{}
 
 // 加载url路由规则
 func init() {
-	path := "./url.rules"
-	if err = loadURL(path); err != nil {
-		os.Exit(9)
-	}
-	if err = getToken(rules.TokenRouteByMode()); err != nil {
-		os.Exit(10)
-	}
-}
-
-func loadURL(path string) error {
-	io, err := ioutil.ReadFile(path)
-	if err != nil {
-		return err
-	}
-	err = yaml.Unmarshal(io, &rules)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// 获取token
-func getToken(URL string) error {
-	requestData := make(url.Values)
-	requestData["username"] = []string{"matrix"}
-	requestData["password"] = []string{newMD5(newMD5("4A9sOpYL"))}
-	requestData["client_id"] = []string{"browser"}
-	requestData["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
-	requestData["grant_type"] = []string{"password"}
-
-	res, err := http.PostForm(URL, requestData)
-	if err != nil {
-		return err
-	}
-
-	defer res.Body.Close()
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	result := make(map[string]interface{})
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return err
-	}
-
-	token = result["access_token"].(string)
-
-	return nil
+	fileName := "route.yaml"
+	path := fmt.Sprintf("./%s", fileName)
+	route = r.LoadRoute(path)
+	// 获取token
+	TOKEN = GetToken(neter.GetTokenFromRoute())
 }
 
 // 已知mode获取cpe,dvc,pop数据并放入到内存
-func syncDataMemorybyMode(mode string) {
-	cpeURL := rules.CpeRouteByMode(mode)
-	popURL := rules.PopRouteByMode(mode)
+func SyncDataMemorybyMode(mode string) {
+	cpeURL := neter.GetCpeFromRoute(mode)
+	popURL := neter.GetPopFromRoute(mode)
 	// dvcURL := rules.DeviceRouteByMode(mode)
 	switch mode {
 	case "valor":
 		{
-			cv, err = getValorData(token, cpeURL)
+			err = getValorData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pv, err = getValorPopData(token, popURL)
+			err = getValorPopData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dv, err = getDvcValorData(token, dvcURL)
+			// err = getDvcValorData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
 	case "nexus":
 		{
-			cn, err = getNexusData(token, cpeURL)
+			err = getNexusData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pn, err = getNexusEntryData(token, popURL)
+			err = getNexusEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dn, err = getDvcNexusData(token, dvcURL)
+			// err = getDvcNexusData(token, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
 	case "watsons":
 		{
-			cw, err = getWatsonsData(token, cpeURL)
+			err = getWatsonsData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pw, err = getWatsonsEntryData(token, popURL)
+			err = getWatsonsEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dw, err = getDvcWatsonsData(token, dvcURL)
+			// err = getDvcWatsonsData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
 	case "watsonsha":
 		{
-			ch, err = getWatsonsHaData(token, cpeURL)
+			err = getWatsonsHaData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			ph, err = getWatsonsHaEntryData(token, popURL)
+			err = getWatsonsHaEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dh, err = getDvcWatsonsHaData(token, dvcURL)
+			// err = getDvcWatsonsHaData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
 	case "tassadar":
 		{
-			cz, err = getZeratulData(token, cpeURL)
+			err = getZeratulData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pz, err = getZeratulPopData(token, popURL)
+			err = getZeratulPopData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dz, err = getDvcZeratulData(token, dvcURL)
+			// err = getDvcZeratulData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -182,98 +136,98 @@ func syncDataMemorybyMode(mode string) {
 }
 
 // 根据sn和mode获取cpe,dvc,pop数据并放入到内存
-func syncDataMemorybySnMode(sn, mode string) bool {
-	cpeURL := rules.CpeRouteByMode(mode)
-	popURL := rules.PopRouteByMode(mode)
+func SyncDataMemorybySnMode(sn, mode string) bool {
+	cpeURL := neter.GetCpeFromRoute(mode)
+	popURL := neter.GetPopFromRoute(mode)
 	// dvcURL := rules.DeviceRouteByMode(mode)
 	switch mode {
 	case "valor":
 		{
-			cv, err = getValorData(token, cpeURL)
+			err = getValorData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pv, err = getValorPopData(token, popURL)
+			err = getValorPopData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dv, err = getDvcValorData(token, dvcURL)
+			// err = getDvcValorData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := cv.IsSn(sn); ok != false {
+			if is, _ := cv.IsSn(sn); is{
 				return true
 			}
 		}
 	case "nexus":
 		{
-			cn, err = getNexusData(token, cpeURL)
+			err = getNexusData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pn, err = getNexusEntryData(token, popURL)
+			err = getNexusEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dn, err = getDvcNexusData(token, dvcURL)
+			// err = getDvcNexusData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := cn.IsSn(sn); ok != false {
+			if is, _ := cn.IsSn(sn); is{
 				return true
 			}
 		}
 	case "watsons":
 		{
-			cw, err = getWatsonsData(token, cpeURL)
+			err = getWatsonsData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pw, err = getWatsonsEntryData(token, popURL)
+			err = getWatsonsEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dw, err = getDvcWatsonsData(token, dvcURL)
+			// err = getDvcWatsonsData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := cw.IsSn(sn); ok != false {
+			if is, _ := cw.IsSn(sn); is{
 				return true
 			}
 		}
 	case "watsonsha":
 		{
-			ch, err = getWatsonsHaData(token, cpeURL)
+			err = getWatsonsHaData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			ph, err = getWatsonsHaEntryData(token, popURL)
+			err = getWatsonsHaEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dh, err = getDvcWatsonsHaData(token, dvcURL)
+			// err = getDvcWatsonsHaData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := ch.IsSn(sn); ok != false {
+			if is, _ := ch.IsSn(sn); is{
 				return true
 			}
 		}
 	case "tassadar":
 		{
-			cz, err = getZeratulData(token, cpeURL)
+			err = getZeratulData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			pz, err = getZeratulPopData(token, popURL)
+			err = getZeratulPopData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// dz, err = getDvcZeratulData(token, dvcURL)
+			// err = getDvcZeratulData(TOKEN, dvcURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
-			if ok, _ := cz.IsSn(sn); ok != false {
+			if is, _ := cz.IsSn(sn); is{
 				return true
 			}
 		}
@@ -281,9 +235,9 @@ func syncDataMemorybySnMode(sn, mode string) bool {
 	return false
 }
 
-func getModebySevenSn(sn string) string {
-	if opo, err = getOperationData(token, rules.OperationRouteByMode()); err != nil {
+func GetModebySevenSn(sn string) string {
+	if err = getOperationData(TOKEN, neter.GetOperationFromRoute()); err != nil {
 		os.Exit(11)
 	}
-	return opo.SnInMode(sn)
+	return op.SnInMode(sn)
 }

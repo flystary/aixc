@@ -3,16 +3,24 @@ package net
 import (
 	"fmt"
 	"time"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"encoding/json"
 
 	"aixc/model/dvc"
 )
 
-func getDvcBytes(token, url string) ([]byte, error) {
+var (
+	dv dvc.Valor
+	dn dvc.Nexus
+	dw dvc.Watsons
+	dh dvc.WatsonsHa
+	dz dvc.Zeratul
+)
+
+func getDvcBytes(TOKEN, URL string) ([]byte, error) {
 	Unix := timeUnix(time.Now())
-	dvcURL := fmt.Sprintf("%saccess_token=%s&_=%d", url, token, Unix)
+	dvcURL := fmt.Sprintf("%saccess_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(dvcURL)
 	if err != nil {
@@ -20,74 +28,70 @@ func getDvcBytes(token, url string) ([]byte, error) {
 	}
 	defer res.Body.Close()
 
-	bytes, err := ioutil.ReadAll(res.Body)
+	bytes, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
 	return bytes, nil
 }
 
-func getDvcNexusData(token, url string) (dvc.Nexus, error) {
-	var nexus dvc.Nexus
-	bytes, err := getCpeBytes(token, url)
+
+func getDvcNexusData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &nexus); err != nil {
-		return nexus, err
+	if err = json.Unmarshal(bytes, &dn); err != nil {
+		return err
 	}
-	return nexus, nil
+	return nil
 }
 
-func getDvcValorData(token, url string) (dvc.Valor, error) {
-	var valor dvc.Valor
-	bytes, err := getCpeBytes(token, url)
+func getDvcValorData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &valor); err != nil {
-		return valor, err
+	if err = json.Unmarshal(bytes, &dv); err != nil {
+		return err
 	}
-	return valor, nil
+	return nil
 }
 
-func getDvcZeratulData(token, url string) (dvc.Zeratul, error) {
-	var zeratul dvc.Zeratul
-	bytes, err := getCpeBytes(token, url)
+func getDvcZeratulData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &zeratul); err != nil {
-		return zeratul, err
+	if err = json.Unmarshal(bytes, &dz); err != nil {
+		return err
 	}
-	return zeratul, nil
+	return nil
 }
 
-func getDvcWatsonsData(token, url string) (dvc.Watsons, error) {
-	var watsons dvc.Watsons
-	bytes, err := getCpeBytes(token, url)
+func getDvcWatsonsData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &watsons); err != nil {
-		return watsons, err
+	if err = json.Unmarshal(bytes, &dw); err != nil {
+		return err
 	}
-	return watsons, nil
+	return nil
 }
 
-func getDvcWatsonsHaData(token, url string) (dvc.WatsonsHa, error) {
-	var watsonsha dvc.WatsonsHa
-	bytes, err := getCpeBytes(token, url)
+func getDvcWatsonsHaData(TOKEN, URL string) error {
+	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &watsonsha); err != nil {
-		return watsonsha, err
+	if err = json.Unmarshal(bytes, &dh); err != nil {
+		return err
 	}
-	return watsonsha, nil
+	return nil
 }

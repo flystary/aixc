@@ -4,14 +4,21 @@ import (
 	"fmt"
 	"time"
 	"net/http"
-	"io/ioutil"
+	"io"
 	"encoding/json"
 	"aixc/model/pop"
 )
+var (
+	pv pop.Valor
+	pn pop.Nexus
+	pw pop.Watsons
+	ph pop.WatsonsHa
+	pz pop.Zeratul
+)
 
-func getPopBytes(token, url string) ([]byte, error) {
+func getPopBytes(TOKEN, URL string) ([]byte, error) {
 	Unix := timeUnix(time.Now())
-	popURL := fmt.Sprintf("%saccess_token=%s&_=%d", url, token, Unix)
+	popURL := fmt.Sprintf("%saccess_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(popURL)
 	if err != nil {
@@ -19,73 +26,68 @@ func getPopBytes(token, url string) ([]byte, error) {
 	}
 	defer res.Body.Close()
 
-	bytes, err := ioutil.ReadAll(res.Body)
+	bytes, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
 	return bytes, nil
 }
 
-func getNexusEntryData(token, url string) (pop.Nexus, error) {
-	var nexus pop.Nexus
-	bytes, err := getPopBytes(token, url)
+func getNexusEntryData(TOKEN, URL string) error {
+	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	if err := json.Unmarshal(bytes, &nexus); err != nil {
-		return nil, err
+	if err := json.Unmarshal(bytes, &pn); err != nil {
+		return err
 	}
-	return nexus, nil
+	return nil
 }
 
-func getValorPopData(token, url string) (pop.Valor, error) {
-	var valor pop.Valor
-	bytes, err := getPopBytes(token, url)
+func getValorPopData(TOKEN, URL string) error {
+	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err := json.Unmarshal(bytes, &valor); err != nil {
-		return nil, err
+	if err := json.Unmarshal(bytes, &pv); err != nil {
+		return err
 	}
-	return valor, nil
+	return nil
 }
 
-func getWatsonsEntryData(token, url string) (pop.Watsons, error) {
-	var watsons pop.Watsons
-	bytes, err := getPopBytes(token, url)
+func getWatsonsEntryData(TOKEN, URL string) error {
+	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err := json.Unmarshal(bytes, &watsons); err != nil {
-		return watsons, err
+	if err := json.Unmarshal(bytes, &pw); err != nil {
+		return err
 	}
-	return watsons, nil
+	return nil
 }
 
-func getWatsonsHaEntryData(token, url string) (pop.WatsonsHa, error) {
-	var watsonsha pop.WatsonsHa
-	bytes, err := getPopBytes(token, url)
+func getWatsonsHaEntryData(TOKEN, URL string) error {
+	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err := json.Unmarshal(bytes, &watsonsha); err != nil {
-		return nil, err
+	if err := json.Unmarshal(bytes, &ph); err != nil {
+		return err
 	}
-	return watsonsha, nil
+	return nil
 }
 
-func getZeratulPopData(token, url string) (pop.Zeratul, error) {
-	var zeratul pop.Zeratul
-	bytes, err := getPopBytes(token, url)
+func getZeratulPopData(TOKEN, URL string) error {
+	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// Unmarshal json数据
-	if err := json.Unmarshal(bytes, &zeratul); err != nil {
-		return nil, err
+	if err := json.Unmarshal(bytes, &pz); err != nil {
+		return err
 	}
-	return zeratul, nil
+	return nil
 }

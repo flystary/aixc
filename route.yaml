@@ -1,0 +1,34 @@
+# route.yaml
+
+initurl: http://xxxx.xxxxx.xxx/xxxx
+tokenurl: oauth/token
+operation: operation/boxes
+
+valor:
+    cpe: business/cpes
+    pop: vpn/entries
+    dvc: device/cpes
+    pse: 1000  #PageSize
+tassadar:
+    cpe: business/cpes
+    pop: vpn/pops
+    dvc: device/cpes
+nexus:
+    cpe: business/boxes
+    pop: vpn/entries
+    dvc: device/boxes
+watsons:
+    cpe: nexus/business/boxes
+    pop: nexus/openvpn/entries
+    dvc: nexus/device/boxes
+watsonsha:
+    cpe: nexus/business/boxes
+    pop: nexus/openvpn/entries
+    dvc: nexus/device/boxes
+
+domain:
+  - valor
+  - tassadar
+  - nexus
+  - watsons
+  - watsonsha
