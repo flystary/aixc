@@ -21,22 +21,20 @@ Flags:
 ```bash
 [root@centos ~]# aixc list -h
 use list to list everything you want form cpe
-
 Usage:
   aixc list [<SN>, <SN>,....] [flags]
 
 Flags:
-  -m, --Mseven   If ucpe belongs to 6.X platform, Please use it
-  -h, --help     help for list
+  -h, --help          help for list
+  -m, --mode string   ucpe mode, Please use it
+      --seven         if ucpe belongs to SDWAN6 platform, Please use it
 ```
 ```bash
 [root@centos ~]# aixc show -h
 use show to show everything you want form cpe
-
 Usage:
   aixc show <SN> [flags]
-
 Flags:
-  -m, --Mseven   If ucpe belongs to 6.X platform, Please use it
-  -h, --help     help for show
+  -h, --help    help for show
+      --seven   If ucpe belongs to SDWAN6 platform, Please use it
 ```

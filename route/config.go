@@ -21,7 +21,12 @@ type Domain struct {
 	Dvc string `yaml:"dvc"`
 }
 
-type valor Domain
+type valor struct{
+	Cpe string `yaml:"cpe"`
+	Pop string `yaml:"pop"`
+	Dvc string `yaml:"dvc"`
+	Pse int    `yaml:"pse"`
+}
 
 type nexus Domain
 

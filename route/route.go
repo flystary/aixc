@@ -31,6 +31,23 @@ func LoadRoute(path string) Route {
 	return route
 }
 
+func (r Route) GetCpeFromRoute(mode string) string {
+	switch mode {
+	case "nexus":
+		return fmt.Sprintf("%s/nexus/%s?", r.InitURL, r.Nexus.Cpe)
+	case "valor":
+		return fmt.Sprintf("%s/valor/%s?&pageSize=%v&", r.InitURL, r.Valor.Cpe, r.Valor.Pse)
+	case "watsons":
+		return fmt.Sprintf("%s/watsons/%s?", r.InitURL, r.Watsons.Cpe)
+	case "watsonsha":
+		return fmt.Sprintf("%s/watsons_ha/%s?", r.InitURL, r.WatsonsHa.Cpe)
+	case "tassadar":
+		return fmt.Sprintf("%s/tassadar/%s?", r.InitURL, r.Tassadar.Cpe)
+	default:
+		return ""
+	}
+}
+
 func (r Route) GetPopFromRoute(mode string) string {
 	switch mode {
 	case "nexus":
@@ -43,23 +60,6 @@ func (r Route) GetPopFromRoute(mode string) string {
 		return fmt.Sprintf("%s/watsons_ha/%s?", r.InitURL, r.WatsonsHa.Pop)
 	case "tassadar":
 		return fmt.Sprintf("%s/tassadar/%s?", r.InitURL, r.Tassadar.Pop)
-	default:
-		return ""
-	}
-}
-
-func (r Route) GetCpeFromRoute(mode string) string {
-	switch mode {
-	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s?", r.InitURL, r.Nexus.Cpe)
-	case "valor":
-		return fmt.Sprintf("%s/valor/%s?", r.InitURL, r.Valor.Cpe)
-	case "watsons":
-		return fmt.Sprintf("%s/watsons/%s?", r.InitURL, r.Watsons.Cpe)
-	case "watsonsha":
-		return fmt.Sprintf("%s/watsons_ha/%s?", r.InitURL, r.WatsonsHa.Cpe)
-	case "tassadar":
-		return fmt.Sprintf("%s/tassadar/%s?", r.InitURL, r.Tassadar.Cpe)
 	default:
 		return ""
 	}

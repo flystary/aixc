@@ -5,9 +5,10 @@ tokenurl: oauth/token
 operation: operation/boxes
 
 valor:
-    cpe: business/cpes?pageSize=1000&
+    cpe: business/cpes
     pop: vpn/entries
     dvc: device/cpes
+    pse: 1000  #PageSize
 tassadar:
     cpe: business/cpes
     pop: vpn/pops
