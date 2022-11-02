@@ -6,26 +6,52 @@ import (
 
 func init() {
 	rootCmd.AddCommand(showCmd)
-	showCmd.Flags().BoolP("seven", "", false, "If ucpe belongs to SDWAN6 platform, Please use it")
+	showCmd.Flags().StringP("select", "s", "","Appoint the filter object of UCPE")
+	showCmd.Flags().StringP("mode", "m", "","Appoint the UCPE Mode")
+	showCmd.Flags().BoolP("business", "b", false,"Appoint that the filtering object of UCPE is the enterprise number")
+
 }
 
 var showCmd = &cobra.Command{
-	Use:     "show <SN>",
-	// Example: "xc show 7x00xxxxxxxxxxx",
-	Short:   "Print single line data in tabular form",
-	Long:    `use show to show everything you want form cpe`,
+	Use:   	 "show",
+	// Example: "xc conn 7x00114401917b5f0",
+	Short:   "Print your filtered data in tabular form",
+	Long: 	 `Use show to list the UCPE of the specified options according to your filter`,
 	Args:    cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
-		mseven, err := cmd.Flags().GetBool("seven")
+
+		mode, err := cmd.Flags().GetString("mode")
 		if err != nil {
-			println("getBool err: ", err)
+			println("getstring err: ", err)
 			return
 		}
-		if mseven {
-			showSeven(args[0])
-		} else {
-			show(args[0])
+
+		var xtype string
+		entn, err := cmd.Flags().GetBool("business")
+		if err != nil {
+			println("getbool err: ", err)
+			return
 		}
+
+		if mode == "valor" || mode == "nexus" || mode == "watsons" || mode == "watsonsha" || mode == "tassadar" || mode == "" {
+			println(mode)
+			return
+		}
+		stype, err := cmd.Flags().GetString("select")
+		if err != nil {
+			println("getstring err: ", err)
+			return
+		}
+
+		if stype == "" {
+			xtype = "enterprise"
+		}else{
+			xtype = stype
+		}
+		println(entn)
+		println(xtype)
+
+		println(args[0])
 	},
 }

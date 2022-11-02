@@ -10,7 +10,7 @@ func init() {
 
 var execCmd = &cobra.Command{
 	Use:   	 "exec <SN>",
-	Short:   "Use this method to execute commands",
+	Short:   "Use this option to remotely execute commands on UCPE or POP",
 	Long: 	 `This method allows CPE or POP to execute commands`,
 	Args:    cobra.MinimumNArgs(1),
 

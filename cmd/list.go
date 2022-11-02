@@ -6,15 +6,15 @@ import (
 
 func init() {
 	rootCmd.AddCommand(listCmd)
-	listCmd.Flags().StringP("mode", "m", "","ucpe mode, Please use it")
-	listCmd.Flags().BoolP("seven", "", false, "if ucpe belongs to SDWAN6 platform, Please use it")
+	listCmd.Flags().StringP("mode", "m", "","Appoint the UCPE Mode")
+	listCmd.Flags().BoolP("seven", "", false, "Appoint that the ucpe Mode belongs to SDWAN6")
 }
 
 var listCmd = &cobra.Command{
 	Use:   	 "list [<SN>, <SN>,....]",
 	// Example: "xc conn 7x00114401917b5f0",
-	Short:   "Print multiple rows of data in tabular form",
-	Long: 	 `use list to list everything you want form cpe`,
+	Short:   "Print multiple or single rows of data in table form",
+	Long: 	 `Use list to display single or multiple ucpe data`,
 	Args:    cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {

@@ -29,7 +29,7 @@ func showSevenMany(sns []string) {
 }
 
 func showManybyMode(mode string){
-	println("此命令暂不支持!")
+	println("此命令暂不支持!", mode)
 }
 // Run cmd
 func Run() {
