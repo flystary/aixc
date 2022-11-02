@@ -13,7 +13,7 @@ var connCmd = &cobra.Command{
 	Use:   	 "conn <SN>",
 	// Example: "xc conn 7x00114401917b5f0",
 	Short:   "Use this option to connect CPE or POP remotely",
-	Long: 	 `Use conn to connet everything you want form cpe`,
+	Long: 	 `Use conn to remotely connect the UCPE and POP you need`,
 	Args:    cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
