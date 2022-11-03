@@ -17,11 +17,13 @@ var connCmd = &cobra.Command{
 	Args:    cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
+
 		isSeven, err := cmd.Flags().GetBool("seven")
 		if err != nil {
 			println("getBool err: ", err)
 			return
 		}
+
 		if isSeven {
 			showSeven(args[0])
 			return

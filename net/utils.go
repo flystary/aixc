@@ -136,17 +136,6 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 	<- limit
 }
 
-func fileExists(path string) bool {
-	_, err := os.Stat("path")
-	if err == nil {
-		return true
-	}
-	if os.IsNotExist(err) {
-		return false
-	}
-	return false
-}
-
 // HOME 用户根路径
 func HOME() string {
 	dir, _ := homedir.Dir()
