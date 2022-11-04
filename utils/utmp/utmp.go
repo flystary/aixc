@@ -60,10 +60,4 @@ func LoadUtmp() []*Utmp {
 		utmps = append(utmps, utmp)
 	}
 	return utmps
-
-	// fmt.Printf("%s\t%s\t%s\n", "USER", "TTY", "FROM")
-	// for _, utmp := range utmps {
-	// 	fmt.Printf("%s\t%s\t%s\n", string(utmp.User[:]), string(utmp.Device[:]), string(utmp.Host[:]))
-	// 	fmt.Println(string(utmp.AddrV6[:]))
-	// }
 }
