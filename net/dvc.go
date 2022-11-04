@@ -3,7 +3,7 @@ package net
 import (
 	"fmt"
 	"time"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"encoding/json"
 
@@ -28,7 +28,7 @@ func getDvcBytes(TOKEN, URL string) ([]byte, error) {
 	}
 	defer res.Body.Close()
 
-	bytes, err := ioutil.ReadAll(res.Body)
+	bytes, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}

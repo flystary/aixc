@@ -2,9 +2,8 @@ package route
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"sync"
-
 	"gopkg.in/yaml.v3"
 )
 
@@ -19,7 +18,7 @@ var (
 func LoadRoute(path string) Route {
 	var route Route
 	once.Do(func() {
-		io, err := ioutil.ReadFile(path)
+		io, err := os.ReadFile(path)
 		if err != nil {
 			fmt.Printf("Open File Error: %v", err)
 		}

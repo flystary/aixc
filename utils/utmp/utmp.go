@@ -1,4 +1,4 @@
-package utils
+package utmp
 
 import (
 	"encoding/binary"

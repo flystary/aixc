@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 	"net/http"
-	"io/ioutil"
+	"io"
 	"encoding/json"
 	"aixc/model/pop"
 )
@@ -26,7 +26,7 @@ func getPopBytes(TOKEN, URL string) ([]byte, error) {
 	}
 	defer res.Body.Close()
 
-	bytes, err := ioutil.ReadAll(res.Body)
+	bytes, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
