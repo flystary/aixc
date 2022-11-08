@@ -42,7 +42,7 @@ var showCmd = &cobra.Command{
 			if mode == "" {
 				mode = "valor"
 			}
-			showEnterprise("valor", entn)
+			showEnterprise(mode, entn)
 		}
 	},
 }
