@@ -18,13 +18,13 @@ type Route struct {
 type Domain struct {
 	Cpe string `yaml:"cpe"`
 	Pop string `yaml:"pop"`
-	Dvc string `yaml:"dvc"`
+	Dve string `yaml:"dve"`
 }
 
 type valor struct{
 	Cpe string `yaml:"cpe"`
 	Pop string `yaml:"pop"`
-	Dvc string `yaml:"dvc"`
+	Dve string `yaml:"dve"`
 	Pse int    `yaml:"pse"`
 }
 

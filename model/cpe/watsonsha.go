@@ -1,19 +1,19 @@
 package cpe
 
-type WatsonsHa []VBox
+type WatsonsHa []Vox
 
-func (wh WatsonsHa) IsSn(sn string) (bool, VBox) {
+func (wh WatsonsHa) IsSn(sn string) (bool, Vox) {
 
 	for i := 0; i < len(wh); i++ {
 		if sn == wh[i].Sn {
 			return true, wh[i]
-		} 
+		}
 		continue
 	}
 	return false, vox
 }
 
-func (wh WatsonsHa) GetCpeStructBySn(sn string) VBox {
+func (wh WatsonsHa) GetCpeStructBySn(sn string) Vox {
 
 	for _, vb := range wh {
 		if sn == vb.Sn {

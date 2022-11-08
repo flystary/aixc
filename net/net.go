@@ -27,7 +27,7 @@ type Neter interface {
 type Router interface {
 	GetCpeFromRoute(mode string) string
 	GetPopFromRoute(mode string) string
-	GetDvcFromRoute(mode string) string
+	GetDveFromRoute(mode string) string
 	GetOperationFromRoute() string
 	GetTokenFromRoute() string
 }
@@ -51,11 +51,11 @@ func init() {
 	TOKEN = GetToken(neter.GetTokenFromRoute())
 }
 
-// 已知mode获取cpe,dvc,pop数据并放入到内存
-func SyncDataMemorybyMode(mode string) {
+// 已知mode获取cpe,dve,pop数据并放入到内存
+func SyncEnDataMemorybyMode(mode string) {
 	cpeURL := neter.GetCpeFromRoute(mode)
 	popURL := neter.GetPopFromRoute(mode)
-	// dvcURL := rules.DeviceRouteByMode(mode)
+	dveURL := neter.GetDveFromRoute(mode)
 	switch mode {
 	case "valor":
 		{
@@ -67,10 +67,25 @@ func SyncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcValorData(TOKEN, dvcURL)
-			// if err != nil {
-			// 	os.Exit(15)
-			// }
+			err = getDveValorData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
+		}
+	case "tassadar":
+		{
+			err = getZeratulData(TOKEN, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			err = getZeratulPopData(TOKEN, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			err = getDveZeratulData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
 		}
 	case "nexus":
 		{
@@ -82,10 +97,50 @@ func SyncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcNexusData(token, dvcURL)
-			// if err != nil {
-			// 	os.Exit(15)
-			// }
+			err = getDveNexusData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
+		}
+	}
+
+}
+
+// 已知mode获取cpe,dve,pop数据并放入到内存
+func SyncDataMemorybyMode(mode string) {
+	cpeURL := neter.GetCpeFromRoute(mode)
+	popURL := neter.GetPopFromRoute(mode)
+	dveURL := neter.GetDveFromRoute(mode)
+	switch mode {
+	case "valor":
+		{
+			err = getValorData(TOKEN, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			err = getValorPopData(TOKEN, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			err = getDveValorData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
+		}
+	case "tassadar":
+		{
+			err = getZeratulData(TOKEN, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			err = getZeratulPopData(TOKEN, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			err = getDveZeratulData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
 		}
 	case "watsons":
 		{
@@ -97,7 +152,7 @@ func SyncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcWatsonsData(TOKEN, dvcURL)
+			// err = getDveWatsonsData(TOKEN, dveURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -112,34 +167,35 @@ func SyncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcWatsonsHaData(TOKEN, dvcURL)
+			// err = getDveWatsonsHaData(TOKEN, dveURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
 		}
-	case "tassadar":
+	case "nexus":
 		{
-			err = getZeratulData(TOKEN, cpeURL)
+			err = getNexusData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getZeratulPopData(TOKEN, popURL)
+			err = getNexusEntryData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcZeratulData(TOKEN, dvcURL)
-			// if err != nil {
-			// 	os.Exit(15)
-			// }
+			err = getDveNexusData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
 		}
 	}
+
 }
 
-// 根据sn和mode获取cpe,dvc,pop数据并放入到内存
+// 根据sn和mode获取cpe,dve,pop数据并放入到内存
 func SyncDataMemorybySnMode(sn, mode string) bool {
 	cpeURL := neter.GetCpeFromRoute(mode)
 	popURL := neter.GetPopFromRoute(mode)
-	// dvcURL := rules.DeviceRouteByMode(mode)
+	// dveURL := rules.DeviceRouteByMode(mode)
 	switch mode {
 	case "valor":
 		{
@@ -151,7 +207,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcValorData(TOKEN, dvcURL)
+			// err = getDveValorData(TOKEN, dveURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -169,7 +225,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcNexusData(TOKEN, dvcURL)
+			// err = getDveNexusData(TOKEN, dveURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -187,7 +243,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcWatsonsData(TOKEN, dvcURL)
+			// err = getDveWatsonsData(TOKEN, dveURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -205,7 +261,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcWatsonsHaData(TOKEN, dvcURL)
+			// err = getDveWatsonsHaData(TOKEN, dveURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }
@@ -223,7 +279,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 			if err != nil {
 				os.Exit(13)
 			}
-			// err = getDvcZeratulData(TOKEN, dvcURL)
+			// err = getDveZeratulData(TOKEN, dveURL)
 			// if err != nil {
 			// 	os.Exit(15)
 			// }

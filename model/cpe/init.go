@@ -57,7 +57,8 @@ type Cpe struct {
 	Mode                         interface{} `json:"mode"`
 }
 
-type SCpe struct {
+
+type Spe struct {
 	ID                           int         `json:"id"`
 	Model                        string      `json:"model"`
 	Sn                           string      `json:"sn"`
@@ -177,7 +178,7 @@ type Customer struct {
 	SextantName  string `json:"sextantName"`
 }
 
-type VBox struct {
+type Vox struct {
 	ID 					int `json:"id"`
 	Model 				string `json:"model"`
 	Sn 					string `json:"sn"`
@@ -242,7 +243,7 @@ type VBox struct {
 
 var (
    cpe  Cpe
-   spe 	SCpe
+   spe 	Spe
    box  Box
-   vox 	VBox
+   vox 	Vox
 )

@@ -1,4 +1,4 @@
-package dvc
+package dve
 
 // Customer customer
 type Customer struct {
@@ -6,7 +6,7 @@ type Customer struct {
 	Name 	string `json:"name"`
 }
 
-type Ndvc struct {
+type Nde struct {
 	ID int `json:"id"`
 	Manufacturer string `json:"manufacturer"`
 	Model string `json:"model"`
@@ -26,7 +26,7 @@ type Ndvc struct {
 	SupportRemote bool `json:"supportRemote"`
 }
 
-type Vdvc struct {
+type Vde struct {
 	ID int `json:"id"`
 	Model string `json:"model"`
 	Sn string `json:"sn"`
@@ -44,7 +44,7 @@ type Vdvc struct {
 	EnableRemote bool `json:"enableRemote"`
 }
 
-type Wdvc struct {
+type Wde struct {
 	ID int `json:"id"`
 	Manufacturer string `json:"manufacturer"`
 	Model string `json:"model"`
@@ -61,3 +61,5 @@ type Wdvc struct {
 	SupportRemote bool `json:"supportRemote"`
 	Level string `json:"level"`
 }
+
+var sns = make([]string, 0)

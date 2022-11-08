@@ -16,7 +16,7 @@ var (
 )
 
 //SearchSeven 6.x
-func SearchSeven(sn string) {
+func SearchSevenBySn(sn string) {
 	mode = GetModebySevenSn(sn)
 	// red := color.New(color.FgBlue, color.Bold).SprintFunc()
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
@@ -47,7 +47,7 @@ func SearchSeven(sn string) {
 }
 
 // SearchSevenMany 6.x
-func SearchSevenMany(snMany []string) {
+func SearchSevenManyBySns(snMany []string) {
 	// table
 	// 多线程查询 属于哪个平台
 	for _, sn := range snMany {
@@ -109,7 +109,7 @@ func SearchSevenMany(snMany []string) {
 }
 
 //Search 6.x/7.x
-func Search(sn string) {
+func SearchBySn(sn string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	mode = ThreadQueryMode(sn)
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
@@ -140,7 +140,7 @@ func Search(sn string) {
 }
 
 // SearchMany 6.x/7.x
-func SearchMany(snMany []string) {
+func SearchManyBySns(snMany []string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	for _, sn := range snMany {
 		mode = ThreadQueryMode(sn)
@@ -195,6 +195,41 @@ func SearchMany(snMany []string) {
 			}
 		}
 
+		slices = append(slices, ucpes)
+	}
+	tableBasic(slices)
+}
+
+//SearchByEnterprise
+func SearchByModeEnterprise(mode,en string) {
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
+	SyncEnDataMemorybyMode(mode)
+	for _, sn := range getSnsByMode(mode, en) {
+		switch mode {
+			case "valor":{
+				ucpes = GetCpebyValor(sn)
+			}
+			case "nexus":{
+				ucpes = GetCpebyNexus(sn)
+			}
+			case "tassadar":{
+				ucpes = GetCpebyZeratul(sn)
+			}
+		}
+
+		for i, length := 0, len(ucpes); i < length; i++ {
+			if ucpes[i] == "" {
+				break
+			}
+			// 入口同步时间不是今天1小时内 区别显示
+			if i == 3 {
+				var now = time.Now()
+				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
+				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
+				}
+			}
+		}
 		slices = append(slices, ucpes)
 	}
 	tableBasic(slices)

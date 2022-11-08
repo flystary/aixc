@@ -7,24 +7,24 @@ operation: operation/boxes
 valor:
     cpe: business/cpes
     pop: vpn/entries
-    dvc: device/cpes
+    dve: device/cpes
     pse: 1000  #PageSize
 tassadar:
     cpe: business/cpes
     pop: vpn/pops
-    dvc: device/cpes
+    dve: device/cpes
 nexus:
     cpe: business/boxes
     pop: vpn/entries
-    dvc: device/boxes
+    dve: device/boxes
 watsons:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries
-    dvc: nexus/device/boxes
+    dve: nexus/device/boxes
 watsonsha:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries
-    dvc: nexus/device/boxes
+    dve: nexus/device/boxes
 
 modes:
   - valor

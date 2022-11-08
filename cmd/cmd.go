@@ -12,19 +12,23 @@ var rootCmd = &cobra.Command{
 }
 
 func show(sn string) {
-	n.Search(sn)
+	n.SearchBySn(sn)
 }
 
 func showSeven(sn string) {
-	n.SearchSeven(sn)
+	n.SearchSevenBySn(sn)
 }
 
 func showMany(sns []string) {
-	n.SearchMany(sns)
+	n.SearchManyBySns(sns)
 }
 
 func showSevenMany(sns []string) {
-	n.SearchSevenMany(sns)
+	n.SearchSevenManyBySns(sns)
+}
+
+func showEnterprise(mode,enterprise string) {
+	n.SearchByModeEnterprise(mode, enterprise)
 }
 
 func showManybyMode(mode string){

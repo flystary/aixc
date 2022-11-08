@@ -8,7 +8,7 @@ func (n Nexus) IsSn(sn string) (bool, Box) {
 	for _, b := range n {
 		if sn == b.Sn {
 			return true, b
-		} 
+		}
 		continue
 	}
 	return false, box
@@ -25,4 +25,3 @@ func (n Nexus) GetCpeStructBySn(sn string) Box {
 	}
 	return box
 }
-
