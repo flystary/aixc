@@ -234,3 +234,56 @@ func SearchByModeEnterprise(mode,en string) {
 	}
 	tableBasic(slices)
 }
+
+//SearchByModeSn
+func SearchByModeSn(mode string,sns []string) {
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
+	SyncDataMemorybyMode(mode)
+	for _, sn := range sns {
+		switch mode {
+			case "valor":{
+				ucpes = GetCpebyValor(sn)
+			}
+			case "nexus":{
+				ucpes = GetCpebyNexus(sn)
+			}
+			case "watsons":{
+				ucpes = GetCpebyWatsons(sn)
+			}
+			case "watsonsha":{
+				ucpes = GetCpebyWatsonsHa(sn)
+			}
+			case "tassadar":{
+				ucpes = GetCpebyZeratul(sn)
+			}
+		}
+
+		for i, length := 0, len(ucpes); i < length; i++ {
+			if ucpes[i] == "" {
+				break
+			}
+			//版本不一致 区别显示
+			if i == 2 {
+				if VERSION == "" {
+					VERSION  = ucpes[2]
+					ucpes[2] = Cyan(ucpes[2])
+				} else {
+					if ucpes[2] != VERSION {
+						ucpes[2] = Red(ucpes[2])
+					}
+				}
+			}
+			// 入口同步时间不是今天1小时内 区别显示
+			if i == 3 {
+				var now = time.Now()
+				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
+				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
+				}
+			}
+		}
+
+		slices = append(slices, ucpes)
+	}
+	tableBasic(slices)
+}

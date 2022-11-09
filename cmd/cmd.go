@@ -31,8 +31,8 @@ func showEnterprise(mode,enterprise string) {
 	n.SearchByModeEnterprise(mode, enterprise)
 }
 
-func showManybyMode(mode string){
-	println("此命令暂不支持!", mode)
+func showManybyModeSns(mode string, sns []string){
+	n.SearchByModeSn(mode,sns)
 }
 // Run cmd
 func Run() {

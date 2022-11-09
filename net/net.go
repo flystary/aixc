@@ -51,7 +51,7 @@ func init() {
 	TOKEN = GetToken(neter.GetTokenFromRoute())
 }
 
-// 已知mode获取cpe,dve,pop数据并放入到内存
+// 企业号使用 已知mode获取cpe,dve,pop数据并放入到内存
 func SyncEnDataMemorybyMode(mode string) {
 	cpeURL := neter.GetCpeFromRoute(mode)
 	popURL := neter.GetPopFromRoute(mode)
@@ -110,7 +110,7 @@ func SyncEnDataMemorybyMode(mode string) {
 func SyncDataMemorybyMode(mode string) {
 	cpeURL := neter.GetCpeFromRoute(mode)
 	popURL := neter.GetPopFromRoute(mode)
-	dveURL := neter.GetDveFromRoute(mode)
+	// dveURL := neter.GetDveFromRoute(mode)
 	switch mode {
 	case "valor":
 		{
@@ -122,10 +122,10 @@ func SyncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			err = getDveValorData(TOKEN, dveURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// err = getDveValorData(TOKEN, dveURL)
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 		}
 	case "tassadar":
 		{
@@ -137,10 +137,10 @@ func SyncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			err = getDveZeratulData(TOKEN, dveURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// err = getDveZeratulData(TOKEN, dveURL)
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 		}
 	case "watsons":
 		{
@@ -182,16 +182,16 @@ func SyncDataMemorybyMode(mode string) {
 			if err != nil {
 				os.Exit(13)
 			}
-			err = getDveNexusData(TOKEN, dveURL)
-			if err != nil {
-				os.Exit(15)
-			}
+			// err = getDveNexusData(TOKEN, dveURL)
+			// if err != nil {
+			// 	os.Exit(15)
+			// }
 		}
 	}
 
 }
 
-// 根据sn和mode获取cpe,dve,pop数据并放入到内存
+// 已知sn和mode获取cpe,dve,pop数据并放入到内存
 func SyncDataMemorybySnMode(sn, mode string) bool {
 	cpeURL := neter.GetCpeFromRoute(mode)
 	popURL := neter.GetPopFromRoute(mode)
@@ -291,6 +291,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 	return false
 }
 
+// 根据sn去云端接口获取属于哪个mode sdwan6
 func GetModebySevenSn(sn string) string {
 	if err = getOperationData(TOKEN, neter.GetOperationFromRoute()); err != nil {
 		os.Exit(11)

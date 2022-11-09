@@ -39,7 +39,7 @@ var listCmd = &cobra.Command{
 				return
 			}else{
 				if mode != "" {
-					showManybyMode(args[0])
+					showManybyModeSns(mode,args)
 					return
 				}
 				showMany(args)
