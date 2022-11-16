@@ -67,15 +67,15 @@ func (r Route) GetPopFromRoute(mode string) string {
 func (r Route) GetDveFromRoute(mode string) string {
 	switch mode {
 	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s?", r.InitURL, r.Nexus.Dve)
+		return fmt.Sprintf("%s/nexus/%s", r.InitURL, r.Nexus.Dve)
 	case "valor":
-		return fmt.Sprintf("%s/valor/%s?", r.InitURL, r.Valor.Dve)
+		return fmt.Sprintf("%s/valor/%s", r.InitURL, r.Valor.Dve)
 	case "watsons":
-		return fmt.Sprintf("%s/watsons/%s?", r.InitURL, r.Watsons.Dve)
+		return fmt.Sprintf("%s/watsons/%s", r.InitURL, r.Watsons.Dve)
 	case "watsonsha":
-		return fmt.Sprintf("%s/watsons_ha/%s?", r.InitURL, r.WatsonsHa.Dve)
+		return fmt.Sprintf("%s/watsons_ha/%s", r.InitURL, r.WatsonsHa.Dve)
 	case "tassadar":
-		return fmt.Sprintf("%s/tassadar/%s?", r.InitURL, r.Tassadar.Dve)
+		return fmt.Sprintf("%s/tassadar/%s", r.InitURL, r.Tassadar.Dve)
 	default:
 		return ""
 	}

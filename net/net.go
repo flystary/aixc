@@ -51,61 +51,6 @@ func init() {
 	TOKEN = GetToken(neter.GetTokenFromRoute())
 }
 
-// 企业号使用 已知mode获取cpe,dve,pop数据并放入到内存
-func SyncEnDataMemorybyMode(mode string) {
-	cpeURL := neter.GetCpeFromRoute(mode)
-	popURL := neter.GetPopFromRoute(mode)
-	dveURL := neter.GetDveFromRoute(mode)
-	switch mode {
-	case "valor":
-		{
-			err = getValorData(TOKEN, cpeURL)
-			if err != nil {
-				os.Exit(12)
-			}
-			err = getValorPopData(TOKEN, popURL)
-			if err != nil {
-				os.Exit(13)
-			}
-			err = getDveValorData(TOKEN, dveURL)
-			if err != nil {
-				os.Exit(15)
-			}
-		}
-	case "tassadar":
-		{
-			err = getZeratulData(TOKEN, cpeURL)
-			if err != nil {
-				os.Exit(12)
-			}
-			err = getZeratulPopData(TOKEN, popURL)
-			if err != nil {
-				os.Exit(13)
-			}
-			err = getDveZeratulData(TOKEN, dveURL)
-			if err != nil {
-				os.Exit(15)
-			}
-		}
-	case "nexus":
-		{
-			err = getNexusData(TOKEN, cpeURL)
-			if err != nil {
-				os.Exit(12)
-			}
-			err = getNexusEntryData(TOKEN, popURL)
-			if err != nil {
-				os.Exit(13)
-			}
-			err = getDveNexusData(TOKEN, dveURL)
-			if err != nil {
-				os.Exit(15)
-			}
-		}
-	}
-
-}
-
 // 已知mode获取cpe,dve,pop数据并放入到内存
 func SyncDataMemorybyMode(mode string) {
 	cpeURL := neter.GetCpeFromRoute(mode)
@@ -188,14 +133,13 @@ func SyncDataMemorybyMode(mode string) {
 			// }
 		}
 	}
-
 }
 
-// 已知sn和mode获取cpe,dve,pop数据并放入到内存
+// 已知sn和随机mode获取cpe,dve,pop数据并放入到内存
 func SyncDataMemorybySnMode(sn, mode string) bool {
 	cpeURL := neter.GetCpeFromRoute(mode)
 	popURL := neter.GetPopFromRoute(mode)
-	// dveURL := rules.DeviceRouteByMode(mode)
+	// dveURL := neter.GetDveFromRoute(mode)
 	switch mode {
 	case "valor":
 		{
@@ -297,4 +241,58 @@ func GetModebySevenSn(sn string) string {
 		os.Exit(11)
 	}
 	return op.SnInMode(sn)
+}
+
+// 企业号使用 已知mode获取cpe,dve,pop数据并放入到内存 支持nexus/valor/tassadar
+func SyncEnDataMemorybyMode(mode string) {
+	cpeURL := neter.GetCpeFromRoute(mode)
+	popURL := neter.GetPopFromRoute(mode)
+	dveURL := neter.GetDveFromRoute(mode)
+	switch mode {
+	case "valor":
+		{
+			err = getValorData(TOKEN, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			err = getValorPopData(TOKEN, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			err = getDveValorData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
+		}
+	case "tassadar":
+		{
+			err = getZeratulData(TOKEN, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			err = getZeratulPopData(TOKEN, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			err = getDveZeratulData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
+		}
+	case "nexus":
+		{
+			err = getNexusData(TOKEN, cpeURL)
+			if err != nil {
+				os.Exit(12)
+			}
+			err = getNexusEntryData(TOKEN, popURL)
+			if err != nil {
+				os.Exit(13)
+			}
+			err = getDveNexusData(TOKEN, dveURL)
+			if err != nil {
+				os.Exit(15)
+			}
+		}
+	}
 }

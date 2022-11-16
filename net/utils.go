@@ -136,6 +136,7 @@ func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
 	<- limit
 }
 
+
 // HOME 用户根路径
 func HOME() string {
 	dir, _ := homedir.Dir()

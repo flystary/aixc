@@ -32,7 +32,7 @@ func showEnterprise(mode,enterprise string) {
 }
 
 func showManybyModeSns(mode string, sns []string){
-	n.SearchByModeSn(mode,sns)
+	n.SearchByModeSns(mode,sns)
 }
 // Run cmd
 func Run() {

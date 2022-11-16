@@ -15,7 +15,7 @@ var (
 	ucpes  = make([]string, 0)
 )
 
-//SearchSeven 6.x
+//SearchSeven      单个Sn属于6.x
 func SearchSevenBySn(sn string) {
 	mode = GetModebySevenSn(sn)
 	// red := color.New(color.FgBlue, color.Bold).SprintFunc()
@@ -46,7 +46,7 @@ func SearchSevenBySn(sn string) {
 	tableMarkdown(slices)
 }
 
-// SearchSevenMany 6.x
+// SearchSevenMany 多个Sn属于6.x
 func SearchSevenManyBySns(snMany []string) {
 	// table
 	// 多线程查询 属于哪个平台
@@ -108,7 +108,7 @@ func SearchSevenManyBySns(snMany []string) {
 	tableBasic(slices)
 }
 
-//Search 6.x/7.x
+//Search 6.x/7.x   单个Sn和随机mode
 func SearchBySn(sn string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	mode = ThreadQueryMode(sn)
@@ -134,12 +134,10 @@ func SearchBySn(sn string) {
 		}
 	}
 	slices = append(slices, ucpes)
-	fmt.Println(slices)
-
-	tableMarkdown(slices)
+	tableBasic(slices)
 }
 
-// SearchMany 6.x/7.x
+// SearchMany 6.x/7.x 多个Sn和随机mode
 func SearchManyBySns(snMany []string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	for _, sn := range snMany {
@@ -200,43 +198,8 @@ func SearchManyBySns(snMany []string) {
 	tableBasic(slices)
 }
 
-//SearchByEnterprise
-func SearchByModeEnterprise(mode,en string) {
-	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
-	SyncEnDataMemorybyMode(mode)
-	for _, sn := range getSnsByMode(mode, en) {
-		switch mode {
-			case "valor":{
-				ucpes = GetCpebyValor(sn)
-			}
-			case "nexus":{
-				ucpes = GetCpebyNexus(sn)
-			}
-			case "tassadar":{
-				ucpes = GetCpebyZeratul(sn)
-			}
-		}
-
-		for i, length := 0, len(ucpes); i < length; i++ {
-			if ucpes[i] == "" {
-				break
-			}
-			// 入口同步时间不是今天1小时内 区别显示
-			if i == 3 {
-				var now = time.Now()
-				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
-				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
-				}
-			}
-		}
-		slices = append(slices, ucpes)
-	}
-	tableBasic(slices)
-}
-
-//SearchByModeSn
-func SearchByModeSn(mode string,sns []string) {
+//SearchByModeSns 所属mode和SnS
+func SearchByModeSns(mode string,sns []string) {
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	SyncDataMemorybyMode(mode)
 	for _, sn := range sns {
@@ -283,6 +246,41 @@ func SearchByModeSn(mode string,sns []string) {
 			}
 		}
 
+		slices = append(slices, ucpes)
+	}
+	tableBasic(slices)
+}
+
+//SearchByEnterprise 所属mode和企业号
+func SearchByModeEnterprise(mode,en string) {
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
+	SyncEnDataMemorybyMode(mode)
+	for _, sn := range getSnsByMode(mode, en) {
+		switch mode {
+			case "valor":{
+				ucpes = GetCpebyValor(sn)
+			}
+			case "nexus":{
+				ucpes = GetCpebyNexus(sn)
+			}
+			case "tassadar":{
+				ucpes = GetCpebyZeratul(sn)
+			}
+		}
+
+		for i, length := 0, len(ucpes); i < length; i++ {
+			if ucpes[i] == "" {
+				break
+			}
+			// 入口同步时间不是今天1小时内 区别显示
+			if i == 3 {
+				var now = time.Now()
+				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
+				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
+				}
+			}
+		}
 		slices = append(slices, ucpes)
 	}
 	tableBasic(slices)
