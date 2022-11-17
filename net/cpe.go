@@ -50,7 +50,7 @@ func getOperationData(TOKEN, URL string) error {
 	return nil
 }
 
-func getValorData(TOKEN, URL string) error {
+func getCpeValorData(TOKEN, URL string) error {
 	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
 		return err
@@ -62,7 +62,7 @@ func getValorData(TOKEN, URL string) error {
 	return nil
 }
 
-func getNexusData(TOKEN, URL string) error {
+func getCpeNexusData(TOKEN, URL string) error {
 	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
 		return err
@@ -74,7 +74,7 @@ func getNexusData(TOKEN, URL string) error {
 	return nil
 }
 
-func getWatsonsData(TOKEN, URL string) error {
+func getCpeWatsonsData(TOKEN, URL string) error {
 	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
 		return err
@@ -86,7 +86,7 @@ func getWatsonsData(TOKEN, URL string) error {
 	return nil
 }
 
-func getWatsonsHaData(TOKEN, URL string) error {
+func getCpeWatsonsHaData(TOKEN, URL string) error {
 	bytes, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
 		return err
@@ -98,7 +98,7 @@ func getWatsonsHaData(TOKEN, URL string) error {
 	return nil
 }
 
-func getZeratulData(TOKEN, URL string) error {
+func getCpeZeratulData(TOKEN, URL string) error {
 	body, err := getCpeBytes(TOKEN, URL)
 	if err != nil {
 		return err

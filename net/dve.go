@@ -20,7 +20,7 @@ var (
 
 func getDveBytes(TOKEN, URL string) ([]byte, error) {
 	Unix := timeUnix(time.Now())
-	dveURL := fmt.Sprintf("%s?access_token=%s&_=%d", URL, TOKEN, Unix)
+	dveURL := fmt.Sprintf("%saccess_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(dveURL)
 	if err != nil {

@@ -1,11 +1,14 @@
 package dve
 
-type Watsons []Wde
 
+type Watsons struct {
+	Total int   `json:"total"`
+	Data  []Wde `json:"data"`
+}
 
 func (w Watsons) IsSn(sn string) (bool, Wde) {
 	var wdve Wde
-	for _, d := range w {
+	for _, d := range w.Data {
 		if sn == d.Sn {
 			return true, d
 		}
@@ -16,7 +19,7 @@ func (w Watsons) IsSn(sn string) (bool, Wde) {
 
 func (w Watsons) GetDveStructBySn(sn string) Wde {
 	var dve Wde
-	for _, d := range w {
+	for _, d := range w.Data {
 		if sn == d.Sn {
 			dve = d
 			break
@@ -25,4 +28,3 @@ func (w Watsons) GetDveStructBySn(sn string) Wde {
 	}
 	return dve
 }
-

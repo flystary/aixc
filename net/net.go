@@ -1,9 +1,9 @@
 package net
 
 import (
-
 	"fmt"
 	"os"
+	"sync"
 
 	r "aixc/route"
 )
@@ -59,11 +59,11 @@ func SyncDataMemorybyMode(mode string) {
 	switch mode {
 	case "valor":
 		{
-			err = getValorData(TOKEN, cpeURL)
+			err = getCpeValorData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getValorPopData(TOKEN, popURL)
+			err = getPopValorData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
@@ -74,11 +74,11 @@ func SyncDataMemorybyMode(mode string) {
 		}
 	case "tassadar":
 		{
-			err = getZeratulData(TOKEN, cpeURL)
+			err = getCpeZeratulData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getZeratulPopData(TOKEN, popURL)
+			err = getPopZeratulData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
@@ -89,11 +89,11 @@ func SyncDataMemorybyMode(mode string) {
 		}
 	case "watsons":
 		{
-			err = getWatsonsData(TOKEN, cpeURL)
+			err = getCpeWatsonsData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getWatsonsEntryData(TOKEN, popURL)
+			err = getPopWatsonsData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
@@ -104,11 +104,11 @@ func SyncDataMemorybyMode(mode string) {
 		}
 	case "watsonsha":
 		{
-			err = getWatsonsHaData(TOKEN, cpeURL)
+			err = getCpeWatsonsHaData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getWatsonsHaEntryData(TOKEN, popURL)
+			err = getPopWatsonsHaData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
@@ -119,11 +119,11 @@ func SyncDataMemorybyMode(mode string) {
 		}
 	case "nexus":
 		{
-			err = getNexusData(TOKEN, cpeURL)
+			err = getCpeNexusData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getNexusEntryData(TOKEN, popURL)
+			err = getPopNexusData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
@@ -137,96 +137,135 @@ func SyncDataMemorybyMode(mode string) {
 
 // 已知sn和随机mode获取cpe,dve,pop数据并放入到内存
 func SyncDataMemorybySnMode(sn, mode string) bool {
+	wg  := &sync.WaitGroup{}
+	num := 2
 	cpeURL := neter.GetCpeFromRoute(mode)
 	popURL := neter.GetPopFromRoute(mode)
 	// dveURL := neter.GetDveFromRoute(mode)
 	switch mode {
 	case "valor":
 		{
-			err = getValorData(TOKEN, cpeURL)
-			if err != nil {
+			var  err1  error
+			wg.Add(num)
+			go func ()  {
+				err1 = getCpeValorData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func ()  {
+				err1 = getPopValorData(TOKEN, popURL)
+				wg.Done()
+			}()
+			// go func ()  {
+			// 	err1 =getDveValorData(TOKEN, dveURL)
+			// 	wg.Done()
+			// }()
+			wg.Wait()
+			if err1 != nil {
 				os.Exit(12)
 			}
-			err = getValorPopData(TOKEN, popURL)
-			if err != nil {
-				os.Exit(13)
-			}
-			// err = getDveValorData(TOKEN, dveURL)
-			// if err != nil {
-			// 	os.Exit(15)
-			// }
-			if is, _ := cv.IsSn(sn); is{
+			if is, _ := cv.IsSn(sn); is {
 				return true
 			}
 		}
 	case "nexus":
 		{
-			err = getNexusData(TOKEN, cpeURL)
-			if err != nil {
+			var  err1  error
+			wg.Add(num)
+			go func ()  {
+				err1 = getCpeNexusData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func ()  {
+				err1 = getPopNexusData(TOKEN, popURL)
+				wg.Done()
+			}()
+			// go func ()  {
+			// 	err1 =getDveNexusData(TOKEN, dveURL)
+			// 	wg.Done()
+			// }()
+			wg.Wait()
+
+			if err1 != nil {
 				os.Exit(12)
 			}
-			err = getNexusEntryData(TOKEN, popURL)
-			if err != nil {
-				os.Exit(13)
-			}
-			// err = getDveNexusData(TOKEN, dveURL)
-			// if err != nil {
-			// 	os.Exit(15)
-			// }
+
 			if is, _ := cn.IsSn(sn); is{
 				return true
 			}
 		}
 	case "watsons":
 		{
-			err = getWatsonsData(TOKEN, cpeURL)
-			if err != nil {
+			var  err1  error
+			wg.Add(num)
+			go func ()  {
+				err1 = getCpeWatsonsData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func ()  {
+				err1 = getPopWatsonsData(TOKEN, popURL)
+				wg.Done()
+			}()
+			// go func ()  {
+			// 	err1 =getDveWatsonsData(TOKEN, dveURL)
+			// 	wg.Done()
+			// }()
+			wg.Wait()
+
+			if err1 != nil {
 				os.Exit(12)
 			}
-			err = getWatsonsEntryData(TOKEN, popURL)
-			if err != nil {
-				os.Exit(13)
-			}
-			// err = getDveWatsonsData(TOKEN, dveURL)
-			// if err != nil {
-			// 	os.Exit(15)
-			// }
+
 			if is, _ := cw.IsSn(sn); is{
 				return true
 			}
 		}
 	case "watsonsha":
 		{
-			err = getWatsonsHaData(TOKEN, cpeURL)
-			if err != nil {
+			var  err1  error
+			wg.Add(num)
+			go func ()  {
+				err1 = getCpeWatsonsHaData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func ()  {
+				err1 = getPopWatsonsHaData(TOKEN, popURL)
+				wg.Done()
+			}()
+			// go func ()  {
+			// 	err1 =getDveWatsonsHaData(TOKEN, dveURL)
+			// 	wg.Done()
+			// }()
+			wg.Wait()
+
+			if err1 != nil {
 				os.Exit(12)
 			}
-			err = getWatsonsHaEntryData(TOKEN, popURL)
-			if err != nil {
-				os.Exit(13)
-			}
-			// err = getDveWatsonsHaData(TOKEN, dveURL)
-			// if err != nil {
-			// 	os.Exit(15)
-			// }
+
 			if is, _ := ch.IsSn(sn); is{
 				return true
 			}
 		}
 	case "tassadar":
 		{
-			err = getZeratulData(TOKEN, cpeURL)
-			if err != nil {
+			var  err1  error
+			wg.Add(num)
+			go func ()  {
+				err1 = getCpeZeratulData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func ()  {
+				err1 = getPopZeratulData(TOKEN, popURL)
+				wg.Done()
+			}()
+			// go func ()  {
+			// 	err1 =getDveZeratulData(TOKEN, dveURL)
+			// 	wg.Done()
+			// }()
+			wg.Wait()
+
+			if err1 != nil {
 				os.Exit(12)
 			}
-			err = getZeratulPopData(TOKEN, popURL)
-			if err != nil {
-				os.Exit(13)
-			}
-			// err = getDveZeratulData(TOKEN, dveURL)
-			// if err != nil {
-			// 	os.Exit(15)
-			// }
 			if is, _ := cz.IsSn(sn); is{
 				return true
 			}
@@ -251,11 +290,11 @@ func SyncEnDataMemorybyMode(mode string) {
 	switch mode {
 	case "valor":
 		{
-			err = getValorData(TOKEN, cpeURL)
+			err = getCpeValorData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getValorPopData(TOKEN, popURL)
+			err = getPopValorData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
@@ -266,11 +305,11 @@ func SyncEnDataMemorybyMode(mode string) {
 		}
 	case "tassadar":
 		{
-			err = getZeratulData(TOKEN, cpeURL)
+			err = getCpeZeratulData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getZeratulPopData(TOKEN, popURL)
+			err = getPopZeratulData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}
@@ -281,11 +320,11 @@ func SyncEnDataMemorybyMode(mode string) {
 		}
 	case "nexus":
 		{
-			err = getNexusData(TOKEN, cpeURL)
+			err = getCpeNexusData(TOKEN, cpeURL)
 			if err != nil {
 				os.Exit(12)
 			}
-			err = getNexusEntryData(TOKEN, popURL)
+			err = getPopNexusData(TOKEN, popURL)
 			if err != nil {
 				os.Exit(13)
 			}

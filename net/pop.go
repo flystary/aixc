@@ -18,7 +18,7 @@ var (
 
 func getPopBytes(TOKEN, URL string) ([]byte, error) {
 	Unix := timeUnix(time.Now())
-	popURL := fmt.Sprintf("%saccess_token=%s&_=%d", URL, TOKEN, Unix)
+	popURL := fmt.Sprintf("%s?access_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(popURL)
 	if err != nil {
@@ -33,7 +33,7 @@ func getPopBytes(TOKEN, URL string) ([]byte, error) {
 	return bytes, nil
 }
 
-func getNexusEntryData(TOKEN, URL string) error {
+func getPopNexusData(TOKEN, URL string) error {
 	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
 		return err
@@ -44,7 +44,7 @@ func getNexusEntryData(TOKEN, URL string) error {
 	return nil
 }
 
-func getValorPopData(TOKEN, URL string) error {
+func getPopValorData(TOKEN, URL string) error {
 	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
 		return err
@@ -56,7 +56,7 @@ func getValorPopData(TOKEN, URL string) error {
 	return nil
 }
 
-func getWatsonsEntryData(TOKEN, URL string) error {
+func getPopWatsonsData(TOKEN, URL string) error {
 	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
 		return err
@@ -68,7 +68,7 @@ func getWatsonsEntryData(TOKEN, URL string) error {
 	return nil
 }
 
-func getWatsonsHaEntryData(TOKEN, URL string) error {
+func getPopWatsonsHaData(TOKEN, URL string) error {
 	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
 		return err
@@ -80,7 +80,7 @@ func getWatsonsHaEntryData(TOKEN, URL string) error {
 	return nil
 }
 
-func getZeratulPopData(TOKEN, URL string) error {
+func getPopZeratulData(TOKEN, URL string) error {
 	bytes, err := getPopBytes(TOKEN, URL)
 	if err != nil {
 		return err

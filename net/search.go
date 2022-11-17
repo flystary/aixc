@@ -147,6 +147,7 @@ func SearchManyBySns(snMany []string) {
 		}
 		break
 	}
+
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 
 	for _, sn := range snMany {

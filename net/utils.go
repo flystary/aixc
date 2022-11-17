@@ -1,12 +1,12 @@
 package net
 
 import (
-
 	"os"
 	"sync"
 	"time"
-	"github.com/mitchellh/go-homedir"
+
 	"github.com/fatih/color"
+	"github.com/mitchellh/go-homedir"
 	"github.com/olekukonko/tablewriter"
 
 	"aixc/model"
@@ -14,13 +14,10 @@ import (
 
 var (
 	arr  []map[string]string
-	channel = make(chan map[string]string, 15)
 )
 
 func init() {
-	go modeController()
-	arr = make([]map[string]string, 1)
-	arr[0] = make(map[string]string)
+	arr = make([]map[string]string, 0, 6)
 }
 
 func Red(iput string) string {
@@ -98,44 +95,37 @@ func useMapArrgetMode(marr []map[string]string) string {
 	return m
 }
 
-func modeController() {
-	for simc := range channel {
-		arr = append(arr, simc)
-	}
+func modeController(simc map[string]string ) {
+	arr = append(arr, simc)
 }
 
 func ThreadQueryMode(sn string) string {
 	wg := &sync.WaitGroup{}
-	limit := make(chan bool, 20)
 	for i := 1; i < 6; i++ {
 		wg.Add(1)
-		limit <- true
 		mode := model.M(i).Enum()
-		go getMapByChan(sn, mode, limit, wg)
+		go getMapByChan(sn, mode, wg)
 	}
 	wg.Wait()
 
-	close(channel)
 	return useMapArrgetMode(arr)
 }
 
-func getMapByChan(sn, mode string, limit chan bool, wg *sync.WaitGroup) {
+func getMapByChan(sn, mode string, wg *sync.WaitGroup) {
+
+	relationMap := make(map[string]string, 1)
 	defer wg.Done()
-	relationMap := make(map[string]string, 6)
-	is  := "No"
+	is := "No"
+	// now := time.Now()
 	if SyncDataMemorybySnMode(sn, mode) {
 		is = "Yes"
 	}
-	relationMap[mode] = is
-	select {
-		case channel <- relationMap:
-			time.Sleep(1*time.Millisecond)
-		default:
-			close(channel)
-	}
-	<- limit
-}
+	// useTime := time.Since(now)
+	// fmt.Println(mode ,"use time", useTime)
 
+	relationMap[mode] = is
+	modeController(relationMap)
+}
 
 // HOME 用户根路径
 func HOME() string {

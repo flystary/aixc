@@ -4,11 +4,11 @@ package model
 type M int
 
 const (
-	valor M = iota + 1
-	nexus
-	watsons
+	watsons M = iota + 1
+	valor
 	watsonsHa
 	tassadar
+	nexus
 )
 
 // Enum 枚举
@@ -34,10 +34,6 @@ func (m M) Enum() string {
 	case tassadar:
 		{
 			mode = "tassadar"
-		}
-	default:
-		{
-			mode = "unknown"
 		}
 	}
 	return mode

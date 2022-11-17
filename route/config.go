@@ -28,10 +28,20 @@ type valor struct{
 	Pse int    `yaml:"pse"`
 }
 
+type watsons struct{
+	Cpe string `yaml:"cpe"`
+	Pop string `yaml:"pop"`
+	Dve string `yaml:"dve"`
+	Pse int    `yaml:"pse"`
+}
+
+type watsonsha struct{
+	Cpe string `yaml:"cpe"`
+	Pop string `yaml:"pop"`
+	Dve string `yaml:"dve"`
+	Pse int    `yaml:"pse"`
+}
+
 type nexus Domain
 
-type watsons Domain
-
 type tassadar Domain
-
-type watsonsha Domain

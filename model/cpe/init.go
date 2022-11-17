@@ -57,7 +57,6 @@ type Cpe struct {
 	Mode                         interface{} `json:"mode"`
 }
 
-
 type Spe struct {
 	ID                           int         `json:"id"`
 	Model                        string      `json:"model"`

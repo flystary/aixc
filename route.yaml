@@ -21,10 +21,12 @@ watsons:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries
     dve: nexus/device/boxes
+    pse: 4500  #PageSize
 watsonsha:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries
     dve: nexus/device/boxes
+    pse: 100  #PageSize
 
 modes:
   - valor
