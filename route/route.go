@@ -1,88 +1,47 @@
 package route
 
-import (
-	"fmt"
-	"os"
-	"sync"
-	"gopkg.in/yaml.v3"
-)
+// Route
+type Route struct {
+	InitURL   string   `yaml:"initurl"`
+	Tokenurl  string   `yaml:"tokenurl"`
+	Operation string   `yaml:"operation"`
+	Modes     []string `yaml:"modes"`
 
-var (
-	// 文件单例
-	once = &sync.Once{}
-)
-
-// LoadRoute 加载Route
-func LoadRoute(path string) Route {
-	var route Route
-	once.Do(func() {
-		io, err := os.ReadFile(path)
-		if err != nil {
-			fmt.Printf("Open File Error: %v", err)
-		}
-		err = yaml.Unmarshal(io, &route)
-		if err != nil {
-			fmt.Printf("Unmarshal File Error: %v", err)
-		}
-	})
-	return route
+	Valor     valor     `yaml:"valor"`
+	Nexus     nexus     `yaml:"nexus"`
+	Watsons   watsons   `yaml:"watsons"`
+	Tassadar  tassadar  `yaml:"tassadar"`
+	WatsonsHa watsonsha `yaml:"watsonsha"`
 }
 
-func (r Route) GetCpeFromRoute(mode string) string {
-	switch mode {
-	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s?", r.InitURL, r.Nexus.Cpe)
-	case "valor":
-		return fmt.Sprintf("%s/valor/%s?page=1&pageSize=%v&", r.InitURL, r.Valor.Cpe, r.Valor.Pse)
-	case "watsons":
-		return fmt.Sprintf("%s/watsons/%s?page=1&pageSize=%v&", r.InitURL, r.Watsons.Cpe, r.Watsons.Pse)
-	case "watsonsha":
-		return fmt.Sprintf("%s/watsons_ha/%s?page=1&pageSize=%v&", r.InitURL, r.WatsonsHa.Cpe, r.WatsonsHa.Pse)
-	case "tassadar":
-		return fmt.Sprintf("%s/tassadar/%s?", r.InitURL, r.Tassadar.Cpe)
-	default:
-		return ""
-	}
+// Domain
+type Domain struct {
+	Cpe string `yaml:"cpe"`
+	Pop string `yaml:"pop"`
+	Dve string `yaml:"dve"`
 }
 
-func (r Route) GetPopFromRoute(mode string) string {
-	switch mode {
-	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s", r.InitURL, r.Nexus.Pop)
-	case "valor":
-		return fmt.Sprintf("%s/valor/%s", r.InitURL, r.Valor.Pop)
-	case "watsons":
-		return fmt.Sprintf("%s/watsons/%s", r.InitURL, r.Watsons.Pop)
-	case "watsonsha":
-		return fmt.Sprintf("%s/watsons_ha/%s", r.InitURL, r.WatsonsHa.Pop)
-	case "tassadar":
-		return fmt.Sprintf("%s/tassadar/%s", r.InitURL, r.Tassadar.Pop)
-	default:
-		return ""
-	}
+type valor struct{
+	Cpe string `yaml:"cpe"`
+	Pop string `yaml:"pop"`
+	Dve string `yaml:"dve"`
+	Pse int    `yaml:"pse"`
 }
 
-func (r Route) GetDveFromRoute(mode string) string {
-	switch mode {
-	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s?", r.InitURL, r.Nexus.Dve)
-	case "valor":
-		return fmt.Sprintf("%s/valor/%s?", r.InitURL, r.Valor.Dve)
-	case "watsons":
-		return fmt.Sprintf("%s/watsons/%s?page=1&pageSize=%v&", r.InitURL, r.Watsons.Dve, r.Watsons.Pse)
-	case "watsonsha":
-		return fmt.Sprintf("%s/watsons_ha/%s?", r.InitURL, r.WatsonsHa.Dve)
-	case "tassadar":
-		return fmt.Sprintf("%s/tassadar/%s?", r.InitURL, r.Tassadar.Dve)
-	default:
-		return ""
-	}
+type watsons struct{
+	Cpe string `yaml:"cpe"`
+	Pop string `yaml:"pop"`
+	Dve string `yaml:"dve"`
+	Pse int    `yaml:"pse"`
 }
 
-func (r Route) GetTokenFromRoute() string {
-	return fmt.Sprintf("%s/%s?", r.InitURL, r.Tokenurl)
+type watsonsha struct{
+	Cpe string `yaml:"cpe"`
+	Pop string `yaml:"pop"`
+	Dve string `yaml:"dve"`
+	Pse int    `yaml:"pse"`
 }
 
-func (r Route) GetOperationFromRoute() string {
-	return fmt.Sprintf("%s/%s?", r.InitURL, r.Operation)
-}
+type nexus Domain
+
+type tassadar Domain
