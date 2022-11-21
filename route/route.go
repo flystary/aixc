@@ -18,28 +18,33 @@ type Route struct {
 type Domain struct {
 	Cpe string `yaml:"cpe"`
 	Pop string `yaml:"pop"`
-	Dve string `yaml:"dve"`
+	Dve Device `yaml:"dve"`
 }
 
 type valor struct{
 	Cpe string `yaml:"cpe"`
 	Pop string `yaml:"pop"`
-	Dve string `yaml:"dve"`
+	Dve Device `yaml:"dve"`
 	Pse int    `yaml:"pse"`
 }
 
 type watsons struct{
 	Cpe string `yaml:"cpe"`
 	Pop string `yaml:"pop"`
-	Dve string `yaml:"dve"`
+	Dve Device `yaml:"dve"`
 	Pse int    `yaml:"pse"`
 }
 
 type watsonsha struct{
 	Cpe string `yaml:"cpe"`
 	Pop string `yaml:"pop"`
-	Dve string `yaml:"dve"`
+	Dve Device `yaml:"dve"`
 	Pse int    `yaml:"pse"`
+}
+
+type Device struct {
+	Pool   string `yaml:"pool"`
+	Remote string `yaml:"remote"`
 }
 
 type nexus Domain
