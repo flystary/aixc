@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"sync"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -84,7 +85,7 @@ func (r Route) GetDveRemoteFromRoute(mode string) string {
 	case "nexus":
 		return fmt.Sprintf("%s/nexus/%s/%%v/%s", r.InitURL, r.Nexus.Dve.Pool, r.Nexus.Dve.Remote)
 	case "valor":
-		return fmt.Sprintf("%s/valor/%s/%%v/%s", r.InitURL, r.Valor.Dve.Pool,r.Valor.Dve.Remote)
+		return fmt.Sprintf("%s/valor/%s/%%v/%s", r.InitURL, r.Valor.Dve.Pool, r.Valor.Dve.Remote)
 	case "watsons":
 		return fmt.Sprintf("%s/watsons/%%v/%v/%s", r.InitURL, r.Watsons.Dve.Pool, r.Watsons.Dve.Remote)
 	case "watsonsha":

@@ -13,6 +13,7 @@ func (n Nexus) IsSn(sn string) (bool, Nde) {
 	}
 	return false, dve
 }
+
 //GetStructBySn 根据SN获取struct
 func (n Nexus) GetDveStructBySn(sn string) Nde {
 	var dve Nde

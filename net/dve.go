@@ -1,13 +1,13 @@
 package net
 
 import (
+	"aixc/model/dve"
+	"encoding/json"
 	"fmt"
-	"time"
 	"io"
 	"net/http"
-	"encoding/json"
+	"time"
 
-	"aixc/model/dve"
 )
 
 var (
@@ -33,16 +33,6 @@ func getDveBytes(TOKEN, URL string) ([]byte, error) {
 		return nil, err
 	}
 	return bytes, nil
-}
-
-func OpenValorEnableRemote(TOKEN, URL string, report int)  {
-	OpenRemoteURL := fmt.Sprintf("%s/%d/configuration/enable_remote?flag=true&access_token=%s", URL, report, TOKEN)
-	// http://internal.oss.7x-networks.net/matrix/valor/device/cpes/334/configuration/enable_remote?flag=true&access_token=79fda75a-70f1-4c82-8ad1-539e287b3dc7
-	fmt.Println(OpenRemoteURL)
-}
-
-func CloseEnableRemote(TOKEN, URL string) {
-
 }
 
 func getDveNexusData(TOKEN, URL string) error {
@@ -105,6 +95,117 @@ func getDveWatsonsHaData(TOKEN, URL string) error {
 	return nil
 }
 
+/*
+http://internal.oss.7x-networks.net/matrix
+/valor/device/cpes
+/540
+/configuration/enable_remote?
+flag=true&
+access_token=706ef88c-fb97-4cb0-984d-dae945386c8b
+*/
+func OpenValorRemote(SN, URL, TOKEN string) bool {
+	dve := dv.GetDveStructBySn(SN)
+	if dve.IsOnline() {
+		if dve.EnableRemote {
+			return true
+		}
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
+		fmt.Println(OpenRemoteURL)
+		// res, err := http.MethodPut
+		return true
+	}
+	return false
+}
+
+func CloseValorRemote(SN, TOKEN, URL string) bool {
+	dve := dv.GetDveStructBySn(SN)
+	if dve.IsOnline() {
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
+		fmt.Println(OpenRemoteURL)
+		return true
+	}
+	return false
+}
+
+func OpenZeratulRemote(SN, URL, TOKEN string) bool {
+	dve := dz.GetDveStructBySn(SN)
+	if dve.IsOnline() {
+		if dve.EnableRemote {
+			return true
+		}
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
+		fmt.Println(OpenRemoteURL)
+		// res, err := http.MethodPut
+		return true
+	}
+	return false
+}
+
+func CloseZeratulRemote(SN, TOKEN, URL string) bool {
+	dve := dz.GetDveStructBySn(SN)
+	if dve.IsOnline() {
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
+		fmt.Println(OpenRemoteURL)
+		return true
+	}
+	return false
+
+}
+
+func OpenWatonsRemote(SN, URL, TOKEN string) bool {
+	dve := dw.GetDveStructBySn(SN)
+	if dve.IsOnline() {
+		if dve.SupportRemote {
+			return true
+		}
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
+		fmt.Println(OpenRemoteURL)
+		// res, err := http.MethodPut
+		return true
+	}
+	return false
+}
+
+func CloseWatonsRemote(SN, TOKEN, URL string) bool {
+	dve := dw.GetDveStructBySn(SN)
+	if dve.IsOnline() {
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
+		fmt.Println(OpenRemoteURL)
+		return true
+	}
+	return false
+
+}
+
+func OpenWatonsHaRemote(SN, URL, TOKEN string) bool {
+	dve := dh.GetDveStructBySn(SN)
+	if dve.IsOnline() {
+		if dve.SupportRemote {
+			return true
+		}
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
+		fmt.Println(OpenRemoteURL)
+		// res, err := http.MethodPut
+		return true
+	}
+	return false
+}
+
+func CloseWatonsHaRemote(SN, TOKEN, URL string) bool {
+	dve := dh.GetDveStructBySn(SN)
+	if dve.IsOnline() {
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
+		fmt.Println(OpenRemoteURL)
+		return true
+	}
+	return false
+}
+
+
+
+
+
+// 获取相同企业号的的UCPE
 func getSnsByMode(mode,enterprise string) []string {
 	var sns []string
 	switch mode {

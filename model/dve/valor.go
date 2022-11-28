@@ -2,7 +2,6 @@ package dve
 
 type Valor []Vde
 
-
 func (v Valor) IsSn(sn string) (bool, Vde) {
 	var vdve Vde
 	for _, d := range v {

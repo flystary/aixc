@@ -16,7 +16,7 @@ valor:
     pop: vpn/entries
     dve:
         pool: device/cpes
-        remote: configuration/enable_remote?flag=
+        remote: configuration/enable_remote?
     pse: 1000  #PageSize
 
 tassadar:
@@ -24,21 +24,21 @@ tassadar:
     pop: vpn/pops
     dve:
         pool: device/cpes
-        remote: enable_remote?flag=
+        remote: enable_remote?
 
 nexus:
     cpe: business/boxes
     pop: vpn/entries
     dve:
         pool: device/boxes
-        remote: support_remote?flag=
+        remote: support_remote?
 
 watsons:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries
     dve:
         pool: nexus/device/boxes
-        remote: support_remote?flag=
+        remote: support_remote?
     pse: 4500  #PageSize
 
 watsonsha:
@@ -46,5 +46,5 @@ watsonsha:
     pop: nexus/openvpn/entries
     dve:
         pool: nexus/device/boxes
-        remote: support_remote?flag=
+        remote: support_remote?
     pse: 100  #PageSize
