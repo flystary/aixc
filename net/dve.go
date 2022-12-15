@@ -103,13 +103,14 @@ http://internal.oss.7x-networks.net/matrix
 flag=true&
 access_token=706ef88c-fb97-4cb0-984d-dae945386c8b
 */
+
 func OpenValorRemote(SN, URL, TOKEN string) bool {
 	dve := dv.GetDveStructBySn(SN)
 	if dve.IsOnline() {
 		if dve.EnableRemote {
 			return true
 		}
-		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
 		fmt.Println(OpenRemoteURL)
 		// res, err := http.MethodPut
 		return true
@@ -120,7 +121,7 @@ func OpenValorRemote(SN, URL, TOKEN string) bool {
 func CloseValorRemote(SN, TOKEN, URL string) bool {
 	dve := dv.GetDveStructBySn(SN)
 	if dve.IsOnline() {
-		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
 		fmt.Println(OpenRemoteURL)
 		return true
 	}
@@ -133,7 +134,7 @@ func OpenZeratulRemote(SN, URL, TOKEN string) bool {
 		if dve.EnableRemote {
 			return true
 		}
-		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
 		fmt.Println(OpenRemoteURL)
 		// res, err := http.MethodPut
 		return true
@@ -144,7 +145,7 @@ func OpenZeratulRemote(SN, URL, TOKEN string) bool {
 func CloseZeratulRemote(SN, TOKEN, URL string) bool {
 	dve := dz.GetDveStructBySn(SN)
 	if dve.IsOnline() {
-		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
 		fmt.Println(OpenRemoteURL)
 		return true
 	}
@@ -158,7 +159,7 @@ func OpenWatonsRemote(SN, URL, TOKEN string) bool {
 		if dve.SupportRemote {
 			return true
 		}
-		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
 		fmt.Println(OpenRemoteURL)
 		// res, err := http.MethodPut
 		return true
@@ -169,7 +170,7 @@ func OpenWatonsRemote(SN, URL, TOKEN string) bool {
 func CloseWatonsRemote(SN, TOKEN, URL string) bool {
 	dve := dw.GetDveStructBySn(SN)
 	if dve.IsOnline() {
-		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
 		fmt.Println(OpenRemoteURL)
 		return true
 	}
@@ -183,7 +184,7 @@ func OpenWatonsHaRemote(SN, URL, TOKEN string) bool {
 		if dve.SupportRemote {
 			return true
 		}
-		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "true", TOKEN)
 		fmt.Println(OpenRemoteURL)
 		// res, err := http.MethodPut
 		return true
@@ -194,7 +195,7 @@ func OpenWatonsHaRemote(SN, URL, TOKEN string) bool {
 func CloseWatonsHaRemote(SN, TOKEN, URL string) bool {
 	dve := dh.GetDveStructBySn(SN)
 	if dve.IsOnline() {
-		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=n%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
+		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
 		fmt.Println(OpenRemoteURL)
 		return true
 	}

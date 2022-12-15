@@ -1,5 +1,10 @@
 package cpe
 
+import (
+	"strconv"
+	"strings"
+)
+
 type WatsonsHa struct {
 	Total 			int   `json:"total"`
 	Data 			[]Vox `json:"data"`
@@ -25,4 +30,22 @@ func (wh WatsonsHa) GetCpeStructBySn(sn string) Vox {
 		continue
 	}
 	return vox
+}
+
+func (wh WatsonsHa) MaxVersion() string {
+	var max  int
+	var maxs string
+	// var min int
+	for _, c := range wh.Data {
+		versions := strings.Split(c.SoftwareVersion, ".")
+		hundred, _:= strconv.Atoi(versions[0])
+		unit, _:= strconv.Atoi(versions[1])
+		num := ( hundred * 100 ) + unit
+
+		if max <= num {
+			max  = num
+			maxs = c.SoftwareVersion
+		}
+	}
+	return maxs
 }

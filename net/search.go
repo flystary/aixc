@@ -3,16 +3,16 @@ package net
 import (
 	"fmt"
 	"os"
-	"strings"
-	"time"
+	"sort"
 )
 
 var (
-	mode	string
-	// VERSION 默认第一个版本
-	VERSION string
-	slices = make([][]string, 0)
-	ucpes  = make([]string, 0)
+	mode	 string
+	// VERSION 当前版本的最大
+	MaxVersion string
+	ucpes Ucpes = make([][]string, 0)
+	ucpe Ucpe = make([]string, 0)
+	// ucpe  = make([]string, 0)
 )
 
 //SearchSeven      单个Sn属于6.x
@@ -27,23 +27,23 @@ func SearchSevenBySn(sn string) {
 
 	switch mode {
 		case "valor":{
-			ucpes = GetCpebyValor(sn)
+			ucpe = GetCpebyValor(sn)
 		}
 		case "nexus":{
-			ucpes = GetCpebyNexus(sn)
+			ucpe = GetCpebyNexus(sn)
 		}
 		case "watsons":{
-			ucpes = GetCpebyWatsons(sn)
+			ucpe = GetCpebyWatsons(sn)
 		}
 		case "watsonsha":{
-			ucpes = GetCpebyWatsonsHa(sn)
+			ucpe = GetCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			ucpes = GetCpebyZeratul(sn)
+			ucpe = GetCpebyZeratul(sn)
 		}
 	}
-	slices = append(slices, ucpes)
-	tableMarkdown(slices)
+	ucpes = append(ucpes, ucpe)
+	tableMarkdown(ucpes)
 }
 
 // SearchSevenMany 多个Sn属于6.x
@@ -63,49 +63,31 @@ func SearchSevenManyBySns(snMany []string) {
 	for _, sn := range snMany {
 		switch mode {
 			case "valor":{
-				ucpes = GetCpebyValor(sn)
+				ucpe = GetCpebyValor(sn)
+				MaxVersion = GetCpeMaxVsbyValor()
 			}
 			case "nexus":{
-				ucpes = GetCpebyNexus(sn)
+				ucpe = GetCpebyNexus(sn)
+				MaxVersion = GetCpeMaxVsbyNexus()
 			}
 			case "watsons":{
-				ucpes = GetCpebyWatsons(sn)
+				ucpe = GetCpebyWatsons(sn)
+				MaxVersion = GetCpeMaxVsbyWatsons()
 			}
 			case "watsonsha":{
-				ucpes = GetCpebyWatsonsHa(sn)
+				ucpe = GetCpebyWatsonsHa(sn)
+				MaxVersion = GetCpeMaxVsbyWatsonsHa()
 			}
 			case "tassadar":{
-				ucpes = GetCpebyZeratul(sn)
+				ucpe = GetCpebyZeratul(sn)
+				MaxVersion = GetCpeMaxVsbyZeratul()
 			}
 		}
-
-		for i, length := 0, len(ucpes); i < length; i++ {
-			if ucpes[i] == "" {
-				break
-			}
-			//版本不一致 区别显示
-			if i == 2 {
-				if VERSION == "" {
-					VERSION  = ucpes[2]
-					ucpes[2] = Cyan(ucpes[2])
-				} else {
-					if ucpes[2] != VERSION {
-						ucpes[2] = Red(ucpes[2])
-					}
-				}
-			}
-			// 入口同步时间不是今天1小时内 区别显示
-			if i == 3 {
-				var now = time.Now()
-				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
-				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
-				}
-			}
-		}
-		slices = append(slices, ucpes)
+		ucpe.Null().Version(MaxVersion).Time()
+		ucpes = append(ucpes, ucpe)
 	}
-	tableBasic(slices)
+	sort.Sort(ucpes)
+	tableBasic(ucpes)
 }
 
 //Search 6.x/7.x   单个Sn和随机mode
@@ -118,23 +100,24 @@ func SearchBySn(sn string) {
 	}
 	switch mode {
 		case "valor":{
-			ucpes = GetCpebyValor(sn)
+			ucpe = GetCpebyValor(sn)
+
 		}
 		case "nexus":{
-			ucpes = GetCpebyNexus(sn)
+			ucpe = GetCpebyNexus(sn)
 		}
 		case "watsons":{
-			ucpes = GetCpebyWatsons(sn)
+			ucpe = GetCpebyWatsons(sn)
 		}
 		case "watsonsha":{
-			ucpes = GetCpebyWatsonsHa(sn)
+			ucpe = GetCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			ucpes = GetCpebyZeratul(sn)
+			ucpe = GetCpebyZeratul(sn)
 		}
 	}
-	slices = append(slices, ucpes)
-	tableBasic(slices)
+	ucpes = append(ucpes, ucpe)
+	tableBasic(ucpes)
 }
 
 // SearchMany 6.x/7.x 多个Sn和随机mode
@@ -153,50 +136,31 @@ func SearchManyBySns(snMany []string) {
 	for _, sn := range snMany {
 		switch mode {
 			case "valor":{
-				ucpes = GetCpebyValor(sn)
+				ucpe = GetCpebyValor(sn)
+				MaxVersion = GetCpeMaxVsbyValor()
 			}
 			case "nexus":{
-				ucpes = GetCpebyNexus(sn)
+				ucpe = GetCpebyNexus(sn)
+				MaxVersion = GetCpeMaxVsbyNexus()
 			}
 			case "watsons":{
-				ucpes = GetCpebyWatsons(sn)
+				ucpe = GetCpebyWatsons(sn)
+				MaxVersion = GetCpeMaxVsbyWatsons()
 			}
 			case "watsonsha":{
-				ucpes = GetCpebyWatsonsHa(sn)
+				ucpe = GetCpebyWatsonsHa(sn)
+				MaxVersion = GetCpeMaxVsbyWatsonsHa()
 			}
 			case "tassadar":{
-				ucpes = GetCpebyZeratul(sn)
+				ucpe = GetCpebyZeratul(sn)
+				MaxVersion = GetCpeMaxVsbyZeratul()
 			}
 		}
-
-		for i, length := 0, len(ucpes); i < length; i++ {
-			if ucpes[i] == "" {
-				break
-			}
-			//版本不一致 区别显示
-			if i == 2 {
-				if VERSION == "" {
-					VERSION  = ucpes[2]
-					ucpes[2] = Cyan(ucpes[2])
-				} else {
-					if ucpes[2] != VERSION {
-						ucpes[2] = Red(ucpes[2])
-					}
-				}
-			}
-			// 入口同步时间不是今天1小时内 区别显示
-			if i == 3 {
-				var now = time.Now()
-				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
-				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
-				}
-			}
-		}
-
-		slices = append(slices, ucpes)
+		ucpe.Null().Version(MaxVersion).Time()
+		ucpes = append(ucpes, ucpe)
 	}
-	tableBasic(slices)
+	sort.Sort(ucpes)
+	tableBasic(ucpes)
 }
 
 //SearchByModeSns 所属mode和SnS
@@ -206,50 +170,31 @@ func SearchByModeSns(mode string,sns []string) {
 	for _, sn := range sns {
 		switch mode {
 			case "valor":{
-				ucpes = GetCpebyValor(sn)
+				ucpe = GetCpebyValor(sn)
+				MaxVersion = GetCpeMaxVsbyValor()
 			}
 			case "nexus":{
-				ucpes = GetCpebyNexus(sn)
+				ucpe = GetCpebyNexus(sn)
+				MaxVersion = GetCpeMaxVsbyNexus()
 			}
 			case "watsons":{
-				ucpes = GetCpebyWatsons(sn)
+				ucpe = GetCpebyWatsons(sn)
+				MaxVersion = GetCpeMaxVsbyWatsons()
 			}
 			case "watsonsha":{
-				ucpes = GetCpebyWatsonsHa(sn)
+				ucpe = GetCpebyWatsonsHa(sn)
+				MaxVersion = GetCpeMaxVsbyWatsonsHa()
 			}
 			case "tassadar":{
-				ucpes = GetCpebyZeratul(sn)
+				ucpe = GetCpebyZeratul(sn)
+				MaxVersion = GetCpeMaxVsbyZeratul()
 			}
 		}
-
-		for i, length := 0, len(ucpes); i < length; i++ {
-			if ucpes[i] == "" {
-				break
-			}
-			//版本不一致 区别显示
-			if i == 2 {
-				if VERSION == "" {
-					VERSION  = ucpes[2]
-					ucpes[2] = Cyan(ucpes[2])
-				} else {
-					if ucpes[2] != VERSION {
-						ucpes[2] = Red(ucpes[2])
-					}
-				}
-			}
-			// 入口同步时间不是今天1小时内 区别显示
-			if i == 3 {
-				var now = time.Now()
-				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
-				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
-				}
-			}
-		}
-
-		slices = append(slices, ucpes)
+		ucpe.Null().Version(MaxVersion).Time()
+		ucpes = append(ucpes, ucpe)
 	}
-	tableBasic(slices)
+	sort.Sort(ucpes.Null())
+	tableBasic(ucpes)
 }
 
 //SearchByEnterprise 所属mode和企业号
@@ -259,30 +204,21 @@ func SearchByModeEnterprise(mode,en string) {
 	for _, sn := range getSnsByMode(mode, en) {
 		switch mode {
 			case "valor":{
-				ucpes = GetCpebyValor(sn)
+				ucpe = GetCpebyValor(sn)
+				MaxVersion = GetCpeMaxVsbyValor()
 			}
 			case "nexus":{
-				ucpes = GetCpebyNexus(sn)
+				ucpe = GetCpebyNexus(sn)
+				MaxVersion = GetCpeMaxVsbyNexus()
 			}
 			case "tassadar":{
-				ucpes = GetCpebyZeratul(sn)
+				ucpe = GetCpebyZeratul(sn)
+				MaxVersion = GetCpeMaxVsbyZeratul()
 			}
 		}
-
-		for i, length := 0, len(ucpes); i < length; i++ {
-			if ucpes[i] == "" {
-				break
-			}
-			// 入口同步时间不是今天1小时内 区别显示
-			if i == 3 {
-				var now = time.Now()
-				synctime, _ := time.Parse("2006-01-02 15:04:05", ucpes[3])
-				if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-					ucpes[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(ucpes[3], " ")[0]), Red(strings.Split(ucpes[3], " ")[1]))
-				}
-			}
-		}
-		slices = append(slices, ucpes)
+		ucpe.Null().Version(MaxVersion).Time()
+		ucpes = append(ucpes, ucpe)
 	}
-	tableBasic(slices)
+	sort.Sort(ucpes.Null())
+	tableBasic(ucpes)
 }

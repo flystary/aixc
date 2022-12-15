@@ -125,6 +125,8 @@ func GetCpebyValor(sn string) []string {
 	}
 }
 
+func GetCpeMaxVsbyValor() string { return cv.MaxVersion()}
+
 func GetCpebyNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 	return []string {
@@ -137,6 +139,8 @@ func GetCpebyNexus(sn string) []string {
 		cpe.BackupEntryIP,
 	}
 }
+
+func GetCpeMaxVsbyNexus() string { return cn.MaxVersion()}
 
 func GetCpebyWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
@@ -152,6 +156,8 @@ func GetCpebyWatsons(sn string) []string {
 	}
 }
 
+func GetCpeMaxVsbyWatsons() string { return cw.MaxVersion()}
+
 func GetCpebyWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
 	return []string {
@@ -166,6 +172,8 @@ func GetCpebyWatsonsHa(sn string) []string {
 	}
 }
 
+func GetCpeMaxVsbyWatsonsHa() string { return ch.MaxVersion()}
+
 func GetCpebyZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
 	return []string {
@@ -179,3 +187,5 @@ func GetCpebyZeratul(sn string) []string {
 		spe.BackupPopIP,
 	}
 }
+
+func GetCpeMaxVsbyZeratul() string { return cz.MaxVersion()}
