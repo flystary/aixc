@@ -31,18 +31,22 @@ func (n Nexus) GetCpeStructBySn(sn string) Box {
 }
 
 func (n Nexus) MaxVersion() string {
-	var max  int
+	var max int
 	var maxs string
-	// var min int
-	for _, c := range n {
-		versions := strings.Split(c.SoftwareVersion, ".")
-		hundred, _:= strconv.Atoi(versions[0])
-		unit, _:= strconv.Atoi(versions[1])
-		num := ( hundred * 100 ) + unit
 
-		if max <= num {
-			max  = num
-			maxs = c.SoftwareVersion
+	for _, c := range n {
+		softwareVersion := c.SoftwareVersion
+		if softwareVersion != "" {
+			versions := strings.Split(softwareVersion, ".")
+			one, _ := strconv.Atoi(versions[0])
+			two, _ := strconv.Atoi(versions[1])
+			three, _ := strconv.Atoi(versions[2])
+			num := (one * 1000) + (two * 10) + three
+
+			if num > max {
+				max = num
+				maxs = c.SoftwareVersion
+			}
 		}
 	}
 	return maxs

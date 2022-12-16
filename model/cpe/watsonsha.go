@@ -6,9 +6,10 @@ import (
 )
 
 type WatsonsHa struct {
-	Total 			int   `json:"total"`
-	Data 			[]Vox `json:"data"`
+	Total int   `json:"total"`
+	Data  []Vox `json:"data"`
 }
+
 func (wh WatsonsHa) IsSn(sn string) (bool, Vox) {
 
 	for i := 0; i < len(wh.Data); i++ {
@@ -33,18 +34,22 @@ func (wh WatsonsHa) GetCpeStructBySn(sn string) Vox {
 }
 
 func (wh WatsonsHa) MaxVersion() string {
-	var max  int
+	var max int
 	var maxs string
-	// var min int
-	for _, c := range wh.Data {
-		versions := strings.Split(c.SoftwareVersion, ".")
-		hundred, _:= strconv.Atoi(versions[0])
-		unit, _:= strconv.Atoi(versions[1])
-		num := ( hundred * 100 ) + unit
 
-		if max <= num {
-			max  = num
-			maxs = c.SoftwareVersion
+	for _, c := range wh.Data {
+		softwareVersion := c.SoftwareVersion
+		if softwareVersion != "" {
+			versions := strings.Split(softwareVersion, ".")
+			one, _ := strconv.Atoi(versions[0])
+			two, _ := strconv.Atoi(versions[1])
+			three, _ := strconv.Atoi(versions[2])
+			num := (one * 1000) + (two * 10) + three
+
+			if num > max {
+				max = num
+				maxs = c.SoftwareVersion
+			}
 		}
 	}
 	return maxs

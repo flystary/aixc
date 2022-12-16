@@ -6,8 +6,8 @@ import (
 )
 
 type Valor struct {
-	Total 			int   `json:"total"`
-	Data 			[]Cpe `json:"data"`
+	Total int   `json:"total"`
+	Data  []Cpe `json:"data"`
 }
 
 func (v Valor) IsSn(sn string) (bool, Cpe) {
@@ -34,18 +34,22 @@ func (v Valor) GetCpeStructBySn(sn string) Cpe {
 }
 
 func (v Valor) MaxVersion() string {
-	var max  = 0
+	var max = 0
 	var maxs string
-	// var min int
+
 	for _, c := range v.Data {
-		versions := strings.Split(c.SoftwareVersion, ".")
-		hundred, _:= strconv.Atoi(versions[0])
-		unit, _:= strconv.Atoi(versions[1])
-		num := ( hundred * 100 ) + unit
-		
-		if max <= num {
-			max  = num
-			maxs = c.SoftwareVersion
+		softwareVersion := c.SoftwareVersion
+		if softwareVersion != "" {
+			versions := strings.Split(softwareVersion, ".")
+			one, _ := strconv.Atoi(versions[0])
+			two, _ := strconv.Atoi(versions[1])
+			three, _ := strconv.Atoi(versions[2])
+			num := (one * 1000) + (two * 10) + three
+
+			if num > max {
+				max = num
+				maxs = c.SoftwareVersion
+			}
 		}
 	}
 	return maxs
