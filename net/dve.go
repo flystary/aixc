@@ -204,8 +204,6 @@ func CloseWatonsHaRemote(SN, TOKEN, URL string) bool {
 
 
 
-
-
 // 获取相同企业号的的UCPE
 func getSnsByMode(mode,enterprise string) []string {
 	var sns []string

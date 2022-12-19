@@ -7,18 +7,16 @@ import (
 )
 
 var (
-	mode	 string
-	// VERSION 当前版本的最大
-	MaxVersion string
+	mode	   string
+	MaxVersion string 	// VERSION 当前版本的最大
 	ucpes Ucpes = make([][]string, 0)
-	ucpe Ucpe = make([]string, 0)
-	// ucpe  = make([]string, 0)
+	ucpe  Ucpe  = make([]string, 0)
 )
 
 //SearchSeven      单个Sn属于6.x
 func SearchSevenBySn(sn string) {
 	mode = GetModebySevenSn(sn)
-	// red := color.New(color.FgBlue, color.Bold).SprintFunc()
+
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	if mode == "unknown" {
 		os.Exit(13)
@@ -48,7 +46,6 @@ func SearchSevenBySn(sn string) {
 
 // SearchSevenMany 多个Sn属于6.x
 func SearchSevenManyBySns(snMany []string) {
-	// table
 	// 多线程查询 属于哪个平台
 	for _, sn := range snMany {
 		mode = GetModebySevenSn(sn)

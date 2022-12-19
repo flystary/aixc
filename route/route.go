@@ -14,12 +14,15 @@ type Route struct {
 	WatsonsHa watsonsha `yaml:"watsonsha"`
 }
 
-// Domain
-type Domain struct {
+// Classify
+type Classify struct {
 	Cpe string `yaml:"cpe"`
 	Pop string `yaml:"pop"`
 	Dve Device `yaml:"dve"`
 }
+
+type nexus Classify
+type tassadar Classify
 
 type valor struct{
 	Cpe string `yaml:"cpe"`
@@ -46,7 +49,3 @@ type Device struct {
 	Pool   string `yaml:"pool"`
 	Remote string `yaml:"remote"`
 }
-
-type nexus Domain
-
-type tassadar Domain

@@ -17,7 +17,7 @@ valor:
     dve:
         pool: device/cpes
         remote: configuration/enable_remote?
-    pse: 1000  #PageSize
+    pse: 1100  #PageSize
 
 tassadar:
     cpe: business/cpes

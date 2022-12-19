@@ -46,6 +46,7 @@ type Serializer interface{}
 func init() {
 	fileName := "route.yaml"
 	path := fmt.Sprintf("/etc/aixc/%s", fileName)
+	// path := fmt.Sprintf("./%s", fileName)
 	route = r.LoadRoute(path)
 	// 获取token
 	TOKEN = GetToken(neter.GetTokenFromRoute())

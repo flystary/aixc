@@ -37,10 +37,9 @@ Usage:
   aixc show [flags]
 
 Flags:
-  -b, --business        Appoint that the filtering object of UCPE is the enterprise number
-  -h, --help            help for show
-  -m, --mode string     Appoint the UCPE Mode
-  -s, --select string   Appoint the filter object of UCPE
+  -e, --enterprise string   Appoint that the filtering object of UCPE is the enterprise number (default "null")
+  -h, --help                help for show
+  -m, --mode string         Appoint the UCPE Mode
 ```
 ```bash
 [root@centos ~]# aixc conn -h

@@ -41,7 +41,7 @@ func (u Ucpe) Time() Ucpe {
 	return u
 }
 
-// 实现model倒序排序
+
 type Ucpes [][]string
 
 func (us Ucpes) Len() int { return len(us) }
