@@ -25,19 +25,19 @@ func SearchSevenBySn(sn string) {
 
 	switch mode {
 		case "valor":{
-			ucpe = GetCpebyValor(sn)
+			ucpe = getCpebyValor(sn)
 		}
 		case "nexus":{
-			ucpe = GetCpebyNexus(sn)
+			ucpe = getCpebyNexus(sn)
 		}
 		case "watsons":{
-			ucpe = GetCpebyWatsons(sn)
+			ucpe = getCpebyWatsons(sn)
 		}
 		case "watsonsha":{
-			ucpe = GetCpebyWatsonsHa(sn)
+			ucpe = getCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			ucpe = GetCpebyZeratul(sn)
+			ucpe = getCpebyZeratul(sn)
 		}
 	}
 	ucpes = append(ucpes, ucpe)
@@ -60,24 +60,24 @@ func SearchSevenManyBySns(snMany []string) {
 	for _, sn := range snMany {
 		switch mode {
 			case "valor":{
-				ucpe = GetCpebyValor(sn)
-				MaxVersion = GetCpeMaxVsbyValor()
+				ucpe = getCpebyValor(sn)
+				MaxVersion = cpeMaxVersionValor()
 			}
 			case "nexus":{
-				ucpe = GetCpebyNexus(sn)
-				MaxVersion = GetCpeMaxVsbyNexus()
+				ucpe = getCpebyNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
 			}
 			case "watsons":{
-				ucpe = GetCpebyWatsons(sn)
-				MaxVersion = GetCpeMaxVsbyWatsons()
+				ucpe = getCpebyWatsons(sn)
+				MaxVersion = cpeMaxVersionWatsons()
 			}
 			case "watsonsha":{
-				ucpe = GetCpebyWatsonsHa(sn)
-				MaxVersion = GetCpeMaxVsbyWatsonsHa()
+				ucpe = getCpebyWatsonsHa(sn)
+				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
 			case "tassadar":{
-				ucpe = GetCpebyZeratul(sn)
-				MaxVersion = GetCpeMaxVsbyZeratul()
+				ucpe = getCpebyZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
 		ucpe.Null().Version(MaxVersion).Time()
@@ -97,20 +97,20 @@ func SearchBySn(sn string) {
 	}
 	switch mode {
 		case "valor":{
-			ucpe = GetCpebyValor(sn)
+			ucpe = getCpebyValor(sn)
 
 		}
 		case "nexus":{
-			ucpe = GetCpebyNexus(sn)
+			ucpe = getCpebyNexus(sn)
 		}
 		case "watsons":{
-			ucpe = GetCpebyWatsons(sn)
+			ucpe = getCpebyWatsons(sn)
 		}
 		case "watsonsha":{
-			ucpe = GetCpebyWatsonsHa(sn)
+			ucpe = getCpebyWatsonsHa(sn)
 		}
 		case "tassadar":{
-			ucpe = GetCpebyZeratul(sn)
+			ucpe = getCpebyZeratul(sn)
 		}
 	}
 	ucpes = append(ucpes, ucpe)
@@ -133,30 +133,30 @@ func SearchManyBySns(snMany []string) {
 	for _, sn := range snMany {
 		switch mode {
 			case "valor":{
-				ucpe = GetCpebyValor(sn)
-				MaxVersion = GetCpeMaxVsbyValor()
+				ucpe = getCpebyValor(sn)
+				MaxVersion = cpeMaxVersionValor()
 			}
 			case "nexus":{
-				ucpe = GetCpebyNexus(sn)
-				MaxVersion = GetCpeMaxVsbyNexus()
+				ucpe = getCpebyNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
 			}
 			case "watsons":{
-				ucpe = GetCpebyWatsons(sn)
-				MaxVersion = GetCpeMaxVsbyWatsons()
+				ucpe = getCpebyWatsons(sn)
+				MaxVersion = cpeMaxVersionWatsons()
 			}
 			case "watsonsha":{
-				ucpe = GetCpebyWatsonsHa(sn)
-				MaxVersion = GetCpeMaxVsbyWatsonsHa()
+				ucpe = getCpebyWatsonsHa(sn)
+				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
 			case "tassadar":{
-				ucpe = GetCpebyZeratul(sn)
-				MaxVersion = GetCpeMaxVsbyZeratul()
+				ucpe = getCpebyZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
 		ucpe.Null().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
-	sort.Sort(ucpes)
+	// sort.Sort(ucpes)
 	tableBasic(ucpes)
 }
 
@@ -167,31 +167,31 @@ func SearchByModeSns(mode string,sns []string) {
 	for _, sn := range sns {
 		switch mode {
 			case "valor":{
-				ucpe = GetCpebyValor(sn)
-				MaxVersion = GetCpeMaxVsbyValor()
+				ucpe = ucpeInfoValor(sn)
+				MaxVersion = cpeMaxVersionValor()
 			}
 			case "nexus":{
-				ucpe = GetCpebyNexus(sn)
-				MaxVersion = GetCpeMaxVsbyNexus()
+				ucpe = ucpeInfoNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
 			}
 			case "watsons":{
-				ucpe = GetCpebyWatsons(sn)
-				MaxVersion = GetCpeMaxVsbyWatsons()
+				ucpe = ucpeInfoWatsons(sn)
+				MaxVersion = cpeMaxVersionWatsons()
 			}
 			case "watsonsha":{
-				ucpe = GetCpebyWatsonsHa(sn)
-				MaxVersion = GetCpeMaxVsbyWatsonsHa()
+				ucpe = ucpeInfoWatsonsHa(sn)
+				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
 			case "tassadar":{
-				ucpe = GetCpebyZeratul(sn)
-				MaxVersion = GetCpeMaxVsbyZeratul()
+				ucpe = ucpeInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
 		ucpe.Null().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
-	sort.Sort(ucpes.Null())
-	tableBasic(ucpes)
+	// sort.Sort(ucpes.Null())
+	table2Basic(ucpes)
 }
 
 //SearchByEnterprise 所属mode和企业号
@@ -201,21 +201,21 @@ func SearchByModeEnterprise(mode,en string) {
 	for _, sn := range getSnsByMode(mode, en) {
 		switch mode {
 			case "valor":{
-				ucpe = GetCpebyValor(sn)
-				MaxVersion = GetCpeMaxVsbyValor()
+				ucpe = EucpeInfoValor(sn)
+				MaxVersion = cpeMaxVersionValor()
 			}
 			case "nexus":{
-				ucpe = GetCpebyNexus(sn)
-				MaxVersion = GetCpeMaxVsbyNexus()
+				ucpe = EucpeInfoNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
 			}
 			case "tassadar":{
-				ucpe = GetCpebyZeratul(sn)
-				MaxVersion = GetCpeMaxVsbyZeratul()
+				ucpe = EucpeInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
 		ucpe.Null().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
 	sort.Sort(ucpes.Null())
-	tableBasic(ucpes)
+	table3Basic(ucpes)
 }

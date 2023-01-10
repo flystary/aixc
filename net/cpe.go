@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 	"time"
 
-	"aixc/model/cpe"
 	"aixc/model"
+	"aixc/model/cpe"
 )
 
 var (
@@ -111,7 +112,7 @@ func getCpeZeratulData(TOKEN, URL string) error {
 	return nil
 }
 
-func GetCpebyValor(sn string) []string {
+func getCpebyValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
 	return []string {
 		Cyan(sn),
@@ -125,9 +126,7 @@ func GetCpebyValor(sn string) []string {
 	}
 }
 
-func GetCpeMaxVsbyValor() string { return cv.MaxVersion()}
-
-func GetCpebyNexus(sn string) []string {
+func getCpebyNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 	return []string {
 		Cyan(sn),
@@ -140,9 +139,7 @@ func GetCpebyNexus(sn string) []string {
 	}
 }
 
-func GetCpeMaxVsbyNexus() string { return cn.MaxVersion()}
-
-func GetCpebyWatsons(sn string) []string {
+func getCpebyWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
 	return []string {
 		Cyan(sn),
@@ -156,9 +153,7 @@ func GetCpebyWatsons(sn string) []string {
 	}
 }
 
-func GetCpeMaxVsbyWatsons() string { return cw.MaxVersion()}
-
-func GetCpebyWatsonsHa(sn string) []string {
+func getCpebyWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
 	return []string {
 		Cyan(sn),
@@ -172,9 +167,7 @@ func GetCpebyWatsonsHa(sn string) []string {
 	}
 }
 
-func GetCpeMaxVsbyWatsonsHa() string { return ch.MaxVersion()}
-
-func GetCpebyZeratul(sn string) []string {
+func getCpebyZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
 	return []string {
 		Cyan(sn),
@@ -188,4 +181,149 @@ func GetCpebyZeratul(sn string) []string {
 	}
 }
 
-func GetCpeMaxVsbyZeratul() string { return cz.MaxVersion()}
+func cpeMaxVersionValor() string { return cv.MaxVersion()}
+func cpeMaxVersionNexus() string { return cn.MaxVersion()}
+func cpeMaxVersionWatsons() string { return cw.MaxVersion()}
+func cpeMaxVersionWatsonsHa() string { return ch.MaxVersion()}
+func cpeMaxVersionZeratul() string { return cz.MaxVersion()}
+
+
+func ucpeInfoValor(sn string) []string {
+	cpe := cv.GetCpeStructBySn(sn)
+	dve := dv.GetDveStructBySn(sn)
+	return []string {
+		Cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		dve.Customer.Name,
+		pv.GetPopStructById(cpe.MasterPopID).PopIP,
+		cpe.MasterPopIP,
+		pv.GetPopStructById(cpe.BackupPopID).PopIP,
+		cpe.BackupPopIP,
+		strconv.Itoa(dve.ServerPort),
+		cpe.Alias,
+	}
+}
+
+func ucpeInfoNexus(sn string) []string {
+	cpe := cn.GetCpeStructBySn(sn)
+	dve := dn.GetDveStructBySn(sn)
+	return []string {
+		Cyan(sn),
+		cpe.Model,cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		dve.Customer.Name,
+		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		pn.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+		strconv.Itoa(dve.ServerPort),
+		cpe.Alias,
+	}
+}
+
+func ucpeInfoWatsons(sn string) []string {
+	cpe := cw.GetCpeStructBySn(sn)
+	dve := dw.GetDveStructBySn(sn)
+	return []string {
+		Cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		"watsons",
+		pw.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		pw.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+		strconv.Itoa(dve.ServerPort),
+		cpe.Alias,
+	}
+}
+
+func ucpeInfoWatsonsHa(sn string) []string {
+	cpe := ch.GetCpeStructBySn(sn)
+	dve := dh.GetDveStructBySn(sn)
+	return []string {
+		Cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		"watsonsha",
+		ph.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		ph.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+		strconv.Itoa(dve.ServerPort),
+		cpe.Alias,
+	}
+}
+
+func ucpeInfoZeratul(sn string) []string {
+	spe := cz.GetCpeStructBySn(sn)
+	dve := dz.GetDveStructBySn(sn)
+	return []string {
+		Cyan(sn),
+		spe.Model,
+		spe.SoftwareVersion,
+		spe.PopUpdateTime,
+		dve.Customer.Name,
+		pz.GetPopStructById(spe.MasterPopID).EntryIP,
+		spe.MasterPopIP,
+		pz.GetPopStructById(spe.BackupPopID).EntryIP,
+		spe.BackupPopIP,
+		strconv.Itoa(dve.ServerPort),
+		spe.Alias,
+	}
+}
+
+// show 企业号
+func EucpeInfoValor(sn string) []string {
+	cpe := cv.GetCpeStructBySn(sn)
+	dve := dv.GetDveStructBySn(sn)
+	return []string {
+		Cyan(sn),
+		cpe.Model,
+		cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		pv.GetPopStructById(cpe.MasterPopID).PopIP,
+		cpe.MasterPopIP,
+		pv.GetPopStructById(cpe.BackupPopID).PopIP,
+		cpe.BackupPopIP,
+		strconv.Itoa(dve.ServerPort),
+		cpe.Alias,
+	}
+}
+
+func EucpeInfoNexus(sn string) []string {
+	cpe := cn.GetCpeStructBySn(sn)
+	dve := dn.GetDveStructBySn(sn)
+	return []string {
+		Cyan(sn),
+		cpe.Model,cpe.SoftwareVersion,
+		cpe.EntryUpdateTime,
+		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		cpe.MasterEntryIP,
+		pn.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		cpe.BackupEntryIP,
+		strconv.Itoa(dve.ServerPort),
+		cpe.Alias,
+	}
+}
+
+func EucpeInfoZeratul(sn string) []string {
+	spe := cz.GetCpeStructBySn(sn)
+	dve := dz.GetDveStructBySn(sn)
+	return []string {
+		Cyan(sn),
+		spe.Model,
+		spe.SoftwareVersion,
+		spe.PopUpdateTime,
+		pz.GetPopStructById(spe.MasterPopID).EntryIP,
+		spe.MasterPopIP,
+		pz.GetPopStructById(spe.BackupPopID).EntryIP,
+		spe.BackupPopIP,
+		strconv.Itoa(dve.ServerPort),
+		spe.Alias,
+	}
+}

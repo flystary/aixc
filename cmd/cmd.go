@@ -27,7 +27,7 @@ func showSevenMany(sns []string) {
 	n.SearchSevenManyBySns(sns)
 }
 
-func showEnterprise(mode,enterprise string) {
+func showEnterprise(mode, enterprise string) {
 	n.SearchByModeEnterprise(mode, enterprise)
 }
 

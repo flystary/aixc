@@ -71,11 +71,43 @@ func tableBasic(data [][]string) {
 }
 
 func table2Basic(data [][]string) {
+	ALIGN_LEFT := 3
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	for _, v := range data {
-		table.Append(v)
-	}
+	table.SetHeader([]string{"ucpesn", "model", "version", "updatetime", "enterprise", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip", "port", "alias",})
+	table.SetAutoWrapText(false)
+	table.SetAutoFormatHeaders(true)
+	table.SetHeaderAlignment(ALIGN_LEFT)
+	table.SetAlignment(ALIGN_LEFT)
+	table.SetCenterSeparator("")
+	table.SetColumnSeparator("")
+	table.SetRowSeparator("")
+	table.SetHeaderLine(false)
+	table.SetBorder(false)
+	table.SetTablePadding("\t") // pad with tabs
+	table.SetNoWhiteSpace(true)
+
+	table.AppendBulk(data) // Add Bulk Data
+	table.Render()
+}
+
+
+func table3Basic(data [][]string) {
+	ALIGN_LEFT := 3
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"ucpesn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip",  "port", "alias"})
+	table.SetAutoWrapText(false)
+	table.SetAutoFormatHeaders(true)
+	table.SetHeaderAlignment(ALIGN_LEFT)
+	table.SetAlignment(ALIGN_LEFT)
+	table.SetCenterSeparator("")
+	table.SetColumnSeparator("")
+	table.SetRowSeparator("")
+	table.SetHeaderLine(false)
+	table.SetBorder(false)
+	table.SetTablePadding("\t") // pad with tabs
+	table.SetNoWhiteSpace(true)
+
+	table.AppendBulk(data) // Add Bulk Data
 	table.Render()
 }
 
