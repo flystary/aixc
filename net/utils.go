@@ -73,7 +73,7 @@ func tableBasic(data [][]string) {
 func table2Basic(data [][]string) {
 	ALIGN_LEFT := 3
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ucpesn", "model", "version", "updatetime", "enterprise", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip", "port", "alias",})
+	table.SetHeader([]string{"ucpesn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip", "port", "enterprise", "alias"})
 	table.SetAutoWrapText(false)
 	table.SetAutoFormatHeaders(true)
 	table.SetHeaderAlignment(ALIGN_LEFT)

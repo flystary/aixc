@@ -196,12 +196,12 @@ func ucpeInfoValor(sn string) []string {
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		dve.Customer.Name,
 		pv.GetPopStructById(cpe.MasterPopID).PopIP,
 		cpe.MasterPopIP,
 		pv.GetPopStructById(cpe.BackupPopID).PopIP,
 		cpe.BackupPopIP,
 		strconv.Itoa(dve.ServerPort),
+		dve.Customer.Name,
 		cpe.Alias,
 	}
 }
@@ -213,12 +213,12 @@ func ucpeInfoNexus(sn string) []string {
 		Cyan(sn),
 		cpe.Model,cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		dve.Customer.Name,
 		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
 		pn.GetPopStructById(cpe.BackupEntryID).EntryIP,
 		cpe.BackupEntryIP,
 		strconv.Itoa(dve.ServerPort),
+		dve.Customer.Name,
 		cpe.Alias,
 	}
 }
@@ -231,13 +231,14 @@ func ucpeInfoWatsons(sn string) []string {
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		"watsons",
 		pw.GetPopStructById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
 		pw.GetPopStructById(cpe.BackupEntryID).EntryIP,
 		cpe.BackupEntryIP,
 		strconv.Itoa(dve.ServerPort),
+		"watsons",
 		cpe.Alias,
+
 	}
 }
 
@@ -249,12 +250,12 @@ func ucpeInfoWatsonsHa(sn string) []string {
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		"watsonsha",
 		ph.GetPopStructById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
 		ph.GetPopStructById(cpe.BackupEntryID).EntryIP,
 		cpe.BackupEntryIP,
 		strconv.Itoa(dve.ServerPort),
+		"watsonsha",
 		cpe.Alias,
 	}
 }
@@ -267,12 +268,12 @@ func ucpeInfoZeratul(sn string) []string {
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,
-		dve.Customer.Name,
 		pz.GetPopStructById(spe.MasterPopID).EntryIP,
 		spe.MasterPopIP,
 		pz.GetPopStructById(spe.BackupPopID).EntryIP,
 		spe.BackupPopIP,
 		strconv.Itoa(dve.ServerPort),
+		dve.Customer.Name,
 		spe.Alias,
 	}
 }

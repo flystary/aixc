@@ -385,11 +385,11 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 
 			wg.Add(num)
 			go func() {
-				cpeErr = getCpeNexusData(TOKEN, cpeURL)
+				cpeErr = getCpeZeratulData(TOKEN, cpeURL)
 				wg.Done()
 			}()
 			go func() {
-				popErr = getPopNexusData(TOKEN, popURL)
+				popErr = getPopZeratulData(TOKEN, popURL)
 				wg.Done()
 			}()
 			// go func() {
