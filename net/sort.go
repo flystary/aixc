@@ -41,7 +41,6 @@ func (u Ucpe) Time() Ucpe {
 	return u
 }
 
-
 type Ucpes [][]string
 
 func (us Ucpes) Len() int { return len(us) }

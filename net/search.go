@@ -219,3 +219,21 @@ func SearchByModeEnterprise(mode,en string) {
 	sort.Sort(ucpes.Null())
 	table3Basic(ucpes)
 }
+
+func SearchByMode(mode string) {
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
+	SyncDataMemorybyMode(mode)
+	sn := "ALL"
+	switch mode {
+		case "valor":{
+			MaxVersion = cpeMaxVersionValor()
+			ucpes = allValor(sn)
+		}
+		case "tassadar":{
+			MaxVersion = cpeMaxVersionZeratul()
+			ucpes = allZeratul(sn)
+		}
+	}
+	sort.Sort(ucpes)
+	table2Basic(ucpes)
+}

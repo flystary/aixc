@@ -21,6 +21,17 @@ func (v Valor) IsSn(sn string) (bool, Cpe) {
 	return false, cpe
 }
 
+func (v Valor) SNs() []string {
+	var sns  = make([]string, 0)
+	for _, c := range v.Data {
+		if c.Sn != "" {
+			sns = append(sns, c.Sn)
+		}
+		continue
+	}
+	return sns
+}
+
 func (v Valor) GetCpeStructBySn(sn string) Cpe {
 
 	for _, c := range v.Data {

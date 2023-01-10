@@ -28,6 +28,18 @@ func (z Zeratul) GetCpeStructBySn(sn string) Spe {
 	return spe
 }
 
+func (z Zeratul) SNs() []string {
+	var sns  = make([]string, 0)
+	for _, c := range z {
+		if c.Sn != "" {
+			sns = append(sns, c.Sn)
+		}
+		continue
+	}
+	return sns
+}
+
+
 func (z Zeratul) MaxVersion() string {
 	var max int
 	var maxs string

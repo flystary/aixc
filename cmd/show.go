@@ -39,9 +39,15 @@ var showCmd = &cobra.Command{
 		// }
 
 		if mode == "valor" || mode == "nexus" || mode == "tassadar" || mode == "" {
+
+			if mode == "tassadar" && entn == "null" {
+				showMode("tassadar")
+				return
+			}
 			if mode == "" {
 				mode = "valor"
 			}
+
 			if entn == "null" {
 				println("enterprise is Error")
 				return

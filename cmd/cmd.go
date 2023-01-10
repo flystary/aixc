@@ -34,6 +34,10 @@ func showEnterprise(mode, enterprise string) {
 func showManybyModeSns(mode string, sns []string){
 	n.SearchByModeSns(mode,sns)
 }
+
+func showMode(mode string) {
+	n.SearchByMode(mode)
+}
 // Run cmd
 func Run() {
 	rootCmd.Execute()

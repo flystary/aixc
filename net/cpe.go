@@ -328,3 +328,58 @@ func EucpeInfoZeratul(sn string) []string {
 		spe.Alias,
 	}
 }
+
+func allValor(sn string) [][]string {
+
+	cpes := make([][]string, 0)
+
+	if sn == "ALL" {
+		for _, sn := range cz.SNs() {
+			cpe := cv.GetCpeStructBySn(sn)
+			dve := dv.GetDveStructBySn(sn)
+			ucpe = []string {
+				Cyan(sn),
+				cpe.Model,
+				cpe.SoftwareVersion,
+				cpe.EntryUpdateTime,
+				pv.GetPopStructById(cpe.MasterPopID).PopIP,
+				cpe.MasterPopIP,
+				pv.GetPopStructById(cpe.BackupPopID).PopIP,
+				cpe.BackupPopIP,
+				strconv.Itoa(dve.ServerPort),
+				dve.Customer.Name,
+				cpe.Alias,
+			}
+			// ucpe.Null().Version(MaxVersion).Time()
+			cpes = append(cpes, ucpe)
+		}
+	}
+	return cpes
+}
+
+func allZeratul(sn string) [][]string {
+	cpes := make([][]string, 0)
+	if sn == "ALL" {
+		for _, sn := range cz.SNs() {
+			spe := cz.GetCpeStructBySn(sn)
+			dve := dz.GetDveStructBySn(sn)
+			ucpe = []string {
+				Cyan(sn),
+				spe.Model,
+				spe.SoftwareVersion,
+				spe.PopUpdateTime,
+				pz.GetPopStructById(spe.MasterPopID).EntryIP,
+				spe.MasterPopIP,
+				pz.GetPopStructById(spe.BackupPopID).EntryIP,
+				spe.BackupPopIP,
+				strconv.Itoa(dve.ServerPort),
+				dve.Customer.Name,
+				spe.Alias,
+			}
+			// ucpe.Null().Version(MaxVersion).Time()
+			cpes = append(cpes, ucpe)
+		}
+	}
+
+	return cpes
+}
