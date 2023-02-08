@@ -233,6 +233,10 @@ func SearchByMode(mode string) {
 			MaxVersion = cpeMaxVersionZeratul()
 			ucpes = allZeratul(sn)
 		}
+		case "watsonsha":{
+			MaxVersion = cpeMaxVersionWatsonsHa()
+			ucpes = allWatsonsHa(sn)
+		}
 	}
 	sort.Sort(ucpes)
 	table2Basic(ucpes)

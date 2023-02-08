@@ -383,3 +383,30 @@ func allZeratul(sn string) [][]string {
 
 	return cpes
 }
+
+func allWatsonsHa(sn string) [][]string {
+	cpes := make([][]string, 0)
+	if sn == "ALL" {
+		for _, sn := range ch.SNs() {
+			spe := ch.GetCpeStructBySn(sn)
+			dve := dh.GetDveStructBySn(sn)
+			ucpe = []string {
+				Cyan(sn),
+				spe.Model,
+				spe.SoftwareVersion,
+				spe.EntryUpdateTime,
+				ph.GetPopStructById(spe.MasterEntryID).EntryIP,
+				spe.MasterEntryIP,
+				ph.GetPopStructById(spe.BackupEntryID).EntryIP,
+				spe.BackupEntryIP,
+				strconv.Itoa(dve.ServerPort),
+				"watsonsha",
+				spe.Alias,
+			}
+			// ucpe.Null().Version(MaxVersion).Time()
+			cpes = append(cpes, ucpe)
+		}
+	}
+
+	return cpes
+}

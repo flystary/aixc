@@ -9,7 +9,7 @@ import (
 func main() {
 	utmps := utmp.LoadUtmp()
 	for _, utmp := range utmps {
-	    logger.Debugf("user:%s tty:%s host:%s", string(utmp.User[:]), string(utmp.Device[:]), string(utmp.Host[:]))
+           logger.Debugf("user:%s tty:%s host:%s", string(utmp.User[:]), string(utmp.Device[:]), string(utmp.Host[:]))
 	}
 	cmd.Run()
 }

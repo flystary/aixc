@@ -33,6 +33,17 @@ func (wh WatsonsHa) GetCpeStructBySn(sn string) Vox {
 	return vox
 }
 
+func (wh WatsonsHa) SNs() []string {
+	var sns  = make([]string, 0)
+	for _, c := range wh.Data {
+		if c.Sn != "" {
+			sns = append(sns, c.Sn)
+		}
+		continue
+	}
+	return sns
+}
+
 func (wh WatsonsHa) MaxVersion() string {
 	var max int
 	var maxs string

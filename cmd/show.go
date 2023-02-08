@@ -38,12 +38,17 @@ var showCmd = &cobra.Command{
 		// 	return
 		// }
 
-		if mode == "valor" || mode == "nexus" || mode == "tassadar" || mode == "" {
+		if mode == "valor" || mode == "nexus" || mode == "tassadar" ||mode == "watsonsha" || mode == "" {
 
-			if mode == "tassadar" && entn == "null" {
-				showMode("tassadar")
+			if (mode == "tassadar" && entn == "null")  || (mode == "watsonsha" && entn == "null")  {
+				showMode(mode)
 				return
 			}
+
+			if mode == "watsonsha" {
+				return
+			}
+
 			if mode == "" {
 				mode = "valor"
 			}
