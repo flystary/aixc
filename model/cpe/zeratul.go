@@ -61,3 +61,30 @@ func (z Zeratul) MaxVersion() string {
 	}
 	return maxs
 }
+
+func (z Zeratul) GetCpesByModel(model string) []string {
+	for _, data := range z {
+		if model == data.Model {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (z Zeratul) GetCpesByVersion(version string) []string {
+	for _, data := range z {
+		if version == data.SoftwareVersion {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (z Zeratul) GetCpesByPopId(id int) []string {
+	for _, data := range z {
+		if id == data.MasterPopID || id == data.BackupPopID {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}

@@ -194,11 +194,35 @@ func SearchByModeSns(mode string,sns []string) {
 	table2Basic(ucpes)
 }
 
-//SearchByEnterprise 所属mode和企业号
-func SearchByModeEnterprise(mode,en string) {
+func SearchByMode(mode string) {
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
-	SyncEnDataMemorybyMode(mode)
-	for _, sn := range getSnsByMode(mode, en) {
+	SyncDataMemorybyMode(mode)
+	sn := "ALL"
+	switch mode {
+		case "valor":{
+			MaxVersion = cpeMaxVersionValor()
+			ucpes = allValor(sn)
+		}
+		case "tassadar":{
+			MaxVersion = cpeMaxVersionZeratul()
+			ucpes = allZeratul(sn)
+		}
+		case "watsonsha":{
+			MaxVersion = cpeMaxVersionWatsonsHa()
+			ucpes = allWatsonsHa(sn)
+		}
+	}
+	sort.Sort(ucpes)
+	table2Basic(ucpes)
+}
+
+
+// filter
+//SearchByModeModel 所属mode和model
+func FilterModelByMode(mode,model string) {
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
+	SyncDataMemorybyMode(mode)
+	for _, sn := range getSnsByModel(mode, model) {
 		switch mode {
 			case "valor":{
 				ucpe = EucpeInfoValor(sn)
@@ -220,24 +244,80 @@ func SearchByModeEnterprise(mode,en string) {
 	table3Basic(ucpes)
 }
 
-func SearchByMode(mode string) {
+//FilterVersionByMode 所属mode和Version
+func FilterVersionByMode(mode,version string) {
 	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	SyncDataMemorybyMode(mode)
-	sn := "ALL"
-	switch mode {
-		case "valor":{
-			MaxVersion = cpeMaxVersionValor()
-			ucpes = allValor(sn)
+	for _, sn := range getSnsByVersion(mode, version) {
+		switch mode {
+			case "valor":{
+				ucpe = EucpeInfoValor(sn)
+				MaxVersion = cpeMaxVersionValor()
+			}
+			case "nexus":{
+				ucpe = EucpeInfoNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
+			}
+			case "tassadar":{
+				ucpe = EucpeInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
 		}
-		case "tassadar":{
-			MaxVersion = cpeMaxVersionZeratul()
-			ucpes = allZeratul(sn)
-		}
-		case "watsonsha":{
-			MaxVersion = cpeMaxVersionWatsonsHa()
-			ucpes = allWatsonsHa(sn)
-		}
+		ucpe.Null().Version(MaxVersion).Time()
+		ucpes = append(ucpes, ucpe)
 	}
-	sort.Sort(ucpes)
-	table2Basic(ucpes)
+	sort.Sort(ucpes.Null())
+	table3Basic(ucpes)
+}
+
+//FilterPopByMode 所属mode和pop addr
+func FilterPopByMode(mode,addr string) {
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
+	SyncDataMemorybyMode(mode)
+	for _, sn := range getSnsByPopAddr(mode, addr) {
+		switch mode {
+			case "valor":{
+				ucpe = EucpeInfoValor(sn)
+				MaxVersion = cpeMaxVersionValor()
+			}
+			case "nexus":{
+				ucpe = EucpeInfoNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
+			}
+			case "tassadar":{
+				ucpe = EucpeInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+		}
+		ucpe.Null().Version(MaxVersion).Time()
+		ucpes = append(ucpes, ucpe)
+	}
+	sort.Sort(ucpes.Null())
+	table3Basic(ucpes)
+}
+
+//FilterEnterpriseByMode 所属mode和企业号
+func FilterEnterpriseByMode(mode,en string) {
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
+	SyncEnDataMemorybyMode(mode)
+	for _, sn := range getSnsByModeEn(mode, en) {
+		switch mode {
+			case "valor":{
+				ucpe = EucpeInfoValor(sn)
+				MaxVersion = cpeMaxVersionValor()
+			}
+			case "nexus":{
+				ucpe = EucpeInfoNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
+			}
+			case "tassadar":{
+				ucpe = EucpeInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+		}
+		ucpe.Null().Version(MaxVersion).Time()
+		ucpes = append(ucpes, ucpe)
+	}
+	sort.Sort(ucpes.Null())
+	table3Basic(ucpes)
 }

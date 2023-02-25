@@ -246,3 +246,5 @@ var (
 	box Box
 	vox Vox
 )
+
+var sns = make([]string, 0)

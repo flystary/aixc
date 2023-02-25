@@ -65,3 +65,30 @@ func (v Valor) MaxVersion() string {
 	}
 	return maxs
 }
+
+func (v Valor) GetCpesByModel(model string) []string {
+	for _, data := range v.Data {
+		if model == data.Model {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (v Valor) GetCpesByVersion(version string) []string {
+	for _, data := range v.Data {
+		if version == data.SoftwareVersion {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (v Valor) GetCpesByPopId(id int) []string {
+	for _, data := range v.Data {
+		if id == data.MasterPopID || id == data.BackupPopID {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}

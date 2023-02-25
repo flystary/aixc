@@ -54,3 +54,30 @@ func (w Watsons) MaxVersion() string {
 	}
 	return maxs
 }
+
+func (w Watsons) GetCpesByModel(model string) []string {
+	for _, data := range w.Data {
+		if model == data.Model {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (w Watsons) GetCpesByVersion(version string) []string {
+	for _, data := range w.Data {
+		if version == data.SoftwareVersion {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (w Watsons) GetCpesByPopId(id int) []string {
+	for _, data := range w.Data {
+		if id == data.MasterEntryID || id == data.BackupEntryID {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}

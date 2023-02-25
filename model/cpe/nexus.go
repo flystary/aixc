@@ -51,3 +51,29 @@ func (n Nexus) MaxVersion() string {
 	}
 	return maxs
 }
+
+func (n Nexus) GetCpesByModel(model string) []string {
+	for _, data := range n {
+		if model == data.Model {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+func (n Nexus) GetCpesByVersion(version string) []string {
+	for _, data := range n {
+		if version == data.SoftwareVersion {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (n Nexus) GetCpesByPopId(id int) []string {
+	for _, data := range n {
+		if id == data.MasterEntryID || id == data.BackupEntryID {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}

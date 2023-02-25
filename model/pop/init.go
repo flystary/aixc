@@ -2,7 +2,7 @@ package pop
 
 var (
      entry  Entry
-     pop    Pop 
+     pop    Pop
 )
 
 type Pop struct {
@@ -34,3 +34,5 @@ type SPop struct {
 	DeviceNum 	int `json:"deviceNum"`
 	BgpAs 		int `json:"bgpAs"`
 }
+
+var sns = make([]string, 0)

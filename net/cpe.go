@@ -410,3 +410,79 @@ func allWatsonsHa(sn string) [][]string {
 
 	return cpes
 }
+
+
+// 获取相同model的的uCPE
+func getSnsByModel(mode, model string) []string {
+	var sns []string
+	switch mode {
+		case "valor":{
+			sns = cv.GetCpesByModel(model)
+		}
+		case "tassadar":{
+			sns = cz.GetCpesByModel(model)
+		}
+		case "watsons":{
+			sns = cw.GetCpesByModel(model)
+		}
+		case "watsonsha":{
+			sns = ch.GetCpesByModel(model)
+		}
+		case "nexus":{
+			sns = cn.GetCpesByModel(model)
+		}
+	}
+	return sns
+}
+
+// 获取相同version的的uCPE
+func getSnsByVersion(mode, version string) []string {
+	var sns []string
+	switch mode {
+		case "valor":{
+			sns = cv.GetCpesByVersion(version)
+		}
+		case "tassadar":{
+			sns = cz.GetCpesByVersion(version)
+		}
+		case "watsons":{
+			sns = cw.GetCpesByVersion(version)
+		}
+		case "watsonsha":{
+			sns = ch.GetCpesByVersion(version)
+		}
+		case "nexus":{
+			sns = cn.GetCpesByVersion(version)
+		}
+	}
+	return sns
+}
+
+// 获取相同model的的uCPE
+func getSnsByPopAddr(mode, addr string) []string {
+	var id = 0
+	var sns []string
+	switch mode {
+		case "valor":{
+			id = pv.GetIdByAddr(addr)
+			sns = cv.GetCpesByPopId(id)
+		}
+		case "tassadar":{
+			id = pz.GetIdByAddr(addr)
+			sns = cz.GetCpesByPopId(id)
+		}
+		case "watsons":{
+			id = pw.GetIdByAddr(addr)
+			sns = cw.GetCpesByPopId(id)
+		}
+		case "watsonsha":{
+			id = ph.GetIdByAddr(addr)
+			sns = ch.GetCpesByPopId(id)
+		}
+		case "nexus":{
+			id = pn.GetIdByAddr(addr)
+			sns = cn.GetCpesByPopId(id)
+		}
+	}
+	return sns
+}

@@ -27,10 +27,6 @@ func showSevenMany(sns []string) {
 	n.SearchSevenManyBySns(sns)
 }
 
-func showEnterprise(mode, enterprise string) {
-	n.SearchByModeEnterprise(mode, enterprise)
-}
-
 func showManybyModeSns(mode string, sns []string){
 	n.SearchByModeSns(mode,sns)
 }
@@ -38,6 +34,25 @@ func showManybyModeSns(mode string, sns []string){
 func showMode(mode string) {
 	n.SearchByMode(mode)
 }
+
+// filter
+
+func showModel(mode, model string) {
+	n.FilterModelByMode(mode, model)
+}
+
+func showVersion(mode, version string) {
+	n.FilterVersionByMode(mode, version)
+}
+
+func showPop(mode, addr string) {
+	n.FilterPopByMode(mode, addr)
+}
+
+func showEnterprise(mode, name string) {
+	n.FilterEnterpriseByMode(mode, name)
+}
+
 // Run cmd
 func Run() {
 	rootCmd.Execute()

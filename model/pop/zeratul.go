@@ -6,7 +6,7 @@ func (z Zeratul) IsId(id int) (bool, SPop) {
 	for _ , sp := range z {
 		if id == sp.ID {
 			return true, sp
-		} 
+		}
 		continue
 	}
 	return false, spop
@@ -20,4 +20,13 @@ func (z Zeratul) GetPopStructById(id int) SPop {
 		}
 	}
 	return pop
+}
+
+func (z Zeratul) GetIdByAddr(addr string) (id int) {
+	for _, pop := range z {
+		if addr == pop.EntryIP {
+			id = pop.ID
+		}
+	}
+	return id
 }

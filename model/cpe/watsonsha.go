@@ -65,3 +65,30 @@ func (wh WatsonsHa) MaxVersion() string {
 	}
 	return maxs
 }
+
+func (wh WatsonsHa) GetCpesByModel(model string) []string {
+	for _, data := range wh.Data {
+		if model == data.Model {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (wh WatsonsHa) GetCpesByVersion(version string) []string {
+	for _, data := range wh.Data {
+		if version == data.SoftwareVersion {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
+
+func (wh WatsonsHa) GetCpesByPopId(id int) []string {
+	for _, data := range wh.Data {
+		if id == data.MasterEntryID || id == data.BackupEntryID {
+			sns = append(sns, data.Sn)
+		}
+	}
+	return sns
+}
