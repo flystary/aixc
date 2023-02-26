@@ -74,4 +74,3 @@ func (v Vde) IsOnline() bool {
 func (w Wde) IsOnline() bool {
 	return w.Status == "102"
 }
-

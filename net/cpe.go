@@ -188,7 +188,7 @@ func cpeMaxVersionWatsonsHa() string { return ch.MaxVersion()}
 func cpeMaxVersionZeratul() string { return cz.MaxVersion()}
 
 
-func ucpeInfoValor(sn string) []string {
+func uCPEInfoValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
 	dve := dv.GetDveStructBySn(sn)
 	return []string {
@@ -206,7 +206,7 @@ func ucpeInfoValor(sn string) []string {
 	}
 }
 
-func ucpeInfoNexus(sn string) []string {
+func uCPEInfoNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 	dve := dn.GetDveStructBySn(sn)
 	return []string {
@@ -223,7 +223,7 @@ func ucpeInfoNexus(sn string) []string {
 	}
 }
 
-func ucpeInfoWatsons(sn string) []string {
+func uCPEInfoWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
 	dve := dw.GetDveStructBySn(sn)
 	return []string {
@@ -242,7 +242,7 @@ func ucpeInfoWatsons(sn string) []string {
 	}
 }
 
-func ucpeInfoWatsonsHa(sn string) []string {
+func uCPEInfoWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
 	dve := dh.GetDveStructBySn(sn)
 	return []string {
@@ -260,7 +260,7 @@ func ucpeInfoWatsonsHa(sn string) []string {
 	}
 }
 
-func ucpeInfoZeratul(sn string) []string {
+func uCPEInfoZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
 	dve := dz.GetDveStructBySn(sn)
 	return []string {
@@ -279,7 +279,7 @@ func ucpeInfoZeratul(sn string) []string {
 }
 
 // show 企业号
-func EucpeInfoValor(sn string) []string {
+func EuCPEInfoValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
 	dve := dv.GetDveStructBySn(sn)
 	return []string {
@@ -296,7 +296,7 @@ func EucpeInfoValor(sn string) []string {
 	}
 }
 
-func EucpeInfoNexus(sn string) []string {
+func EuCPEInfoNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 	dve := dn.GetDveStructBySn(sn)
 	return []string {
@@ -312,7 +312,7 @@ func EucpeInfoNexus(sn string) []string {
 	}
 }
 
-func EucpeInfoZeratul(sn string) []string {
+func EuCPEInfoZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
 	dve := dz.GetDveStructBySn(sn)
 	return []string {
@@ -410,7 +410,6 @@ func allWatsonsHa(sn string) [][]string {
 
 	return cpes
 }
-
 
 // 获取相同model的的uCPE
 func getSnsByModel(mode, model string) []string {

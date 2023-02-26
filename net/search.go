@@ -167,23 +167,23 @@ func SearchByModeSns(mode string,sns []string) {
 	for _, sn := range sns {
 		switch mode {
 			case "valor":{
-				ucpe = ucpeInfoValor(sn)
+				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
 			case "nexus":{
-				ucpe = ucpeInfoNexus(sn)
+				ucpe = uCPEInfoNexus(sn)
 				MaxVersion = cpeMaxVersionNexus()
 			}
 			case "watsons":{
-				ucpe = ucpeInfoWatsons(sn)
+				ucpe = uCPEInfoWatsons(sn)
 				MaxVersion = cpeMaxVersionWatsons()
 			}
 			case "watsonsha":{
-				ucpe = ucpeInfoWatsonsHa(sn)
+				ucpe = uCPEInfoWatsonsHa(sn)
 				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
 			case "tassadar":{
-				ucpe = ucpeInfoZeratul(sn)
+				ucpe = uCPEInfoZeratul(sn)
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
@@ -225,17 +225,26 @@ func FilterModelByMode(mode,model string) {
 	for _, sn := range getSnsByModel(mode, model) {
 		switch mode {
 			case "valor":{
-				ucpe = EucpeInfoValor(sn)
+				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
-			case "nexus":{
-				ucpe = EucpeInfoNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
-			}
 			case "tassadar":{
-				ucpe = EucpeInfoZeratul(sn)
+				ucpe = uCPEInfoZeratul(sn)
 				MaxVersion = cpeMaxVersionZeratul()
 			}
+			case "watsons":{
+				ucpe = uCPEInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+			case "watsonsha":{
+				ucpe = uCPEInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+			case "nexus":{
+				ucpe = uCPEInfoNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
+			}
+
 		}
 		ucpe.Null().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
@@ -251,23 +260,32 @@ func FilterVersionByMode(mode,version string) {
 	for _, sn := range getSnsByVersion(mode, version) {
 		switch mode {
 			case "valor":{
-				ucpe = EucpeInfoValor(sn)
+				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
-			case "nexus":{
-				ucpe = EucpeInfoNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
-			}
 			case "tassadar":{
-				ucpe = EucpeInfoZeratul(sn)
+				ucpe = uCPEInfoZeratul(sn)
 				MaxVersion = cpeMaxVersionZeratul()
 			}
+			case "watsons":{
+				ucpe = uCPEInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+			case "watsonsha":{
+				ucpe = uCPEInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+			case "nexus":{
+				ucpe = uCPEInfoNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
+			}
+
 		}
 		ucpe.Null().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
 	sort.Sort(ucpes.Null())
-	table3Basic(ucpes)
+	table2Basic(ucpes)
 }
 
 //FilterPopByMode 所属mode和pop addr
@@ -277,23 +295,31 @@ func FilterPopByMode(mode,addr string) {
 	for _, sn := range getSnsByPopAddr(mode, addr) {
 		switch mode {
 			case "valor":{
-				ucpe = EucpeInfoValor(sn)
+				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
-			case "nexus":{
-				ucpe = EucpeInfoNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
-			}
 			case "tassadar":{
-				ucpe = EucpeInfoZeratul(sn)
+				ucpe = uCPEInfoZeratul(sn)
 				MaxVersion = cpeMaxVersionZeratul()
+			}
+			case "watsons":{
+				ucpe = uCPEInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+			case "watsonsha":{
+				ucpe = uCPEInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+			case "nexus":{
+				ucpe = uCPEInfoNexus(sn)
+				MaxVersion = cpeMaxVersionNexus()
 			}
 		}
 		ucpe.Null().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
 	sort.Sort(ucpes.Null())
-	table3Basic(ucpes)
+	table2Basic(ucpes)
 }
 
 //FilterEnterpriseByMode 所属mode和企业号
@@ -303,15 +329,15 @@ func FilterEnterpriseByMode(mode,en string) {
 	for _, sn := range getSnsByModeEn(mode, en) {
 		switch mode {
 			case "valor":{
-				ucpe = EucpeInfoValor(sn)
+				ucpe = EuCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
 			case "nexus":{
-				ucpe = EucpeInfoNexus(sn)
+				ucpe = EuCPEInfoNexus(sn)
 				MaxVersion = cpeMaxVersionNexus()
 			}
 			case "tassadar":{
-				ucpe = EucpeInfoZeratul(sn)
+				ucpe = EuCPEInfoZeratul(sn)
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}

@@ -57,12 +57,16 @@ var showCmd = &cobra.Command{
 			switch option {
 			case "model":
 				showModel(mode, args[0])
+				return
 			case "version":
 				showVersion(mode, args[0])
+				return
 			case "pop":
 				showPop(mode, args[0])
+				return
 			case "enterprise":
 				showEnterprise(mode, args[0])
+				return
 			default:
 				return
 			}
