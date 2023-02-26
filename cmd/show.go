@@ -6,7 +6,7 @@ import (
 
 func init() {
 	rootCmd.AddCommand(showCmd)
-	showCmd.Flags().StringP("select", "s", "","Appoint the filter object of UCPE")
+	showCmd.Flags().StringP("select", "s", "","Appoint the filter object of UCPE,Option is [model, version, pop, enterprise]")
 	showCmd.Flags().StringP("mode", "m", "","Appoint the UCPE Mode")
 	showCmd.Flags().StringP("enterprise", "e", "null","Appoint that the filtering object of UCPE is the enterprise number")
 
@@ -39,16 +39,7 @@ var showCmd = &cobra.Command{
 			return
 		}
 
-		if mode == "valor" || mode == "nexus" || mode == "tassadar" || mode == "watsonsha" || mode == "" {
-
-			if (mode == "tassadar" && entn == "null")  || (mode == "watsonsha" && entn == "null")  {
-				showMode(mode)
-				return
-			}
-
-			if mode == "watsonsha" {
-				return
-			}
+		if mode == "valor" || mode == "nexus" || mode == "tassadar" || mode == "watsonsha" || mode == "watsons" || mode == "" {
 
 			if mode == "" {
 				mode = "valor"
@@ -68,6 +59,15 @@ var showCmd = &cobra.Command{
 				showEnterprise(mode, args[0])
 				return
 			default:
+				return
+			}
+
+			if (mode == "tassadar" && entn == "null")  || (mode == "watsonsha" && entn == "null")  {
+				showMode(mode)
+				return
+			}
+
+			if mode == "watsonsha" {
 				return
 			}
 

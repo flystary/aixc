@@ -80,7 +80,7 @@ func SearchSevenManyBySns(snMany []string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
-		ucpe.Null().Version(MaxVersion).Time()
+		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
 	sort.Sort(ucpes)
@@ -153,7 +153,7 @@ func SearchManyBySns(snMany []string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
-		ucpe.Null().Version(MaxVersion).Time()
+		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
 	// sort.Sort(ucpes)
@@ -187,10 +187,10 @@ func SearchByModeSns(mode string,sns []string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
-		ucpe.Null().Version(MaxVersion).Time()
+		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
-	// sort.Sort(ucpes.Null())
+	// sort.Sort(ucpes.NotNull())
 	table2Basic(ucpes)
 }
 
@@ -233,24 +233,22 @@ func FilterModelByMode(mode,model string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 			case "watsons":{
-				ucpe = uCPEInfoZeratul(sn)
-				MaxVersion = cpeMaxVersionZeratul()
+				ucpe = uCPEInfoWatsons(sn)
+				MaxVersion = cpeMaxVersionWatsons()
 			}
 			case "watsonsha":{
-				ucpe = uCPEInfoZeratul(sn)
-				MaxVersion = cpeMaxVersionZeratul()
+				ucpe = uCPEInfoWatsonsHa(sn)
+				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
 			case "nexus":{
 				ucpe = uCPEInfoNexus(sn)
 				MaxVersion = cpeMaxVersionNexus()
 			}
-
 		}
-		ucpe.Null().Version(MaxVersion).Time()
+		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
-	sort.Sort(ucpes.Null())
-	table3Basic(ucpes)
+	table2Basic(ucpes)
 }
 
 //FilterVersionByMode 所属mode和Version
@@ -268,12 +266,12 @@ func FilterVersionByMode(mode,version string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 			case "watsons":{
-				ucpe = uCPEInfoZeratul(sn)
-				MaxVersion = cpeMaxVersionZeratul()
+				ucpe = uCPEInfoWatsons(sn)
+				MaxVersion = cpeMaxVersionWatsons()
 			}
 			case "watsonsha":{
-				ucpe = uCPEInfoZeratul(sn)
-				MaxVersion = cpeMaxVersionZeratul()
+				ucpe = uCPEInfoWatsonsHa(sn)
+				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
 			case "nexus":{
 				ucpe = uCPEInfoNexus(sn)
@@ -281,10 +279,10 @@ func FilterVersionByMode(mode,version string) {
 			}
 
 		}
-		ucpe.Null().Version(MaxVersion).Time()
+		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
-	sort.Sort(ucpes.Null())
+	sort.Sort(ucpes.NotNull())
 	table2Basic(ucpes)
 }
 
@@ -303,22 +301,22 @@ func FilterPopByMode(mode,addr string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 			case "watsons":{
-				ucpe = uCPEInfoZeratul(sn)
-				MaxVersion = cpeMaxVersionZeratul()
+				ucpe = uCPEInfoWatsons(sn)
+				MaxVersion = cpeMaxVersionWatsons()
 			}
 			case "watsonsha":{
-				ucpe = uCPEInfoZeratul(sn)
-				MaxVersion = cpeMaxVersionZeratul()
+				ucpe = uCPEInfoWatsonsHa(sn)
+				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
 			case "nexus":{
 				ucpe = uCPEInfoNexus(sn)
 				MaxVersion = cpeMaxVersionNexus()
 			}
 		}
-		ucpe.Null().Version(MaxVersion).Time()
+		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
-	sort.Sort(ucpes.Null())
+	sort.Sort(ucpes.NotNull())
 	table2Basic(ucpes)
 }
 
@@ -341,9 +339,9 @@ func FilterEnterpriseByMode(mode,en string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
-		ucpe.Null().Version(MaxVersion).Time()
+		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
-	sort.Sort(ucpes.Null())
+	sort.Sort(ucpes.NotNull())
 	table3Basic(ucpes)
 }

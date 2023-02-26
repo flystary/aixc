@@ -12,9 +12,9 @@ type Ucpe []string
 func (u Ucpe) Len() int { return len(u) }
 
 // 字段为空
-func (u Ucpe) Null() Ucpe {
+func (u Ucpe) NotNull() Ucpe {
 	for i, length := 0, u.Len(); i < length; i++ {
-		if u[i] == "" {
+		if u[i] == " " {
 			break
 		}
 	}
@@ -46,10 +46,10 @@ type Ucpes [][]string
 func (us Ucpes) Len() int { return len(us) }
 
 // 字段为空
-func (us Ucpes) Null() Ucpes {
-	for i, length := 0, us.Len(); i < length; i++ {
+func (us Ucpes) NotNull() Ucpes {
+	for i, lengths := 0, us.Len(); i < lengths; i++ {
 		for j, length := 0, len(us[i]); j < length; j++ {
-			if us[i][j] == "" {
+			if us[i][j] == " " {
 				break
 			}
 		}

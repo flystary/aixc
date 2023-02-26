@@ -457,7 +457,7 @@ func getSnsByVersion(mode, version string) []string {
 	return sns
 }
 
-// 获取相同model的的uCPE
+// 获取相同Addr的的uCPE
 func getSnsByPopAddr(mode, addr string) []string {
 	var id = 0
 	var sns []string
