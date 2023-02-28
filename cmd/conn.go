@@ -6,7 +6,7 @@ import (
 
 func init() {
     rootCmd.AddCommand(connCmd)
-	connCmd.Flags().BoolP("seven", "", false, "Appoint that the UCPE Mode belongs to SDWAN6")
+	// connCmd.Flags().BoolP("seven", "", false, "Appoint that the UCPE Mode belongs to SDWAN6")
 }
 
 var connCmd = &cobra.Command{
@@ -17,17 +17,7 @@ var connCmd = &cobra.Command{
 	Args:    cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
-
-		isSeven, err := cmd.Flags().GetBool("seven")
-		if err != nil {
-			println("getBool err: ", err)
-			return
-		}
-
-		if isSeven {
-			showSeven(args[0])
-			return
-		}
-		show(args[0])
+		println("不支持此用法!")
+		// return
 	},
 }

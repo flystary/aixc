@@ -2,14 +2,14 @@ package main
 
 import (
 	"aixc/cmd"
-	"aixc/utils/logger"
-	"aixc/utils/utmp"
+	utmp "aixc/utils/utmp"
+	log  "aixc/utils/log"
 )
 
 func main() {
 	utmps := utmp.LoadUtmp()
 	for _, utmp := range utmps {
-           logger.Debugf("user:%s tty:%s host:%s", string(utmp.User[:]), string(utmp.Device[:]), string(utmp.Host[:]))
+           log.Debugf("user:%s tty:%s host:%s", string(utmp.User[:]), string(utmp.Device[:]), string(utmp.Host[:]))
 	}
 	cmd.Run()
 }
