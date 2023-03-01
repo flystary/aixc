@@ -18,16 +18,18 @@ type Entry struct {
 
 type Entrys []Entry
 
-func (entries Entrys) GetMACFromAddr(host string) (string, error) {
+// GetMACFromAddr
+func (entries Entrys) GetMACFromAddr(Addr string) (string, error) {
 	for _, entry := range entries {
 		addr := strings.Trim(entry.IPAddress, " ")
-		if addr == host {
+		if addr == Addr {
 			return entry.HWAddress, nil
 		}
 	}
 	return "", errors.New("Addr not found")
 }
 
+// GetEntryFromMAC get an entry by searching with MAC address
 func (entries Entrys) GetEntryFromMAC(mac string) (Entry, error) {
 	for _, entry := range entries {
 		if entry.HWAddress == mac {
@@ -63,22 +65,6 @@ func GetEntries() ([]Entry, error) {
 	}
 
 	return entries, nil
-}
-
-// GetEntryFromMAC get an entry by searching with MAC address
-func GetEntryFromMAC(mac string) (Entry, error) {
-	entries, err := GetEntries()
-	if err != nil {
-		return Entry{}, err
-	}
-
-	for _, entry := range entries {
-		if entry.HWAddress == mac {
-			return entry, nil
-		}
-	}
-
-	return Entry{}, errors.New("MAC address not found")
 }
 
 func removeWhiteSpace(tab []string) []string {

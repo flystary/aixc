@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	co "aixc/utils/color"
 )
 
 type Ucpe []string
@@ -24,9 +25,9 @@ func (u Ucpe) NotNull() Ucpe {
 // 版本不一致
 func (u Ucpe) Version(max string) Ucpe {
 	if u[2] == max {
-		u[2] = Cyan(u[2])
+		u[2] = co.Cyan(u[2])
 	} else {
-		u[2] = Red(u[2])
+		u[2] = co.Red(u[2])
 	}
 	return u
 }
@@ -36,7 +37,7 @@ func (u Ucpe) Time() Ucpe {
 	var now = time.Now()
 	synctime, _ := time.Parse("2006-01-02 15:04:05", u[3])
 	if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-		u[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(u[3], " ")[0]), Red(strings.Split(u[3], " ")[1]))
+		u[3] = fmt.Sprintf("%s✗%s", co.Red(strings.Split(u[3], " ")[0]), co.Red(strings.Split(u[3], " ")[1]))
 	}
 	return u
 }

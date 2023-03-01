@@ -7,6 +7,14 @@ import (
 	"aixc/model"
 )
 
+var (
+	arr []map[string]string
+)
+
+func init() {
+	arr = make([]map[string]string, 0, 6)
+}
+
 func modeController(simc map[string]string ) {
 	arr = append(arr, simc)
 }

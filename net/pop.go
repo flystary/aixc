@@ -7,6 +7,8 @@ import (
 	"io"
 	"encoding/json"
 	"aixc/model/pop"
+	tool "aixc/utils"
+
 )
 var (
 	pv pop.Valor
@@ -17,7 +19,7 @@ var (
 )
 
 func getPopBytes(TOKEN, URL string) ([]byte, error) {
-	Unix := timeUnix(time.Now())
+	Unix := tool.TimeUnix(time.Now())
 	popURL := fmt.Sprintf("%s?access_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(popURL)

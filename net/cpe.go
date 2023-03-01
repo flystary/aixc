@@ -10,6 +10,8 @@ import (
 
 	"aixc/model"
 	"aixc/model/cpe"
+	tool "aixc/utils"
+	co "aixc/utils/color"
 )
 
 var (
@@ -23,7 +25,7 @@ var (
 )
 
 func getCpeBytes(TOKEN, URL string) ([]byte, error) {
-	Unix := timeUnix(time.Now())
+	Unix := tool.TimeUnix(time.Now())
 	cpeURL := fmt.Sprintf("%saccess_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(cpeURL)
@@ -114,8 +116,8 @@ func getCpeZeratulData(TOKEN, URL string) error {
 
 func getCpebyValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -128,9 +130,9 @@ func getCpebyValor(sn string) []string {
 
 func getCpebyNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
-	return []string {
-		Cyan(sn),
-		cpe.Model,cpe.SoftwareVersion,
+	return []string{
+		co.Cyan(sn),
+		cpe.Model, cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
 		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
@@ -139,10 +141,14 @@ func getCpebyNexus(sn string) []string {
 	}
 }
 
+func Cyan(sn string) {
+	panic("unimplemented")
+}
+
 func getCpebyWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -155,8 +161,8 @@ func getCpebyWatsons(sn string) []string {
 
 func getCpebyWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -169,8 +175,8 @@ func getCpebyWatsonsHa(sn string) []string {
 
 func getCpebyZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,
@@ -181,18 +187,17 @@ func getCpebyZeratul(sn string) []string {
 	}
 }
 
-func cpeMaxVersionValor() string { return cv.MaxVersion()}
-func cpeMaxVersionNexus() string { return cn.MaxVersion()}
-func cpeMaxVersionWatsons() string { return cw.MaxVersion()}
-func cpeMaxVersionWatsonsHa() string { return ch.MaxVersion()}
-func cpeMaxVersionZeratul() string { return cz.MaxVersion()}
-
+func cpeMaxVersionValor() string     { return cv.MaxVersion() }
+func cpeMaxVersionNexus() string     { return cn.MaxVersion() }
+func cpeMaxVersionWatsons() string   { return cw.MaxVersion() }
+func cpeMaxVersionWatsonsHa() string { return ch.MaxVersion() }
+func cpeMaxVersionZeratul() string   { return cz.MaxVersion() }
 
 func uCPEInfoValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
 	dve := dv.GetDveStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -209,9 +214,9 @@ func uCPEInfoValor(sn string) []string {
 func uCPEInfoNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 	dve := dn.GetDveStructBySn(sn)
-	return []string {
-		Cyan(sn),
-		cpe.Model,cpe.SoftwareVersion,
+	return []string{
+		co.Cyan(sn),
+		cpe.Model, cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
 		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
@@ -226,8 +231,8 @@ func uCPEInfoNexus(sn string) []string {
 func uCPEInfoWatsons(sn string) []string {
 	cpe := cw.GetCpeStructBySn(sn)
 	dve := dw.GetDveStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -238,15 +243,14 @@ func uCPEInfoWatsons(sn string) []string {
 		strconv.Itoa(dve.ServerPort),
 		"watsons",
 		cpe.Alias,
-
 	}
 }
 
 func uCPEInfoWatsonsHa(sn string) []string {
 	cpe := ch.GetCpeStructBySn(sn)
 	dve := dh.GetDveStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -263,8 +267,8 @@ func uCPEInfoWatsonsHa(sn string) []string {
 func uCPEInfoZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
 	dve := dz.GetDveStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,
@@ -282,8 +286,8 @@ func uCPEInfoZeratul(sn string) []string {
 func EuCPEInfoValor(sn string) []string {
 	cpe := cv.GetCpeStructBySn(sn)
 	dve := dv.GetDveStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
@@ -299,9 +303,9 @@ func EuCPEInfoValor(sn string) []string {
 func EuCPEInfoNexus(sn string) []string {
 	cpe := cn.GetCpeStructBySn(sn)
 	dve := dn.GetDveStructBySn(sn)
-	return []string {
-		Cyan(sn),
-		cpe.Model,cpe.SoftwareVersion,
+	return []string{
+		co.Cyan(sn),
+		cpe.Model, cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
 		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
@@ -315,8 +319,8 @@ func EuCPEInfoNexus(sn string) []string {
 func EuCPEInfoZeratul(sn string) []string {
 	spe := cz.GetCpeStructBySn(sn)
 	dve := dz.GetDveStructBySn(sn)
-	return []string {
-		Cyan(sn),
+	return []string{
+		co.Cyan(sn),
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,
@@ -337,8 +341,8 @@ func allValor(sn string) [][]string {
 		for _, sn := range cz.SNs() {
 			cpe := cv.GetCpeStructBySn(sn)
 			dve := dv.GetDveStructBySn(sn)
-			ucpe = []string {
-				Cyan(sn),
+			ucpe = []string{
+				co.Cyan(sn),
 				cpe.Model,
 				cpe.SoftwareVersion,
 				cpe.EntryUpdateTime,
@@ -363,8 +367,8 @@ func allZeratul(sn string) [][]string {
 		for _, sn := range cz.SNs() {
 			spe := cz.GetCpeStructBySn(sn)
 			dve := dz.GetDveStructBySn(sn)
-			ucpe = []string {
-				Cyan(sn),
+			ucpe = []string{
+				co.Cyan(sn),
 				spe.Model,
 				spe.SoftwareVersion,
 				spe.PopUpdateTime,
@@ -390,8 +394,8 @@ func allWatsonsHa(sn string) [][]string {
 		for _, sn := range ch.SNs() {
 			spe := ch.GetCpeStructBySn(sn)
 			dve := dh.GetDveStructBySn(sn)
-			ucpe = []string {
-				Cyan(sn),
+			ucpe = []string{
+				co.Cyan(sn),
 				spe.Model,
 				spe.SoftwareVersion,
 				spe.EntryUpdateTime,
@@ -415,19 +419,24 @@ func allWatsonsHa(sn string) [][]string {
 func getSnsByModel(mode, model string) []string {
 	var sns []string
 	switch mode {
-		case "valor":{
+	case "valor":
+		{
 			sns = cv.GetCpesByModel(model)
 		}
-		case "tassadar":{
+	case "tassadar":
+		{
 			sns = cz.GetCpesByModel(model)
 		}
-		case "watsons":{
+	case "watsons":
+		{
 			sns = cw.GetCpesByModel(model)
 		}
-		case "watsonsha":{
+	case "watsonsha":
+		{
 			sns = ch.GetCpesByModel(model)
 		}
-		case "nexus":{
+	case "nexus":
+		{
 			sns = cn.GetCpesByModel(model)
 		}
 	}
@@ -438,19 +447,24 @@ func getSnsByModel(mode, model string) []string {
 func getSnsByVersion(mode, version string) []string {
 	var sns []string
 	switch mode {
-		case "valor":{
+	case "valor":
+		{
 			sns = cv.GetCpesByVersion(version)
 		}
-		case "tassadar":{
+	case "tassadar":
+		{
 			sns = cz.GetCpesByVersion(version)
 		}
-		case "watsons":{
+	case "watsons":
+		{
 			sns = cw.GetCpesByVersion(version)
 		}
-		case "watsonsha":{
+	case "watsonsha":
+		{
 			sns = ch.GetCpesByVersion(version)
 		}
-		case "nexus":{
+	case "nexus":
+		{
 			sns = cn.GetCpesByVersion(version)
 		}
 	}
@@ -462,23 +476,28 @@ func getSnsByPopAddr(mode, addr string) []string {
 	var id = 0
 	var sns []string
 	switch mode {
-		case "valor":{
+	case "valor":
+		{
 			id = pv.GetIdByAddr(addr)
 			sns = cv.GetCpesByPopId(id)
 		}
-		case "tassadar":{
+	case "tassadar":
+		{
 			id = pz.GetIdByAddr(addr)
 			sns = cz.GetCpesByPopId(id)
 		}
-		case "watsons":{
+	case "watsons":
+		{
 			id = pw.GetIdByAddr(addr)
 			sns = cw.GetCpesByPopId(id)
 		}
-		case "watsonsha":{
+	case "watsonsha":
+		{
 			id = ph.GetIdByAddr(addr)
 			sns = ch.GetCpesByPopId(id)
 		}
-		case "nexus":{
+	case "nexus":
+		{
 			id = pn.GetIdByAddr(addr)
 			sns = cn.GetCpesByPopId(id)
 		}

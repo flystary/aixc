@@ -39,14 +39,16 @@ type Utmp struct {
 }
 
 func LoadUtmp() []*Utmp {
-	f, err := os.Open("/var/run/utmp")
+	file, err := os.Open("/var/run/utmp")
 	if err != nil {
 		panic("open /var/run/tmp failed: %s" + err.Error())
 	}
+	defer file.Close()
+
 	var utmps []*Utmp
 	for {
 		utmp := new(Utmp)
-		err = binary.Read(f, binary.LittleEndian, utmp)
+		err = binary.Read(file, binary.LittleEndian, utmp)
 		if err == io.EOF {
 			break
 		} else if err != nil {

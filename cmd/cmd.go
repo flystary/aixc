@@ -1,10 +1,10 @@
 package cmd
 
 import (
+	n "aixc/net"
+	co "aixc/utils/color"
 	log "aixc/utils/log"
 	"fmt"
-
-	n "aixc/net"
 
 	"github.com/spf13/cobra"
 )
@@ -16,11 +16,11 @@ var rootCmd = &cobra.Command{
 }
 
 var (
-	Valor      = n.Cyan("valor")
-	Tassadar   = n.Cyan("tassadar")
-	Watsons    = n.Cyan("watsons")
-	WatsonsHa  = n.Cyan("watsonsha")
-	Nexus      = n.Cyan("nexus")
+	Valor      = co.Cyan("valor")
+	Tassadar   = co.Cyan("tassadar")
+	Watsons    = co.Cyan("watsons")
+	WatsonsHa  = co.Cyan("watsonsha")
+	Nexus      = co.Cyan("nexus")
 	modeOption = fmt.Sprintf("%s|%s|%s|%s|%s", Valor, Tassadar, Watsons, WatsonsHa, Nexus)
 )
 

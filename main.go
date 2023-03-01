@@ -13,15 +13,14 @@ func main() {
 	var arps = make(arp.Entrys, 0)
 	utmps := utmp.LoadUtmp()
 
+	arps, _ = arp.GetEntries()
 	for _, utmp := range utmps {
 		user = strings.Trim(string(utmp.User[:]), "\x00")
-		tty  = strings.Trim(string(utmp.Device[:]), "\x00")
+		tty = strings.Trim(string(utmp.Device[:]), "\x00")
 		host = strings.Trim(string(utmp.Host[:]), "\x00")
-		break
+		mac, _ = arps.GetMACFromAddr(host)
+		log.Debugf("user:%s tty:%s host:%s mac:%s", user, tty, host, mac)
 	}
 
-	arps, _ = arp.GetEntries()
-	mac, _ = arps.GetMACFromAddr(host)
-	log.Debugf("user:%s tty:%s host:%s mac:%s", user, tty, host, mac)
 	cmd.Run()
 }

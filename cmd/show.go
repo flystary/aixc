@@ -1,17 +1,17 @@
 package cmd
 
 import (
-	n "aixc/net"
+	co "aixc/utils/color"
 	"fmt"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	Model      = n.Cyan("model")
-	Version    = n.Cyan("version")
-	Pop        = n.Cyan("pop")
-	Enterprise = n.Cyan("enterprise")
+	Model      = co.Cyan("model")
+	Version    = co.Cyan("version")
+	Pop        = co.Cyan("pop")
+	Enterprise = co.Cyan("enterprise")
 
 	selectOption = fmt.Sprintf("%s|%s|%s|%s", Model, Version, Pop, Enterprise)
 )

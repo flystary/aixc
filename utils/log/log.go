@@ -24,7 +24,6 @@ var (
 )
 
 func init() {
-
 	var err error
 	logFile, err = os.OpenFile(defaultLogFile, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
 	if err != nil {

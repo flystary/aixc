@@ -2,12 +2,12 @@ package net
 
 import (
 	"aixc/model/dve"
+	tool "aixc/utils"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"time"
-
 )
 
 var (
@@ -19,7 +19,7 @@ var (
 )
 
 func getDveBytes(TOKEN, URL string) ([]byte, error) {
-	Unix := timeUnix(time.Now())
+	Unix := tool.TimeUnix(time.Now())
 	dveURL := fmt.Sprintf("%saccess_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(dveURL)
@@ -203,16 +203,19 @@ func CloseWatonsHaRemote(SN, TOKEN, URL string) bool {
 }
 
 // 获取相同企业号的的UCPE
-func getSnsByModeEn(mode,enterprise string) []string {
+func getSnsByModeEn(mode, enterprise string) []string {
 	var sns []string
 	switch mode {
-		case "valor":{
+	case "valor":
+		{
 			sns = dv.GetCpesByEnterprise(enterprise)
 		}
-		case "tassadar":{
+	case "tassadar":
+		{
 			sns = dz.GetCpesByEnterprise(enterprise)
 		}
-		case "nexus":{
+	case "nexus":
+		{
 			sns = dn.GetCpesByEnterprise(enterprise)
 		}
 	}
