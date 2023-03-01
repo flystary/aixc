@@ -18,9 +18,9 @@ func main() {
 		user = strings.Trim(string(utmp.User[:]), "\x00")
 		tty = strings.Trim(string(utmp.Device[:]), "\x00")
 		host = strings.Trim(string(utmp.Host[:]), "\x00")
+
 		mac, _ = arps.GetMACFromAddr(host)
 		log.Debugf("user:%s tty:%s host:%s mac:%s", user, tty, host, mac)
 	}
-
 	cmd.Run()
 }

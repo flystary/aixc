@@ -19,14 +19,14 @@ type Entry struct {
 type Entrys []Entry
 
 // GetMACFromAddr
-func (entries Entrys) GetMACFromAddr(Addr string) (string, error) {
+func (entries Entrys) GetMACFromAddr(ADDR string) (string, error) {
 	for _, entry := range entries {
 		addr := strings.Trim(entry.IPAddress, " ")
-		if addr == Addr {
+		if addr == ADDR {
 			return entry.HWAddress, nil
 		}
 	}
-	return "", errors.New("Addr not found")
+	return "", errors.New("ADDR Not Fond")
 }
 
 // GetEntryFromMAC get an entry by searching with MAC address
@@ -41,13 +41,13 @@ func (entries Entrys) GetEntryFromMAC(mac string) (Entry, error) {
 }
 
 // GetEntries list ARP entries in /proc/net/arp
-func GetEntries() ([]Entry, error) {
+func GetEntries() (Entrys, error) {
 	fileDatas, err := os.ReadFile("/proc/net/arp")
 	if err != nil {
 		return nil, err
 	}
 
-	entries := []Entry{}
+	entries := Entrys{}
 	datas := strings.Split(string(fileDatas), "\n")
 	for i, data := range datas {
 		if i == 0 || data == "" {
