@@ -28,6 +28,16 @@ func (entries Entrys) GetMACFromAddr(host string) (string, error) {
 	return "", errors.New("Addr not found")
 }
 
+func (entries Entrys) GetEntryFromMAC(mac string) (Entry, error) {
+	for _, entry := range entries {
+		if entry.HWAddress == mac {
+			return entry, nil
+		}
+	}
+
+	return Entry{}, errors.New("MAC address not found")
+}
+
 // GetEntries list ARP entries in /proc/net/arp
 func GetEntries() ([]Entry, error) {
 	fileDatas, err := os.ReadFile("/proc/net/arp")

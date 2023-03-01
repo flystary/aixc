@@ -14,15 +14,14 @@ func main() {
 	utmps := utmp.LoadUtmp()
 
 	for _, utmp := range utmps {
-		user = string(utmp.User[:])
-		tty = string(utmp.Device[:])
-		host = string(utmp.Host[:])
+		user = strings.Trim(string(utmp.User[:]), "\x00")
+		tty  = strings.Trim(string(utmp.Device[:]), "\x00")
+		host = strings.Trim(string(utmp.Host[:]), "\x00")
 		break
 	}
 
 	arps, _ = arp.GetEntries()
-	str := strings.Trim(host, "\x00")
-	mac, _ = arps.GetMACFromAddr(str)
+	mac, _ = arps.GetMACFromAddr(host)
 	log.Debugf("user:%s tty:%s host:%s mac:%s", user, tty, host, mac)
 	cmd.Run()
 }
