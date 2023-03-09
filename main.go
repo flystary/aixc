@@ -16,7 +16,7 @@ func main() {
 	arps, _ = arp.GetEntries()
 	for _, utmp := range utmps {
 		user = strings.Trim(string(utmp.User[:]), "\x00")
-		tty = strings.Trim(string(utmp.Device[:]), "\x00")
+		tty  = strings.Trim(string(utmp.Device[:]), "\x00")
 		host = strings.Trim(string(utmp.Host[:]), "\x00")
 
 		mac, _ = arps.GetMACFromAddr(host)
