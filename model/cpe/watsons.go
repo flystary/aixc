@@ -41,8 +41,8 @@ func (w Watsons) MaxVersion() string {
 		softwareVersion := c.SoftwareVersion
 		if softwareVersion != "" {
 			versions := strings.Split(softwareVersion, ".")
-			one, _ := strconv.Atoi(versions[0])
-			two, _ := strconv.Atoi(versions[1])
+			one, _   := strconv.Atoi(versions[0])
+			two, _   := strconv.Atoi(versions[1])
 			three, _ := strconv.Atoi(versions[2])
 			num := (one * 1000) + (two * 10) + three
 
