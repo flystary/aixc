@@ -1,7 +1,6 @@
 package cpe
 
 import (
-	"strconv"
 	"strings"
 )
 
@@ -31,25 +30,29 @@ func (n Nexus) GetCpeStructBySn(sn string) Box {
 }
 
 func (n Nexus) MaxVersion() string {
-	var max int
-	var maxs string
-
+	var max string
 	for _, c := range n {
-		softwareVersion := c.SoftwareVersion
-		if softwareVersion != "" {
-			versions := strings.Split(softwareVersion, ".")
-			one, _   := strconv.Atoi(versions[0])
-			two, _   := strconv.Atoi(versions[1])
-			three, _ := strconv.Atoi(versions[2])
-			num := (one * 1000) + (two * 10) + three
+		if c.SoftwareVersion == "" {
+			continue
+		}
+		ves := strings.Split(c.SoftwareVersion, ".")
+		mves := strings.Split(max, ".")
+		lens := len(ves)
 
-			if num > max {
-				max = num
-				maxs = c.SoftwareVersion
+		if lens < 2 {
+			continue
+		} else if lens == 2 {
+			ves = append(ves, "0")
+		}
+
+		for i := 0; i < lens; i++ {
+			if ves[i] > mves[i] {
+				max = c.SoftwareVersion
+				break
 			}
 		}
 	}
-	return maxs
+	return max
 }
 
 func (n Nexus) GetCpesByModel(model string) []string {

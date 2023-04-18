@@ -1,7 +1,6 @@
 package cpe
 
 import (
-	"strconv"
 	"strings"
 )
 
@@ -22,7 +21,7 @@ func (v Valor) IsSn(sn string) (bool, Cpe) {
 }
 
 func (v Valor) SNs() []string {
-	var sns  = make([]string, 0)
+	var sns = make([]string, 0)
 	for _, c := range v.Data {
 		if c.Sn != "" {
 			sns = append(sns, c.Sn)
@@ -45,25 +44,29 @@ func (v Valor) GetCpeStructBySn(sn string) Cpe {
 }
 
 func (v Valor) MaxVersion() string {
-	var max = 0
-	var maxs string
-
+	var max string
 	for _, c := range v.Data {
-		softwareVersion := c.SoftwareVersion
-		if softwareVersion != "" {
-			versions := strings.Split(softwareVersion, ".")
-			one, _ 	 := strconv.Atoi(versions[0])
-			two, _ 	 := strconv.Atoi(versions[1])
-			three, _ := strconv.Atoi(versions[2])
-			num := (one * 1000) + (two * 10) + three
+		if c.SoftwareVersion == "" {
+			continue
+		}
+		ves := strings.Split(c.SoftwareVersion, ".")
+		mves := strings.Split(max, ".")
+		lens := len(ves)
 
-			if num > max {
-				max = num
-				maxs = c.SoftwareVersion
+		if lens < 2 {
+			continue
+		} else if lens == 2 {
+			ves = append(ves, "0")
+		}
+
+		for i := 0; i < lens; i++ {
+			if ves[i] > mves[i] {
+				max = c.SoftwareVersion
+				break
 			}
 		}
 	}
-	return maxs
+	return max
 }
 
 func (v Valor) GetCpesByModel(model string) []string {

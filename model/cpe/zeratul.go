@@ -1,7 +1,6 @@
 package cpe
 
 import (
-	"strconv"
 	"strings"
 )
 
@@ -29,7 +28,7 @@ func (z Zeratul) GetCpeStructBySn(sn string) Spe {
 }
 
 func (z Zeratul) SNs() []string {
-	var sns  = make([]string, 0)
+	var sns = make([]string, 0)
 	for _, c := range z {
 		if c.Sn != "" {
 			sns = append(sns, c.Sn)
@@ -39,27 +38,30 @@ func (z Zeratul) SNs() []string {
 	return sns
 }
 
-
 func (z Zeratul) MaxVersion() string {
-	var max int
-	var maxs string
-
+	var max string
 	for _, c := range z {
-		softwareVersion := c.SoftwareVersion
-		if softwareVersion != "" {
-			versions := strings.Split(softwareVersion, ".")
-			one, _   := strconv.Atoi(versions[0])
-			two, _   := strconv.Atoi(versions[1])
-			three, _ := strconv.Atoi(versions[2])
-			num := (one * 1000) + (two * 10) + three
+		if c.SoftwareVersion == "" {
+			continue
+		}
+		ves := strings.Split(c.SoftwareVersion, ".")
+		mves := strings.Split(max, ".")
+		lens := len(ves)
 
-			if num > max {
-				max = num
-				maxs = c.SoftwareVersion
+		if lens < 2 {
+			continue
+		} else if lens == 2 {
+			ves = append(ves, "0")
+		}
+
+		for i := 0; i < lens; i++ {
+			if ves[i] > mves[i] {
+				max = c.SoftwareVersion
+				break
 			}
 		}
 	}
-	return maxs
+	return max
 }
 
 func (z Zeratul) GetCpesByModel(model string) []string {
