@@ -156,6 +156,7 @@ func SearchManyBySns(snMany []string) {
 			{
 				ucpe = getCpebyValor(sn)
 				MaxVersion = cpeMaxVersionValor()
+				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "nexus":
 			{
@@ -166,11 +167,13 @@ func SearchManyBySns(snMany []string) {
 			{
 				ucpe = getCpebyWatsons(sn)
 				MaxVersion = cpeMaxVersionWatsons()
+				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "watsonsha":
 			{
 				ucpe = getCpebyWatsonsHa(sn)
 				MaxVersion = cpeMaxVersionWatsonsHa()
+				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "tassadar":
 			{
@@ -178,7 +181,6 @@ func SearchManyBySns(snMany []string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
-		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
 	// sort.Sort(ucpes)

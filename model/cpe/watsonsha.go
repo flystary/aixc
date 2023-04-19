@@ -45,22 +45,23 @@ func (wh WatsonsHa) SNs() []string {
 
 func (wh WatsonsHa) MaxVersion() string {
 	var max string
+
 	for _, c := range wh.Data {
 		if c.SoftwareVersion == "" {
 			continue
 		}
-		ves := strings.Split(c.SoftwareVersion, ".")
-		mves := strings.Split(max, ".")
-		lens := len(ves)
+		vers := strings.Split(c.SoftwareVersion, ".")
+		maxs := strings.Split(max, ".")
+		lens := len(vers)
 
 		if lens < 2 {
 			continue
 		} else if lens == 2 {
-			ves = append(ves, "0")
+			vers = append(vers, "0")
 		}
 
 		for i := 0; i < lens; i++ {
-			if ves[i] > mves[i] {
+			if vers[i] > maxs[i] {
 				max = c.SoftwareVersion
 				break
 			}

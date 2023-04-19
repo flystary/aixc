@@ -13,7 +13,7 @@ modes:
 
 valor:
     cpe: business/cpes
-    pop: vpn/entries
+    pop: vpn/pops
     dve:
         pool: device/cpes
         remote: configuration/enable_remote?
