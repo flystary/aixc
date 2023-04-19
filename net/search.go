@@ -197,21 +197,25 @@ func SearchByModeSns(mode string, sns []string) {
 			{
 				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
+				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "nexus":
 			{
 				ucpe = uCPEInfoNexus(sn)
 				MaxVersion = cpeMaxVersionNexus()
+				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "watsons":
 			{
 				ucpe = uCPEInfoWatsons(sn)
 				MaxVersion = cpeMaxVersionWatsons()
+				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "watsonsha":
 			{
 				ucpe = uCPEInfoWatsonsHa(sn)
 				MaxVersion = cpeMaxVersionWatsonsHa()
+				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "tassadar":
 			{
@@ -219,7 +223,6 @@ func SearchByModeSns(mode string, sns []string) {
 				MaxVersion = cpeMaxVersionZeratul()
 			}
 		}
-		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
 	// sort.Sort(ucpes.NotNull())
