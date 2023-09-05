@@ -30,7 +30,7 @@ func GetToken(URL string) string {
 	var reData = make(url.Values)
 
 	reData["username"] = []string{"matrix"}
-	reData["password"] = []string{newMD5(newMD5("4A9sOpYL"))}
+	reData["password"] = []string{newMD5(newMD5("xxxxxx"))}
 	reData["client_id"] = []string{"browser"}
 	reData["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
 	reData["grant_type"] = []string{"password"}

@@ -27,7 +27,7 @@ type Entry struct {
 type SPop struct {
 	ID 			int `json:"id"`
 	Name 		string `json:"name"`
-	EntryIP 	string `json:"entryIp"`
+	PopIP 	    string `json:"popIp"`
 	Operators 	string `json:"operators"`
 	PopType 	string `json:"popType"`
 	NeedSync 	bool `json:"needSync"`

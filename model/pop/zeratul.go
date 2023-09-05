@@ -24,7 +24,7 @@ func (z Zeratul) GetPopStructById(id int) SPop {
 
 func (z Zeratul) GetIdByAddr(addr string) (id int) {
 	for _, pop := range z {
-		if addr == pop.EntryIP {
+		if addr == pop.PopIP {
 			id = pop.ID
 		}
 	}
