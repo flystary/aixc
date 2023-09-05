@@ -12,9 +12,12 @@ import (
 	"encoding/hex"
 )
 
-var (
-	// token单例
-	onces = &sync.Once{}
+// token单例
+var onces  = &sync.Once{}
+
+const (
+    Username string = ""
+    Password string = ""
 )
 
 func newMD5(code string) string {
@@ -29,8 +32,8 @@ func GetToken(URL string) string {
 	var result = make(map[string]interface{})
 	var reData = make(url.Values)
 
-	reData["username"] = []string{"matrix"}
-	reData["password"] = []string{newMD5(newMD5("xxxxxx"))}
+	reData["username"] = []string{Username}
+	reData["password"] = []string{newMD5(newMD5(Password))}
 	reData["client_id"] = []string{"browser"}
 	reData["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
 	reData["grant_type"] = []string{"password"}
