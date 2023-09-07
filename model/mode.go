@@ -8,7 +8,6 @@ const (
 	valor
 	watsonsHa
 	tassadar
-	nexus
 )
 
 // Enum 枚举
@@ -18,10 +17,6 @@ func (m M) Enum() string {
 	case valor:
 		{
 			mode = "valor"
-		}
-	case nexus:
-		{
-			mode = "nexus"
 		}
 	case watsons:
 		{

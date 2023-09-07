@@ -11,8 +11,10 @@ var (
 	arr []map[string]string
 )
 
+
 func init() {
-	arr = make([]map[string]string, 0, 6)
+    arr = make([]map[string]string, 0, 6)
+
 }
 
 func modeController(simc map[string]string ) {
@@ -21,7 +23,7 @@ func modeController(simc map[string]string ) {
 
 func ThreadQueryMode(sn string) string {
 	wg := &sync.WaitGroup{}
-	for i := 1; i < 6; i++ {
+	for i := 1; i < 5; i++ {
 		wg.Add(1)
 		mode := model.M(i).Enum()
 		go getMapByChan(sn, mode, wg)
@@ -48,27 +50,27 @@ func getMapByChan(sn, mode string, wg *sync.WaitGroup) {
 }
 
 func useMapArrgetMode(marr []map[string]string) string {
-	arr := make([]string, 0)
+	ms := make([]string, 0)
 	var m string
 	for _, mp := range marr {
 		for k, v := range mp {
 			if v == "Yes" && k != "" {
-				arr = append(arr, k)
+				ms = append(ms, k)
 				break
 			}
 		}
 	}
 
-	if len(arr) >= 2 {
-		for _, i := range arr {
+	if len(ms) >= 2 {
+		for _, i := range ms {
 			m = "unknown"
 			if i == "valor" {
 				m = i
 				break
 			}
 		}
-	} else if len(arr) == 1 {
-		m = arr[0]
+	} else if len(ms) == 1 {
+		m = ms[0]
 	} else {
 		m = "unknown"
 	}

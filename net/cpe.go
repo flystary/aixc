@@ -18,7 +18,6 @@ var (
 	op model.Operation
 
 	cv cpe.Valor     //valor
-	cn cpe.Nexus     //nexus
 	cw cpe.Watsons   //watsons
 	ch cpe.WatsonsHa //watsonsha
 	cz cpe.Zeratul   //zeratul
@@ -60,18 +59,6 @@ func getCpeValorData(TOKEN, URL string) error {
 	}
 	// Unmarshal json数据
 	if err = json.Unmarshal(bytes, &cv); err != nil {
-		return err
-	}
-	return nil
-}
-
-func getCpeNexusData(TOKEN, URL string) error {
-	bytes, err := getCpeBytes(TOKEN, URL)
-	if err != nil {
-		return err
-	}
-	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &cn); err != nil {
 		return err
 	}
 	return nil
@@ -128,19 +115,6 @@ func getCpebyValor(sn string) []string {
 	}
 }
 
-func getCpebyNexus(sn string) []string {
-	cpe := cn.GetCpeStructBySn(sn)
-	return []string{
-		co.Cyan(sn),
-		cpe.Model, cpe.SoftwareVersion,
-		cpe.EntryUpdateTime,
-		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
-		cpe.MasterEntryIP,
-		pn.GetPopStructById(cpe.BackupEntryID).EntryIP,
-		cpe.BackupEntryIP,
-	}
-}
-
 func Cyan(sn string) {
 	panic("unimplemented")
 }
@@ -188,7 +162,6 @@ func getCpebyZeratul(sn string) []string {
 }
 
 func cpeMaxVersionValor() string     { return cv.MaxVersion() }
-func cpeMaxVersionNexus() string     { return cn.MaxVersion() }
 func cpeMaxVersionWatsons() string   { return cw.MaxVersion() }
 func cpeMaxVersionWatsonsHa() string { return ch.MaxVersion() }
 func cpeMaxVersionZeratul() string   { return cz.MaxVersion() }
@@ -205,23 +178,6 @@ func uCPEInfoValor(sn string) []string {
 		cpe.MasterPopIP,
 		pv.GetPopStructById(cpe.BackupPopID).PopIP,
 		cpe.BackupPopIP,
-		strconv.Itoa(dve.ServerPort),
-		dve.Customer.Name,
-		cpe.Alias,
-	}
-}
-
-func uCPEInfoNexus(sn string) []string {
-	cpe := cn.GetCpeStructBySn(sn)
-	dve := dn.GetDveStructBySn(sn)
-	return []string{
-		co.Cyan(sn),
-		cpe.Model, cpe.SoftwareVersion,
-		cpe.EntryUpdateTime,
-		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
-		cpe.MasterEntryIP,
-		pn.GetPopStructById(cpe.BackupEntryID).EntryIP,
-		cpe.BackupEntryIP,
 		strconv.Itoa(dve.ServerPort),
 		dve.Customer.Name,
 		cpe.Alias,
@@ -295,22 +251,6 @@ func EuCPEInfoValor(sn string) []string {
 		cpe.MasterPopIP,
 		pv.GetPopStructById(cpe.BackupPopID).PopIP,
 		cpe.BackupPopIP,
-		strconv.Itoa(dve.ServerPort),
-		cpe.Alias,
-	}
-}
-
-func EuCPEInfoNexus(sn string) []string {
-	cpe := cn.GetCpeStructBySn(sn)
-	dve := dn.GetDveStructBySn(sn)
-	return []string{
-		co.Cyan(sn),
-		cpe.Model, cpe.SoftwareVersion,
-		cpe.EntryUpdateTime,
-		pn.GetPopStructById(cpe.MasterEntryID).EntryIP,
-		cpe.MasterEntryIP,
-		pn.GetPopStructById(cpe.BackupEntryID).EntryIP,
-		cpe.BackupEntryIP,
 		strconv.Itoa(dve.ServerPort),
 		cpe.Alias,
 	}
@@ -435,10 +375,6 @@ func getSnsByModel(mode, model string) []string {
 		{
 			sns = ch.GetCpesByModel(model)
 		}
-	case "nexus":
-		{
-			sns = cn.GetCpesByModel(model)
-		}
 	}
 	return sns
 }
@@ -462,10 +398,6 @@ func getSnsByVersion(mode, version string) []string {
 	case "watsonsha":
 		{
 			sns = ch.GetCpesByVersion(version)
-		}
-	case "nexus":
-		{
-			sns = cn.GetCpesByVersion(version)
 		}
 	}
 	return sns
@@ -495,11 +427,6 @@ func getSnsByPopAddr(mode, addr string) []string {
 		{
 			id = ph.GetIdByAddr(addr)
 			sns = ch.GetCpesByPopId(id)
-		}
-	case "nexus":
-		{
-			id = pn.GetIdByAddr(addr)
-			sns = cn.GetCpesByPopId(id)
 		}
 	}
 	return sns

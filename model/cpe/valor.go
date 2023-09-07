@@ -18,6 +18,17 @@ func (v Valor) IsSn(sn string) (bool, Cpe) {
 	return false, cpe
 }
 
+func (v Valor) IsExist(sn string) bool {
+
+	for _, c := range v.Data {
+		if sn == c.Sn {
+			return true
+		}
+		continue
+	}
+	return false
+}
+
 func (v Valor) SNs() []string {
 	var sns = make([]string, 0)
 	for _, c := range v.Data {

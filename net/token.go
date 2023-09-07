@@ -16,8 +16,8 @@ import (
 var onces  = &sync.Once{}
 
 const (
-    Username string = ""
-    Password string = ""
+    username string = "matrix"
+    password string = "pXQL4m"
 )
 
 func newMD5(code string) string {
@@ -32,8 +32,8 @@ func GetToken(URL string) string {
 	var result = make(map[string]interface{})
 	var reData = make(url.Values)
 
-	reData["username"] = []string{Username}
-	reData["password"] = []string{newMD5(newMD5(Password))}
+	reData["username"] = []string{username}
+	reData["password"] = []string{newMD5(newMD5(password))}
 	reData["client_id"] = []string{"browser"}
 	reData["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
 	reData["grant_type"] = []string{"password"}

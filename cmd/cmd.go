@@ -20,8 +20,7 @@ var (
 	Tassadar   = co.Cyan("tassadar")
 	Watsons    = co.Cyan("watsons")
 	WatsonsHa  = co.Cyan("watsonsha")
-	Nexus      = co.Cyan("nexus")
-	modeOption = fmt.Sprintf("%s|%s|%s|%s|%s", Valor, Tassadar, Watsons, WatsonsHa, Nexus)
+	modeOption = fmt.Sprintf("%s|%s|%s|%s", Valor, Tassadar, Watsons, WatsonsHa)
 )
 
 // func show(sn string) {

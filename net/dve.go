@@ -12,7 +12,6 @@ import (
 
 var (
 	dv dve.Valor
-	dn dve.Nexus
 	dw dve.Watsons
 	dh dve.WatsonsHa
 	dz dve.Zeratul
@@ -33,18 +32,6 @@ func getDveBytes(TOKEN, URL string) ([]byte, error) {
 		return nil, err
 	}
 	return bytes, nil
-}
-
-func getDveNexusData(TOKEN, URL string) error {
-	bytes, err := getDveBytes(TOKEN, URL)
-	if err != nil {
-		return err
-	}
-	// Unmarshal json数据
-	if err = json.Unmarshal(bytes, &dn); err != nil {
-		return err
-	}
-	return nil
 }
 
 func getDveValorData(TOKEN, URL string) error {
@@ -213,10 +200,6 @@ func getSnsByModeEn(mode, enterprise string) []string {
 	case "tassadar":
 		{
 			sns = dz.GetCpesByEnterprise(enterprise)
-		}
-	case "nexus":
-		{
-			sns = dn.GetCpesByEnterprise(enterprise)
 		}
 	}
 	return sns

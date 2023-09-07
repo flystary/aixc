@@ -30,10 +30,6 @@ func SearchSevenBySn(sn string) {
 		{
 			ucpe = getCpebyValor(sn)
 		}
-	case "nexus":
-		{
-			ucpe = getCpebyNexus(sn)
-		}
 	case "watsons":
 		{
 			ucpe = getCpebyWatsons(sn)
@@ -73,11 +69,6 @@ func SearchSevenManyBySns(snMany []string) {
 				ucpe = getCpebyValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
-		case "nexus":
-			{
-				ucpe = getCpebyNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
-			}
 		case "watsons":
 			{
 				ucpe = getCpebyWatsons(sn)
@@ -115,10 +106,6 @@ func SearchBySn(sn string) {
 			ucpe = getCpebyValor(sn)
 
 		}
-	case "nexus":
-		{
-			ucpe = getCpebyNexus(sn)
-		}
 	case "watsons":
 		{
 			ucpe = getCpebyWatsons(sn)
@@ -138,60 +125,21 @@ func SearchBySn(sn string) {
 
 // SearchMany 6.x/7.x 多个Sn和随机mode
 func SearchManyBySns(snMany []string) {
+	msMap := make(map[string]string, len(snMany))
+	// 同步所有数据
+	syncCpe()
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	for _, sn := range snMany {
-		mode = ThreadQueryMode(sn)
-		if mode == "unknown" {
-			os.Exit(14)
-		} else {
-			break
+		m := SearchSnByMode(sn)
+		if m == "unknown" {
+			continue
 		}
+		msMap[sn] = m
 	}
 
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
-
+	mdMap := make(map[string][][]string, 0)
 	for _, sn := range snMany {
-		switch mode {
-		case "valor":
-			{
-				ucpe = getCpebyValor(sn)
-				MaxVersion = cpeMaxVersionValor()
-				ucpe.NotNull().Version(MaxVersion).Time()
-			}
-		case "nexus":
-			{
-				ucpe = getCpebyNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
-			}
-		case "watsons":
-			{
-				ucpe = getCpebyWatsons(sn)
-				MaxVersion = cpeMaxVersionWatsons()
-				ucpe.NotNull().Version(MaxVersion).Time()
-			}
-		case "watsonsha":
-			{
-				ucpe = getCpebyWatsonsHa(sn)
-				MaxVersion = cpeMaxVersionWatsonsHa()
-				ucpe.NotNull().Version(MaxVersion).Time()
-			}
-		case "tassadar":
-			{
-				ucpe = getCpebyZeratul(sn)
-				MaxVersion = cpeMaxVersionZeratul()
-			}
-		}
-		ucpes = append(ucpes, ucpe)
-	}
-	// sort.Sort(ucpes)
-	tb.TableBasic(ucpes)
-}
-
-// SearchByModeSns 所属mode和SnS
-func SearchByModeSns(mode string, sns []string) {
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
-	SyncDataMemorybyMode(mode)
-	for _, sn := range sns {
+		mode = msMap[sn]
 		switch mode {
 		case "valor":
 			{
@@ -199,10 +147,53 @@ func SearchByModeSns(mode string, sns []string) {
 				MaxVersion = cpeMaxVersionValor()
 				ucpe.NotNull().Version(MaxVersion).Time()
 			}
-		case "nexus":
+		case "watsons":
 			{
-				ucpe = uCPEInfoNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
+				ucpe = uCPEInfoWatsons(sn)
+				MaxVersion = cpeMaxVersionWatsons()
+				ucpe.NotNull().Version(MaxVersion).Time()
+			}
+		case "watsonsha":
+			{
+				ucpe = uCPEInfoWatsonsHa(sn)
+				MaxVersion = cpeMaxVersionWatsonsHa()
+				ucpe.NotNull().Version(MaxVersion).Time()
+			}
+		case "tassadar":
+			{
+				ucpe = uCPEInfoZeratul(sn)
+				MaxVersion = cpeMaxVersionZeratul()
+			}
+		}
+
+		if _, ok := mdMap[mode];!ok {
+			// ucpes = append(ucpes, ucpe)
+			ss := make([][]string, 0)
+			ss = append(ss, ucpe)
+			mdMap[mode] = ss
+		} else {
+			mdMap[mode] = append(mdMap[mode], ucpe)
+		}
+	}
+	for mode, data := range mdMap {
+		fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+		tb.Table2Basic(data)
+		fmt.Println()
+	}
+	// sort.Sort(ucpes.NotNull())
+	// tb.Table2Basic(ucpes)
+}
+
+// SearchByModeSns 所属mode和SnS
+func SearchByModeSns(mode string, snMany []string) {
+	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	SyncDataMemorybyMode(mode)
+	for _, sn := range snMany {
+		switch mode {
+		case "valor":
+			{
+				ucpe = uCPEInfoValor(sn)
+				MaxVersion = cpeMaxVersionValor()
 				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "watsons":
@@ -281,11 +272,6 @@ func FilterModelByMode(mode, model string) {
 				ucpe = uCPEInfoWatsonsHa(sn)
 				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
-		case "nexus":
-			{
-				ucpe = uCPEInfoNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
-			}
 		}
 		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
@@ -319,12 +305,6 @@ func FilterVersionByMode(mode, version string) {
 				ucpe = uCPEInfoWatsonsHa(sn)
 				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
-		case "nexus":
-			{
-				ucpe = uCPEInfoNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
-			}
-
 		}
 		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
@@ -359,11 +339,6 @@ func FilterPopByMode(mode, addr string) {
 				ucpe = uCPEInfoWatsonsHa(sn)
 				MaxVersion = cpeMaxVersionWatsonsHa()
 			}
-		case "nexus":
-			{
-				ucpe = uCPEInfoNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
-			}
 		}
 		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
@@ -382,11 +357,6 @@ func FilterEnterpriseByMode(mode, en string) {
 			{
 				ucpe = EuCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
-			}
-		case "nexus":
-			{
-				ucpe = EuCPEInfoNexus(sn)
-				MaxVersion = cpeMaxVersionNexus()
 			}
 		case "tassadar":
 			{

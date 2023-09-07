@@ -20,6 +20,18 @@ func (w Watsons) IsSn(sn string) (bool, Vox) {
 	return false, vox
 }
 
+func (w Watsons) IsExist(sn string) bool {
+
+	for i := 0; i < len(w.Data); i++ {
+		if sn == w.Data[i].Sn {
+			return true
+		}
+		continue
+	}
+	return false
+}
+
+
 func (w Watsons) GetCpeStructBySn(sn string) Vox {
 
 	for _, vb := range w.Data {

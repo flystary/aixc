@@ -45,9 +45,7 @@ func(o Operation) SnInMode(sn string) string {
 		continue
 	}
 
-	if mode == "nuxes" {
-		mode = "nexus"
-	}else if mode =="nuxes-watsons" {
+    if mode =="nuxes-watsons" {
 		mode = "watsons"
 	} else if mode =="watsons-ha" {
 		mode = "watsonsha"

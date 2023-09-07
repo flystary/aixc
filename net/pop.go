@@ -12,7 +12,6 @@ import (
 )
 var (
 	pv pop.Valor
-	pn pop.Nexus
 	pw pop.Watsons
 	ph pop.WatsonsHa
 	pz pop.Zeratul
@@ -33,17 +32,6 @@ func getPopBytes(TOKEN, URL string) ([]byte, error) {
 		return nil, err
 	}
 	return bytes, nil
-}
-
-func getPopNexusData(TOKEN, URL string) error {
-	bytes, err := getPopBytes(TOKEN, URL)
-	if err != nil {
-		return err
-	}
-	if err := json.Unmarshal(bytes, &pn); err != nil {
-		return err
-	}
-	return nil
 }
 
 func getPopValorData(TOKEN, URL string) error {

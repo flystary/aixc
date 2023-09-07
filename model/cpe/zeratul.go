@@ -14,6 +14,16 @@ func (z Zeratul) IsSn(sn string) (bool, Spe) {
 	return false, spe
 }
 
+func (z Zeratul) IsExist(sn string) bool {
+	for i := 0; i < len(z); i++ {
+		if sn == z[i].Sn {
+			return true
+		}
+		continue
+	}
+	return false
+}
+
 func (z Zeratul) GetCpeStructBySn(sn string) Spe {
 	for _, c := range z {
 		if sn == c.Sn {
