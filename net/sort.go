@@ -15,7 +15,8 @@ func (u Ucpe) Len() int { return len(u) }
 // 字段为空
 func (u Ucpe) NotNull() Ucpe {
 	for i, length := 0, u.Len(); i < length; i++ {
-		if u[i] == " " {
+        ui_str :=  u[i]
+		if len(ui_str) == 0 {
 			break
 		}
 	}
@@ -24,21 +25,27 @@ func (u Ucpe) NotNull() Ucpe {
 
 // 版本不一致
 func (u Ucpe) Version(max string) Ucpe {
-	if u[2] == max {
-		u[2] = co.Cyan(u[2])
-	} else {
-		u[2] = co.Red(u[2])
-	}
+    max_version_str := u[2]
+    if len(max_version_str) != 0 {
+	    if max_version_str == max {
+		    u[2] = co.Cyan(max_version_str)
+	    } else {
+		    u[2] = co.Red(max_version_str)
+	    }
+    }
 	return u
 }
 
 // 时间不更新
 func (u Ucpe) Time() Ucpe {
 	var now = time.Now()
-	synctime, _ := time.Parse("2006-01-02 15:04:05", u[3])
-	if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-		u[3] = fmt.Sprintf("%s✗%s", co.Red(strings.Split(u[3], " ")[0]), co.Red(strings.Split(u[3], " ")[1]))
-	}
+    time_str := u[3]
+    if len(time_str) != 0 {
+	    synctime, _ := time.Parse("2006-01-02 15:04:05", time_str)
+	    if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+		    u[3] = fmt.Sprintf("%s✗%s", co.Red(strings.Split(time_str, " ")[0]), co.Red(strings.Split(time_str, " ")[1]))
+	    }
+    }
 	return u
 }
 
