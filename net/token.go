@@ -16,8 +16,8 @@ import (
 var onces  = &sync.Once{}
 
 const (
-    username string = "matrix"
-    password string = "pXQL4m"
+    username string = "tac_quanlin.li"
+    password string = "Abcd$1234"
 )
 
 func newMD5(code string) string {
