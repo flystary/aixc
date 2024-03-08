@@ -10,6 +10,7 @@ func init() {
 	rootCmd.AddCommand(listCmd)
 	listCmd.Flags().StringP("mode", "m", "", fmt.Sprintf("Appoint the UCPE Mode, Option is %s", modeOption))
 	listCmd.Flags().BoolP("seven", "", false, "Appoint that the ucpe Mode belongs to SDWAN6")
+	listCmd.Flags().StringP("write", "w", "", "Write current data to a file")
 }
 
 var listCmd = &cobra.Command{
@@ -20,7 +21,7 @@ var listCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 
-		useSeven, err := cmd.Flags().GetBool("seven")
+		isSeven, err := cmd.Flags().GetBool("seven")
 		if err != nil {
 			println("getBool err: ", err)
 			return
@@ -31,40 +32,18 @@ var listCmd = &cobra.Command{
 			return
 		}
 
-		if checkListMode(mode) {
-			if len(mode) == 0 {
-				if useSeven {
-					if len(args) == 1 {
-						showSeven(args[0])
-					} else {
-						showSevenMany(args)
-					}
-				} else {
-					showMany(args)
-					return
-				}
-			} else {
-				if useSeven {
-					println("不支持此用法!")
-					return
-				}
-				showManybyModeSns(mode, args)
-				return
-			}
-		} else {
-			println("不支持此用法!")
+		var wr	*Write
+		write, err := cmd.Flags().GetString("write")
+		if err != nil {
+			println("getstring err: ", err)
 			return
 		}
+		cli = &CLI{
+			sns: args,
+			mode: mode,
+			isSeven: isSeven,
+			write: *wr.Decode(write),
+		}
+		cli.Search()
 	},
-}
-
-func checkListMode(mode string) bool {
-	if mode == "valor" || mode == "nexus" || mode == "watsons" || mode == "watsonsha" || mode == "tassadar" || mode == "" {
-		return true
-	}
-	return false
-}
-
-func Seven(is bool) {
-
 }

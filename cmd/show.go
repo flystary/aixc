@@ -1,26 +1,18 @@
 package cmd
 
 import (
-	co "aixc/utils/color"
 	"fmt"
 
 	"github.com/spf13/cobra"
 )
 
-var (
-	Model      = co.Cyan("model")
-	Version    = co.Cyan("version")
-	Pop        = co.Cyan("pop")
-	Enterprise = co.Cyan("enterprise")
-
-	selectOption = fmt.Sprintf("%s|%s|%s|%s", Model, Version, Pop, Enterprise)
-)
 
 func init() {
 	rootCmd.AddCommand(showCmd)
 	showCmd.Flags().StringP("mode", "m", "valor", fmt.Sprintf("Appoint the UCPE Mode, Option is %s", modeOption))
 	showCmd.Flags().StringP("select", "s", "", fmt.Sprintf("Appoint the filter object of UCPE, Option is %s", selectOption))
 	showCmd.Flags().StringP("enterprise", "e", "", "Appoint that the filtering object of UCPE is the enterprise number")
+	showCmd.Flags().StringP("write", "w", "", "Write current data to a file")
 }
 
 var showCmd = &cobra.Command{
@@ -30,6 +22,7 @@ var showCmd = &cobra.Command{
 	// Args:    cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
+		var ops *Options
 
 		mode, err := cmd.Flags().GetString("mode")
 		if err != nil {
@@ -42,70 +35,26 @@ var showCmd = &cobra.Command{
 			println("getbool err: ", err)
 			return
 		}
+		ops = ops.isEnterprise(entn)
 
-		option, err := cmd.Flags().GetString("select")
+		sele, err := cmd.Flags().GetString("select")
 		if err != nil {
 			println("getstring err: ", err)
 			return
 		}
 
-		if checkShowMode(mode) {
-			if len(entn) == 0 && len(option) == 0 {
-				if mode == "tassadar" || mode == "watsonsha" {
-					showMode(mode)
-					return
-				} else {
-					println("不支持此用法!")
-					return
-				}
+		var wr	*Write
+		write, err := cmd.Flags().GetString("write")
+		if err != nil {
+			println("getstring err: ", err)
+			return
+		}
 
-			} else if len(entn) > 0 && len(option) > 0 {
-				println("不支持此用法!")
-				return
-			} else {
-				if len(entn) > 0 && len(option) == 0 {
-					Entn(mode, entn)
-					return
-				} else {
-					Option(mode, option, args[0])
-					return
-				}
-			}
+		cli = &CLI{
+			sns: args,
+			mode: mode,
+			options: *ops.Decode(sele),
+			write: *wr.Decode(write),
 		}
 	},
-}
-
-func checkShowMode(mode string) bool {
-	if mode == "valor" || mode == "nexus" || mode == "tassadar" || mode == "watsonsha" || mode == "watsons" {
-		return true
-	}
-	return false
-}
-
-func Option(mode, option, args string) {
-	switch option {
-	case "model":
-		showModel(mode, args)
-		return
-	case "version":
-		showVersion(mode, args)
-		return
-	case "pop":
-		showPop(mode, args)
-		return
-	case "enterprise":
-		showEnterprise(mode, args)
-		return
-	default:
-		println("不支持此用法!")
-		return
-	}
-}
-
-func Entn(mode, entn string) {
-	if mode == "watsons" {
-		println("不支持此用法!")
-		return
-	}
-	showEnterprise(mode, entn)
 }
