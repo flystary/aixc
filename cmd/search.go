@@ -23,10 +23,10 @@ var searchCmd = &cobra.Command{
 			return
 		}
 
-	    cli = &CLI{
+	    var aixc Cmd = &CLI{
 			sns: args,
 			write: *wr.Decode(write),
 		}
-		cli.Search()
+		aixc.run()
     },
 }

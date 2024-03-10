@@ -6,7 +6,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
 func init() {
 	rootCmd.AddCommand(showCmd)
 	showCmd.Flags().StringP("mode", "m", "valor", fmt.Sprintf("Appoint the UCPE Mode, Option is %s", modeOption))
@@ -43,18 +42,18 @@ var showCmd = &cobra.Command{
 			return
 		}
 
-		var wr	*Write
+		var wr *Write
 		write, err := cmd.Flags().GetString("write")
 		if err != nil {
 			println("getstring err: ", err)
 			return
 		}
 
-		cli = &CLI{
-			sns: args,
-			mode: mode,
-			options: *ops.Decode(sele),
-			write: *wr.Decode(write),
+		var aixc Cmd = &CLI{
+			mode:    mode,
+			options: ops.Select(sele, args),
+			write:   *wr.Decode(write),
 		}
+		aixc.run()
 	},
 }

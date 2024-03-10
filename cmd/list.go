@@ -38,12 +38,12 @@ var listCmd = &cobra.Command{
 			println("getstring err: ", err)
 			return
 		}
-		cli = &CLI{
+		var aixc Cmd = &CLI{
 			sns: args,
 			mode: mode,
 			isSeven: isSeven,
 			write: *wr.Decode(write),
 		}
-		cli.Search()
+		aixc.run()
 	},
 }
