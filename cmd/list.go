@@ -21,28 +21,28 @@ var listCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 
-		isSeven, err := cmd.Flags().GetBool("seven")
+		sevenopt, err := cmd.Flags().GetBool("seven")
 		if err != nil {
 			println("getBool err: ", err)
 			return
 		}
-		mode, err := cmd.Flags().GetString("mode")
+		modeopt, err := cmd.Flags().GetString("mode")
 		if err != nil {
 			println("getstring err: ", err)
 			return
 		}
 
-		var wr	*Write
-		write, err := cmd.Flags().GetString("write")
+		writeOpt, err := cmd.Flags().GetString("write")
 		if err != nil {
 			println("getstring err: ", err)
 			return
 		}
+
 		var aixc Cmd = &CLI{
-			sns: args,
-			mode: mode,
-			isSeven: isSeven,
-			write: *wr.Decode(write),
+			sns:   args,
+			mode:  modeopt,
+			seven: sevenopt,
+			Write: cli.DecodeWrite(writeOpt),
 		}
 		aixc.run()
 	},

@@ -21,38 +21,40 @@ var showCmd = &cobra.Command{
 	// Args:    cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
-		var ops *Options
 
-		mode, err := cmd.Flags().GetString("mode")
+		modeopt, err := cmd.Flags().GetString("mode")
 		if err != nil {
 			println("getstring err: ", err)
 			return
 		}
 
-		entn, err := cmd.Flags().GetString("enterprise")
+		enterpriseopt, err := cmd.Flags().GetString("enterprise")
 		if err != nil {
 			println("getbool err: ", err)
 			return
 		}
-		ops = ops.isEnterprise(entn)
+		if enterpriseopt != "" {
+			cli.isEnterprise = true
+			cli.enterprise = enterpriseopt
+		}
 
-		sele, err := cmd.Flags().GetString("select")
+		selectopt, err := cmd.Flags().GetString("select")
 		if err != nil {
 			println("getstring err: ", err)
 			return
 		}
-
-		var wr *Write
-		write, err := cmd.Flags().GetString("write")
+		writeOpt, err := cmd.Flags().GetString("write")
 		if err != nil {
 			println("getstring err: ", err)
 			return
 		}
 
 		var aixc Cmd = &CLI{
-			mode:    mode,
-			options: ops.Select(sele, args),
-			write:   *wr.Decode(write),
+			mode: modeopt,
+			// enterprise: entn,
+			// ops.isEnte = true
+			Options: cli.SelectOpt(selectopt, args),
+			Write:   cli.DecodeWrite(writeOpt),
 		}
 		aixc.run()
 	},

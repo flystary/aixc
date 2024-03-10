@@ -16,17 +16,16 @@ var searchCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
-		var wr	*Write
-		write, err := cmd.Flags().GetString("write")
+		writeOpt, err := cmd.Flags().GetString("write")
 		if err != nil {
 			println("getstring err: ", err)
 			return
 		}
 
-	    var aixc Cmd = &CLI{
-			sns: args,
-			write: *wr.Decode(write),
+		var aixc Cmd = &CLI{
+			sns:   args,
+			Write: cli.DecodeWrite(writeOpt),
 		}
 		aixc.run()
-    },
+	},
 }

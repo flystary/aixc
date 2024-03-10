@@ -7,10 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func init() {
-
-}
-
 var rootCmd = &cobra.Command{
 	Use: "aixc",
 }
@@ -29,9 +25,34 @@ var (
 	Up           = color.Cyan("update")
 	selectOption = fmt.Sprintf("%s|%s|%s|%s|%s|%s", Mo, Ve, Po, En, Pr, Up)
 	modeOption   = fmt.Sprintf("%s|%s|%s|%s", Va, Ta, Wa, Wha)
+
+	// write *Write
+	cli *CLI
 )
+
+func init() {
+
+	cli = &CLI{
+		mode:  "valor",
+		seven: false,
+		isOk:  false,
+		Write: &Write{
+			isWrite: false,
+		},
+		Options: &Options{
+			Model:      &Model{isModel: false},
+			Version:    &Version{isVersion: false},
+			Pop:        &Pop{isPop: false},
+			Enterprise: &Enterprise{isEnterprise: false},
+			Port:       &Port{isPort: false},
+			Update:     &Update{isUpdate: false},
+		},
+	}
+
+}
 
 // Run cmd
 func Run() {
 	rootCmd.Execute()
+
 }
