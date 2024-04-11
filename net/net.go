@@ -93,6 +93,38 @@ func SyncDataMemorybyMode(mode string) {
 				os.Exit(15)
 			}
 		}
+	case "yifeng":
+		{
+			var cpeErr error
+			var popErr error
+			var dveErr error
+
+			wg.Add(num)
+			go func() {
+				cpeErr = getCpeYifengData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func() {
+				popErr = getPopYifengData(TOKEN, popURL)
+				wg.Done()
+			}()
+			go func() {
+				dveErr = getDveYifengData(TOKEN, dveURL)
+				wg.Done()
+			}()
+
+			wg.Wait()
+
+			if cpeErr != nil {
+				os.Exit(12)
+			}
+			if popErr != nil {
+				os.Exit(13)
+			}
+			if dveErr != nil {
+				os.Exit(15)
+			}
+		}
 	case "tassadar":
 		{
 			var cpeErr error
@@ -233,6 +265,42 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 			}
 
 			if is, _ := cv.IsSn(sn); is {
+				return true
+			}
+		}
+	case "yifeng":
+		{
+			var cpeErr error
+			var popErr error
+			var dveErr error
+
+			wg.Add(num)
+			go func() {
+				cpeErr = getCpeYifengData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func() {
+				popErr = getPopYifengData(TOKEN, popURL)
+				wg.Done()
+			}()
+			go func() {
+				dveErr = getDveYifengData(TOKEN, dveURL)
+				wg.Done()
+			}()
+
+			wg.Wait()
+
+			if cpeErr != nil {
+				os.Exit(12)
+			}
+			if popErr != nil {
+				os.Exit(13)
+			}
+			if dveErr != nil {
+				os.Exit(15)
+			}
+
+			if is, _ := cy.IsSn(sn); is {
 				return true
 			}
 		}
@@ -398,6 +466,38 @@ func SyncEnDataMemorybyMode(mode string) {
 				os.Exit(15)
 			}
 		}
+	case "yifeng":
+		{
+			var cpeErr error
+			var popErr error
+			var dveErr error
+
+			wg.Add(num)
+			go func() {
+				cpeErr = getCpeYifengData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func() {
+				popErr = getPopYifengData(TOKEN, popURL)
+				wg.Done()
+			}()
+			go func() {
+				dveErr = getDveYifengData(TOKEN, dveURL)
+				wg.Done()
+			}()
+
+			wg.Wait()
+
+			if cpeErr != nil {
+				os.Exit(12)
+			}
+			if popErr != nil {
+				os.Exit(13)
+			}
+			if dveErr != nil {
+				os.Exit(15)
+			}
+		}
 	case "tassadar":
 		{
 			var cpeErr error
@@ -522,6 +622,38 @@ func SyncAllDataMemory(mode string){
 			}()
 			go func() {
 				dveErr = getDveValorData(TOKEN, dveURL)
+				wg.Done()
+			}()
+
+			wg.Wait()
+
+			if cpeErr != nil {
+				os.Exit(12)
+			}
+			if popErr != nil {
+				os.Exit(13)
+			}
+			if dveErr != nil {
+				os.Exit(15)
+			}
+		}
+	case "yifeng":
+		{
+			var cpeErr error
+			var popErr error
+			var dveErr error
+
+			wg.Add(num)
+			go func() {
+				cpeErr = getCpeYifengData(TOKEN, cpeURL)
+				wg.Done()
+			}()
+			go func() {
+				popErr = getPopYifengData(TOKEN, popURL)
+				wg.Done()
+			}()
+			go func() {
+				dveErr = getDveYifengData(TOKEN, dveURL)
 				wg.Done()
 			}()
 

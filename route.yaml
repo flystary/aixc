@@ -7,7 +7,7 @@ operation: operation/boxes
 modes:
   - valor
   - tassadar
-  - nexus
+  - yifeng
   - watsons
   - watsonsha
 
@@ -17,7 +17,15 @@ valor:
     dve:
         pool: device/cpes
         remote: configuration/enable_remote?
-    pse: 1100  #PageSize
+    pse: 2000  #PageSize
+
+yifeng:
+    cpe: business/cpes
+    pop: vpn/pops
+    dve:
+        pool: device/cpes
+        remote: configuration/enable_remote?
+    pse: 1000
 
 tassadar:
     cpe: business/cpes
@@ -25,14 +33,6 @@ tassadar:
     dve:
         pool: device/cpes
         remote: enable_remote?
-
-nexus:
-    cpe: business/boxes
-    pop: vpn/entries
-    dve:
-        pool: device/boxes
-        remote: support_remote?
-
 watsons:
     cpe: nexus/business/boxes
     pop: nexus/openvpn/entries

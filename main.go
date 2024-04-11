@@ -1,26 +1,35 @@
 package main
 
 import (
-	"aixc/cmd"
-	arp "aixc/utils/arp"
-	log "aixc/utils/log"
-	utmp "aixc/utils/utmp"
+	"runtime"
 	"strings"
+
+	"aixc/cmd"
+	. "aixc/tools/arp"
+	. "aixc/tools/log"
+	. "aixc/tools/utmp"
 )
 
 func main() {
-	var user, tty, host, mac string
-	var arps = make(arp.Entrys, 0)
-	utmps := utmp.LoadUtmp()
 
-	arps, _ = arp.GetEntries()
-	for _, utmp := range utmps {
-		user = strings.Trim(string(utmp.User[:]), "\x00")
-		tty  = strings.Trim(string(utmp.Device[:]), "\x00")
-		host = strings.Trim(string(utmp.Host[:]), "\x00")
+	os := runtime.GOOS
+	arch := runtime.GOARCH
+	if os == "linux" && arch == "amd64" {
+		var user, tty, host, mac string
+		var utmps  = make([]*Utmp, 0)
+		var entrys = make(Entrys, 0)
 
-		mac, _ = arps.GetMACFromAddr(host)
-		log.Debugf("user:%s tty:%s host:%s mac:%s", user, tty, host, mac)
+		utmps = LoadUtmp()
+		entrys, _ = GetEntries()
+
+		for _, utmp := range utmps {
+			user = strings.Trim(string(utmp.User[:]), "\x00")
+			tty = strings.Trim(string(utmp.Device[:]), "\x00")
+			host = strings.Trim(string(utmp.Host[:]), "\x00")
+
+			mac, _ = entrys.GetMACFromAddr(host)
+			Debugf("user:%s tty:%s host:%s mac:%s", user, tty, host, mac)
+		}
 	}
 	cmd.Run()
 }

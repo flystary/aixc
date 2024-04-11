@@ -5,14 +5,17 @@ import (
 	"sync"
 )
 
-
 func syncCpe() {
 	wg := &sync.WaitGroup{}
-	num := 4
+	num := 5
 	wg.Add(num)
 
 	go func() {
 		SyncAllDataMemory("valor")
+		wg.Done()
+	}()
+	go func() {
+		SyncAllDataMemory("yifeng")
 		wg.Done()
 	}()
 	go func() {
@@ -41,6 +44,11 @@ func SearchSnByMode(sn string) string {
 		case "valor":
 			{
 				modeEx[mode] = cv.IsExist(sn)
+				modeExs = append(modeExs, modeEx)
+			}
+		case "yifeng":
+			{
+				modeEx[mode] = cy.IsExist(sn)
 				modeExs = append(modeExs, modeEx)
 			}
 		case "tassadar":
@@ -72,6 +80,10 @@ func SearchSnByMode(sn string) string {
 	if len(ms) >= 2 {
 		for _, i := range ms {
 			m = "unknown"
+			if i == "yifeng" {
+				m = i
+				break
+			}
 			if i == "valor" {
 				m = i
 				break

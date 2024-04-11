@@ -1,24 +1,26 @@
 package net
 
 import (
-	"aixc/model/dve"
-	tool "aixc/utils"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"time"
+
+	"aixc/model/dve"
+	. "aixc/tools"
 )
 
 var (
 	dv dve.Valor
+	dy dve.Valor
 	dw dve.Watsons
 	dh dve.WatsonsHa
 	dz dve.Zeratul
 )
 
 func getDveBytes(TOKEN, URL string) ([]byte, error) {
-	Unix := tool.TimeUnix(time.Now())
+	Unix := TimeUnix(time.Now())
 	dveURL := fmt.Sprintf("%saccess_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(dveURL)
@@ -41,6 +43,18 @@ func getDveValorData(TOKEN, URL string) error {
 	}
 	// Unmarshal json数据
 	if err = json.Unmarshal(bytes, &dv); err != nil {
+		return err
+	}
+	return nil
+}
+
+func getDveYifengData(TOKEN, URL string) error {
+	bytes, err := getDveBytes(TOKEN, URL)
+	if err != nil {
+		return err
+	}
+	// Unmarshal json数据
+	if err = json.Unmarshal(bytes, &dy); err != nil {
 		return err
 	}
 	return nil
@@ -197,6 +211,10 @@ func getSnsByModeEn(mode, enterprise string) []string {
 		{
 			sns = dv.GetCpesByEnterprise(enterprise)
 		}
+	// case "yifeng":
+	// 	{
+	// 		sns = dy.GetCpesByEnterprise(enterprise)
+	// 	}
 	case "tassadar":
 		{
 			sns = dz.GetCpesByEnterprise(enterprise)

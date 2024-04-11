@@ -7,18 +7,19 @@ import (
 	"io"
 	"encoding/json"
 	"aixc/model/pop"
-	tool "aixc/utils"
+	. "aixc/tools"
 
 )
 var (
 	pv pop.Valor
+	py pop.Valor
 	pw pop.Watsons
 	ph pop.WatsonsHa
 	pz pop.Zeratul
 )
 
 func getPopBytes(TOKEN, URL string) ([]byte, error) {
-	Unix := tool.TimeUnix(time.Now())
+	Unix := TimeUnix(time.Now())
 	popURL := fmt.Sprintf("%s?access_token=%s&_=%d", URL, TOKEN, Unix)
 
 	res, err := http.Get(popURL)
@@ -41,6 +42,18 @@ func getPopValorData(TOKEN, URL string) error {
 	}
 	// Unmarshal json数据
 	if err := json.Unmarshal(bytes, &pv); err != nil {
+		return err
+	}
+	return nil
+}
+
+func getPopYifengData(TOKEN, URL string) error {
+	bytes, err := getPopBytes(TOKEN, URL)
+	if err != nil {
+		return err
+	}
+	// Unmarshal json数据
+	if err := json.Unmarshal(bytes, &py); err != nil {
 		return err
 	}
 	return nil

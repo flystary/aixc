@@ -1,11 +1,12 @@
 package net
 
 import (
-	co "aixc/utils/color"
-	tb "aixc/utils/table"
 	"fmt"
 	"os"
 	"sort"
+
+	. "aixc/tools/color"
+	. "aixc/tools/table"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 func SearchSevenBySn(sn string) {
 	mode = GetModebySevenSn(sn)
 
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	if mode == "unknown" {
 		os.Exit(13)
 	}
@@ -29,6 +30,10 @@ func SearchSevenBySn(sn string) {
 	case "valor":
 		{
 			ucpe = getCpebyValor(sn)
+		}
+	case "yifeng":
+		{
+			ucpe = getCpebyYifeng(sn)
 		}
 	case "watsons":
 		{
@@ -44,7 +49,7 @@ func SearchSevenBySn(sn string) {
 		}
 	}
 	ucpes = append(ucpes, ucpe)
-	tb.TableMarkdown(ucpes)
+	TableMarkdown(ucpes)
 }
 
 // SearchSevenMany 多个Sn属于6.x
@@ -59,7 +64,7 @@ func SearchSevenManyBySns(snMany []string) {
 		}
 
 	}
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	// 同步数据到内存
 	SyncDataMemorybyMode(mode)
 	for _, sn := range snMany {
@@ -68,6 +73,11 @@ func SearchSevenManyBySns(snMany []string) {
 			{
 				ucpe = getCpebyValor(sn)
 				MaxVersion = cpeMaxVersionValor()
+			}
+		case "yifeng":
+			{
+				ucpe = getCpebyYifeng(sn)
+				MaxVersion = cpeMaxVersionYifeng()
 			}
 		case "watsons":
 			{
@@ -89,14 +99,14 @@ func SearchSevenManyBySns(snMany []string) {
 		ucpes = append(ucpes, ucpe)
 	}
 	sort.Sort(ucpes)
-	tb.TableBasic(ucpes)
+	TableBasic(ucpes)
 }
 
 // Search 6.x/7.x   单个Sn和随机mode
 func SearchBySn(sn string) {
 	// 多线程查询 属于哪个平台 并把对应数据存入内存
 	mode = ThreadQueryMode(sn)
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	if mode == "unknown" {
 		os.Exit(14)
 	}
@@ -104,6 +114,11 @@ func SearchBySn(sn string) {
 	case "valor":
 		{
 			ucpe = getCpebyValor(sn)
+
+		}
+	case "yifeng":
+		{
+			ucpe = getCpebyYifeng(sn)
 
 		}
 	case "watsons":
@@ -120,7 +135,7 @@ func SearchBySn(sn string) {
 		}
 	}
 	ucpes = append(ucpes, ucpe)
-	tb.TableBasic(ucpes)
+	TableBasic(ucpes)
 }
 
 // SearchMany 6.x/7.x 多个Sn和随机mode
@@ -145,6 +160,12 @@ func SearchManyBySns(snMany []string) {
 			{
 				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
+				ucpe.NotNull().Version(MaxVersion).Time()
+			}
+		case "yifeng":
+			{
+				ucpe = uCPEInfoYifeng(sn)
+				MaxVersion = cpeMaxVersionYifeng()
 				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "watsons":
@@ -176,17 +197,17 @@ func SearchManyBySns(snMany []string) {
 		}
 	}
 	for mode, data := range mdMap {
-		fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
-		tb.Table2Basic(data)
+		fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
+		Table2Basic(data)
 		fmt.Println()
 	}
 	// sort.Sort(ucpes.NotNull())
-	// tb.Table2Basic(ucpes)
+	// Table2Basic(ucpes)
 }
 
 // SearchByModeSns 所属mode和SnS
 func SearchByModeSns(mode string, snMany []string) {
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	SyncDataMemorybyMode(mode)
 	for _, sn := range snMany {
 		switch mode {
@@ -194,6 +215,12 @@ func SearchByModeSns(mode string, snMany []string) {
 			{
 				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
+				ucpe.NotNull().Version(MaxVersion).Time()
+			}
+		case "yifeng":
+			{
+				ucpe = uCPEInfoYifeng(sn)
+				MaxVersion = cpeMaxVersionYifeng()
 				ucpe.NotNull().Version(MaxVersion).Time()
 			}
 		case "watsons":
@@ -217,17 +244,22 @@ func SearchByModeSns(mode string, snMany []string) {
 		ucpes = append(ucpes, ucpe)
 	}
 	// sort.Sort(ucpes.NotNull())
-	tb.Table2Basic(ucpes)
+	Table2Basic(ucpes)
 }
 
 func SearchByMode(mode string) {
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	SyncDataMemorybyMode(mode)
 	sn := "ALL"
 	switch mode {
 	case "valor":
 		{
 			MaxVersion = cpeMaxVersionValor()
+			ucpes = allValor(sn)
+		}
+	case "yifeng":
+		{
+			MaxVersion = cpeMaxVersionYifeng()
 			ucpes = allValor(sn)
 		}
 	case "tassadar":
@@ -242,13 +274,13 @@ func SearchByMode(mode string) {
 		}
 	}
 	sort.Sort(ucpes)
-	tb.Table2Basic(ucpes)
+	Table2Basic(ucpes)
 }
 
 // filter
 // SearchByModeModel 所属mode和model
 func FilterModelByMode(mode, model string) {
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	SyncDataMemorybyMode(mode)
 	for _, sn := range getSnsByModel(mode, model) {
 		switch mode {
@@ -257,6 +289,11 @@ func FilterModelByMode(mode, model string) {
 				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
+		case "yifeng":
+			{
+				ucpe = uCPEInfoYifeng(sn)
+				MaxVersion = cpeMaxVersionYifeng()
+			}
 		case "tassadar":
 			{
 				ucpe = uCPEInfoZeratul(sn)
@@ -276,12 +313,12 @@ func FilterModelByMode(mode, model string) {
 		ucpe.NotNull().Version(MaxVersion).Time()
 		ucpes = append(ucpes, ucpe)
 	}
-	tb.Table2Basic(ucpes)
+	Table2Basic(ucpes)
 }
 
 // FilterVersionByMode 所属mode和Version
 func FilterVersionByMode(mode, version string) {
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	SyncDataMemorybyMode(mode)
 	for _, sn := range getSnsByVersion(mode, version) {
 		switch mode {
@@ -290,6 +327,11 @@ func FilterVersionByMode(mode, version string) {
 				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
+		case "yifeng":
+			{
+				ucpe = uCPEInfoYifeng(sn)
+				MaxVersion = cpeMaxVersionYifeng()
+			}
 		case "tassadar":
 			{
 				ucpe = uCPEInfoZeratul(sn)
@@ -310,12 +352,12 @@ func FilterVersionByMode(mode, version string) {
 		ucpes = append(ucpes, ucpe)
 	}
 	sort.Sort(ucpes.NotNull())
-	tb.Table2Basic(ucpes)
+	Table2Basic(ucpes)
 }
 
 // FilterPopByMode 所属mode和pop addr
 func FilterPopByMode(mode, addr string) {
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	SyncDataMemorybyMode(mode)
 	for _, sn := range getSnsByPopAddr(mode, addr) {
 		switch mode {
@@ -324,6 +366,11 @@ func FilterPopByMode(mode, addr string) {
 				ucpe = uCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
 			}
+		case "yifeng":
+			{
+				ucpe = uCPEInfoYifeng(sn)
+				MaxVersion = cpeMaxVersionYifeng()
+			}
 		case "tassadar":
 			{
 				ucpe = uCPEInfoZeratul(sn)
@@ -344,12 +391,12 @@ func FilterPopByMode(mode, addr string) {
 		ucpes = append(ucpes, ucpe)
 	}
 	sort.Sort(ucpes.NotNull())
-	tb.Table2Basic(ucpes)
+	Table2Basic(ucpes)
 }
 
 // FilterEnterpriseByMode 所属mode和企业号
 func FilterEnterpriseByMode(mode, en string) {
-	fmt.Printf("CPE %s is: %s\n", co.Blue("Mode"), co.White(mode))
+	fmt.Printf("CPE %s is: %s\n", Blue("Mode"), White(mode))
 	SyncEnDataMemorybyMode(mode)
 	for _, sn := range getSnsByModeEn(mode, en) {
 		switch mode {
@@ -357,6 +404,11 @@ func FilterEnterpriseByMode(mode, en string) {
 			{
 				ucpe = EuCPEInfoValor(sn)
 				MaxVersion = cpeMaxVersionValor()
+			}
+		case "yifeng":
+			{
+				ucpe = EuCPEInfoYifeng(sn)
+				MaxVersion = cpeMaxVersionYifeng()
 			}
 		case "tassadar":
 			{
@@ -368,5 +420,5 @@ func FilterEnterpriseByMode(mode, en string) {
 		ucpes = append(ucpes, ucpe)
 	}
 	sort.Sort(ucpes.NotNull())
-	tb.Table3Basic(ucpes)
+	Table3Basic(ucpes)
 }

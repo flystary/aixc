@@ -16,14 +16,15 @@ import (
 var onces  = &sync.Once{}
 
 const (
-    username string = "matrix"
-    password string = "pXQL4m"
+    username string = "xxxxxxxxxxxxxxxx"
+    password string = "xxxxxxxxxxxxxxxx"
 )
 
 func newMD5(code string) string {
-	MD5 := md5.New()
-	_, _ = io.WriteString(MD5, code)
-	return hex.EncodeToString(MD5.Sum(nil))
+	m := md5.New()
+    // m.Write([]byte(code))
+    io.WriteString(m, code)
+	return hex.EncodeToString(m.Sum(nil))
 }
 
 // GetToken 获取token

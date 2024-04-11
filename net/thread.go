@@ -2,8 +2,7 @@ package net
 
 import (
 	"sync"
-	// "time"
-	// "fmt"
+
 	"aixc/model"
 )
 
@@ -64,6 +63,10 @@ func useMapArrgetMode(marr []map[string]string) string {
 	if len(ms) >= 2 {
 		for _, i := range ms {
 			m = "unknown"
+            if i == "yifeng" {
+                m = i
+                break
+            }
 			if i == "valor" {
 				m = i
 				break

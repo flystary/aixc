@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	n "aixc/net"
-	co "aixc/utils/color"
-	log "aixc/utils/log"
+	. "aixc/net"
+	. "aixc/tools/color"
+	. "aixc/tools/log"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -16,11 +16,12 @@ var rootCmd = &cobra.Command{
 }
 
 var (
-	Valor      = co.Cyan("valor")
-	Tassadar   = co.Cyan("tassadar")
-	Watsons    = co.Cyan("watsons")
-	WatsonsHa  = co.Cyan("watsonsha")
-	modeOption = fmt.Sprintf("%s|%s|%s|%s", Valor, Tassadar, Watsons, WatsonsHa)
+	Valor      = Cyan("valor")
+	Yifeng     = Cyan("yifeng")
+	Tassadar   = Cyan("tassadar")
+	Watsons    = Cyan("watsons")
+	WatsonsHa  = Cyan("watsonsha")
+	modeOption = fmt.Sprintf("%s|%s|%s|%s|%s", Valor, Tassadar, Yifeng, Watsons, WatsonsHa)
 )
 
 // func show(sn string) {
@@ -28,53 +29,56 @@ var (
 // }
 
 func showSeven(sn string) {
-	log.Infof("showSeven sn:%s", sn)
-	n.SearchSevenBySn(sn)
+	Infof("showSeven sn:%s", sn)
+	SearchSevenBySn(sn)
 }
 
 func showMany(sns []string) {
-	log.Infof("showMany sns:%s", sns)
-	n.SearchManyBySns(sns)
+	Infof("showMany sns:%s", sns)
+	SearchManyBySns(sns)
 }
 
 func showSevenMany(sns []string) {
-	log.Infof("showSevenMany sns:%s", sns)
-	n.SearchSevenManyBySns(sns)
+	Infof("showSevenMany sns:%s", sns)
+	SearchSevenManyBySns(sns)
 }
 
 func showManybyModeSns(mode string, sns []string) {
-	log.Infof("showManybyModeSns mode:%s sns:%s", mode, sns)
-	n.SearchByModeSns(mode, sns)
+	Infof("showManybyModeSns mode:%s sns:%s", mode, sns)
+	SearchByModeSns(mode, sns)
 }
 
 func showMode(mode string) {
-	log.Infof("showMode mode:%s", mode)
-	n.SearchByMode(mode)
+	Infof("showMode mode:%s", mode)
+	SearchByMode(mode)
 }
 
 // filter
 
 func showModel(mode, model string) {
-	log.Infof("showModel mode:%s model:%s", mode, model)
-	n.FilterModelByMode(mode, model)
+	Infof("showModel mode:%s model:%s", mode, model)
+	FilterModelByMode(mode, model)
 }
 
 func showVersion(mode, version string) {
-	log.Infof("showVersion mode:%s version:%s", mode, version)
-	n.FilterVersionByMode(mode, version)
+	Infof("showVersion mode:%s version:%s", mode, version)
+	FilterVersionByMode(mode, version)
 }
 
 func showPop(mode, addr string) {
-	log.Infof("showPop mode:%s addr:%s", mode, addr)
-	n.FilterPopByMode(mode, addr)
+	Infof("showPop mode:%s addr:%s", mode, addr)
+	FilterPopByMode(mode, addr)
 }
 
 func showEnterprise(mode, name string) {
-	log.Infof("showEnterprise mode:%s Enterprise:%s", mode, name)
-	n.FilterEnterpriseByMode(mode, name)
+	Infof("showEnterprise mode:%s Enterprise:%s", mode, name)
+	FilterEnterpriseByMode(mode, name)
 }
 
 // Run cmd
 func Run() {
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+	rootCmd.CompletionOptions.HiddenDefaultCmd = true
 	rootCmd.Execute()
+
 }

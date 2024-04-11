@@ -45,7 +45,7 @@ func LoadUtmp() []*Utmp {
 	}
 	defer file.Close()
 
-	var utmps []*Utmp
+	var utmps = make([]*Utmp, 0)
 	for {
 		utmp := new(Utmp)
 		err = binary.Read(file, binary.LittleEndian, utmp)

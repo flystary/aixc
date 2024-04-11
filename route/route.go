@@ -8,7 +8,7 @@ type Route struct {
 	Modes     []string `yaml:"modes"`
 
 	Valor     valor     `yaml:"valor"`
-	Nexus     nexus     `yaml:"nexus"`
+	Yifeng    valor     `yaml:"yifeng"`
 	Watsons   watsons   `yaml:"watsons"`
 	Tassadar  tassadar  `yaml:"tassadar"`
 	WatsonsHa watsonsha `yaml:"watsonsha"`
@@ -21,7 +21,6 @@ type Classify struct {
 	Dve Device `yaml:"dve"`
 }
 
-type nexus Classify
 type tassadar Classify
 
 type valor struct{

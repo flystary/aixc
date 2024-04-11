@@ -31,10 +31,10 @@ func LoadRoute(path string) Route {
 
 func (r Route) GetCpeFromRoute(mode string) string {
 	switch mode {
-	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s?", r.InitURL, r.Nexus.Cpe)
 	case "valor":
 		return fmt.Sprintf("%s/valor/%s?page=1&pageSize=%v&", r.InitURL, r.Valor.Cpe, r.Valor.Pse)
+	case "yifeng":
+		return fmt.Sprintf("%s/yifeng/valor/%s?page=1&pageSize=%v&", r.InitURL, r.Valor.Cpe, r.Valor.Pse)
 	case "watsons":
 		return fmt.Sprintf("%s/watsons/%s?page=1&pageSize=%v&", r.InitURL, r.Watsons.Cpe, r.Watsons.Pse)
 	case "watsonsha":
@@ -48,10 +48,10 @@ func (r Route) GetCpeFromRoute(mode string) string {
 
 func (r Route) GetPopFromRoute(mode string) string {
 	switch mode {
-	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s", r.InitURL, r.Nexus.Pop)
 	case "valor":
 		return fmt.Sprintf("%s/valor/%s", r.InitURL, r.Valor.Pop)
+	case "yifeng":
+		return fmt.Sprintf("%s/yifeng/valor/%s", r.InitURL, r.Valor.Pop)
 	case "watsons":
 		return fmt.Sprintf("%s/watsons/%s", r.InitURL, r.Watsons.Pop)
 	case "watsonsha":
@@ -65,10 +65,10 @@ func (r Route) GetPopFromRoute(mode string) string {
 
 func (r Route) GetDveFromRoute(mode string) string {
 	switch mode {
-	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s?", r.InitURL, r.Nexus.Dve.Pool)
 	case "valor":
 		return fmt.Sprintf("%s/valor/%s?", r.InitURL, r.Valor.Dve.Pool)
+	case "yifeng":
+		return fmt.Sprintf("%s/yifeng/valor/%s?", r.InitURL, r.Valor.Dve.Pool)
 	case "watsons":
 		return fmt.Sprintf("%s/watsons/%s?page=1&pageSize=%v&", r.InitURL, r.Watsons.Dve.Pool, r.Watsons.Pse)
 	case "watsonsha":
@@ -82,10 +82,10 @@ func (r Route) GetDveFromRoute(mode string) string {
 
 func (r Route) GetDveRemoteFromRoute(mode string) string {
 	switch mode {
-	case "nexus":
-		return fmt.Sprintf("%s/nexus/%s/%%v/%s", r.InitURL, r.Nexus.Dve.Pool, r.Nexus.Dve.Remote)
 	case "valor":
 		return fmt.Sprintf("%s/valor/%s/%%v/%s", r.InitURL, r.Valor.Dve.Pool, r.Valor.Dve.Remote)
+	case "yifeng":
+		return fmt.Sprintf("%s/yifeng/valor/%s/%%v/%s", r.InitURL, r.Valor.Dve.Pool, r.Valor.Dve.Remote)
 	case "watsons":
 		return fmt.Sprintf("%s/watsons/%%v/%v/%s", r.InitURL, r.Watsons.Dve.Pool, r.Watsons.Dve.Remote)
 	case "watsonsha":

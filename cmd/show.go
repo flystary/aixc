@@ -1,17 +1,17 @@
 package cmd
 
 import (
-	co "aixc/utils/color"
+	. "aixc/tools/color"
 	"fmt"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	Model      = co.Cyan("model")
-	Version    = co.Cyan("version")
-	Pop        = co.Cyan("pop")
-	Enterprise = co.Cyan("enterprise")
+	Model      = Cyan("model")
+	Version    = Cyan("version")
+	Pop        = Cyan("pop")
+	Enterprise = Cyan("enterprise")
 
 	selectOption = fmt.Sprintf("%s|%s|%s|%s", Model, Version, Pop, Enterprise)
 )
@@ -76,7 +76,7 @@ var showCmd = &cobra.Command{
 }
 
 func checkShowMode(mode string) bool {
-	if mode == "valor" || mode == "nexus" || mode == "tassadar" || mode == "watsonsha" || mode == "watsons" {
+	if mode == "valor" || mode == "yifeng" || mode == "tassadar" || mode == "watsonsha" || mode == "watsons" {
 		return true
 	}
 	return false

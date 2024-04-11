@@ -6,6 +6,7 @@ type M int
 const (
 	watsons M = iota + 1
 	valor
+    yifeng
 	watsonsHa
 	tassadar
 )
@@ -17,6 +18,10 @@ func (m M) Enum() string {
 	case valor:
 		{
 			mode = "valor"
+		}
+	case yifeng:
+		{
+			mode = "yifeng"
 		}
 	case watsons:
 		{

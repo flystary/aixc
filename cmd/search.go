@@ -17,7 +17,7 @@ var searchCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 	    if len(args) >= 1 {
-	    	showMany(args)
+            showMany(args)
 	    } else {
 	        println("不支持此用法!")
 	        return

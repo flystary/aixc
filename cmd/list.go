@@ -59,7 +59,7 @@ var listCmd = &cobra.Command{
 }
 
 func checkListMode(mode string) bool {
-	if mode == "valor" || mode == "nexus" || mode == "watsons" || mode == "watsonsha" || mode == "tassadar" || mode == "" {
+	if mode == "valor" || mode == "yifeng" || mode == "watsons" || mode == "watsonsha" || mode == "tassadar" || mode == "" {
 		return true
 	}
 	return false
