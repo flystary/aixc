@@ -51,7 +51,7 @@ var showCmd = &cobra.Command{
 
 		if checkShowMode(mode) {
 			if len(entn) == 0 && len(option) == 0 {
-				if mode == "tassadar" || mode == "watsonsha" {
+				if mode == "tassadar" || mode == "watsonsha" || mode == "yifeng" {
 					showMode(mode)
 					return
 				} else {

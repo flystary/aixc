@@ -260,7 +260,7 @@ func SearchByMode(mode string) {
 	case "yifeng":
 		{
 			MaxVersion = cpeMaxVersionYifeng()
-			ucpes = allValor(sn)
+			ucpes = allYifeng(sn)
 		}
 	case "tassadar":
 		{
