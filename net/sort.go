@@ -1,11 +1,11 @@
 package net
 
 import (
+	co "aixc/utils/color"
 	"fmt"
 	"strconv"
 	"strings"
 	"time"
-	co "aixc/utils/color"
 )
 
 type Ucpe []string
@@ -15,7 +15,7 @@ func (u Ucpe) Len() int { return len(u) }
 // 字段为空
 func (u Ucpe) NotNull() Ucpe {
 	for i, length := 0, u.Len(); i < length; i++ {
-        ui_str :=  u[i]
+		ui_str := u[i]
 		if len(ui_str) == 0 {
 			break
 		}
@@ -25,31 +25,31 @@ func (u Ucpe) NotNull() Ucpe {
 
 // 版本不一致
 func (u Ucpe) Version(max string) Ucpe {
-    max_version_str := u[2]
-    if len(max_version_str) != 0 {
-	    if max_version_str == max {
-		    u[2] = co.Cyan(max_version_str)
-	    } else {
-		    u[2] = co.Red(max_version_str)
-	    }
-    }
+	max_version_str := u[2]
+	if len(max_version_str) != 0 {
+		if max_version_str == max {
+			u[2] = co.Cyan(max_version_str)
+		} else {
+			u[2] = co.Red(max_version_str)
+		}
+	}
 	return u
 }
 
 // 时间不更新
 func (u Ucpe) Time() Ucpe {
-    time_str := u[3]
+	time_str := u[3]
 
-    // 更新时间不在当前时间5分钟内则为红色
-    now := time.Now()
-    inMinute := 5
+	// 更新时间不在当前时间5分钟内则为红色
+	now := time.Now()
+	inMinute := 5
 
-    if len(time_str) != 0 {
-	    synctime, _ := time.Parse("2006-01-02 15:04:05", time_str)
-        if !(synctime.After(now.Add(-time.Duration(inMinute)*time.Minute)) && synctime.Before(now)) {
-		    u[3] = fmt.Sprintf("%s✗%s", co.Red(strings.Split(time_str, " ")[0]), co.Red(strings.Split(time_str, " ")[1]))
-	    }
-    }
+	if len(time_str) != 0 {
+		synctime, _ := time.Parse("2006-01-02 15:04:05", time_str)
+		if !(synctime.After(now.Add(-time.Duration(inMinute)*time.Minute)) && synctime.Before(now)) {
+			u[3] = fmt.Sprintf("%s✗%s", co.Red(strings.Split(time_str, " ")[0]), co.Red(strings.Split(time_str, " ")[1]))
+		}
+	}
 	return u
 }
 
