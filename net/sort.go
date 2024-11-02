@@ -38,11 +38,15 @@ func (u Ucpe) Version(max string) Ucpe {
 
 // 时间不更新
 func (u Ucpe) Time() Ucpe {
-	var now = time.Now()
     time_str := u[3]
+
+    // 更新时间不在当前时间5分钟内则为红色
+    now := time.Now()
+    inMinute := 5
+
     if len(time_str) != 0 {
 	    synctime, _ := time.Parse("2006-01-02 15:04:05", time_str)
-	    if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
+        if !(synctime.After(now.Add(-time.Duration(inMinute)*time.Minute)) && synctime.Before(now)) {
 		    u[3] = fmt.Sprintf("%s✗%s", co.Red(strings.Split(time_str, " ")[0]), co.Red(strings.Split(time_str, " ")[1]))
 	    }
     }
