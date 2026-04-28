@@ -2,28 +2,16 @@ package color
 
 import "github.com/fatih/color"
 
+var (
+	red   = color.New(color.FgRed, color.Bold)
+	green = color.New(color.FgGreen, color.Bold)
+	cyan  = color.New(color.FgCyan, color.Bold)
+	blue  = color.New(color.FgBlue, color.Bold)
+	white = color.New(color.FgWhite, color.Bold)
+)
 
-func Red(iput string) string {
-	red := color.New(color.FgRed, color.Bold).SprintFunc()
-	return red(iput)
-}
-
-func Green(iput string) string {
-	green := color.New(color.FgGreen, color.Bold).SprintFunc()
-	return green(iput)
-}
-
-func Cyan(iput string) string {
-	cyan := color.New(color.FgCyan, color.Bold).SprintFunc()
-	return cyan(iput)
-}
-
-func Blue(iput string) string {
-	blue := color.New(color.FgBlue, color.Bold).SprintFunc()
-	return blue(iput)
-}
-
-func White(iput string) string {
-	white := color.New(color.FgWhite, color.Bold).SprintFunc()
-	return white(iput)
-}
+func Red(s string) string   { return red.Sprint(s) }
+func Green(s string) string { return green.Sprint(s) }
+func Cyan(s string) string  { return cyan.Sprint(s) }
+func Blue(s string) string  { return blue.Sprint(s) }
+func White(s string) string { return white.Sprint(s) }

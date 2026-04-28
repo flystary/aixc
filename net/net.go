@@ -47,7 +47,7 @@ func init() {
 	fileName := "route.yaml"
 	path := fmt.Sprintf("/etc/aixc/%s", fileName)
 	// path := fmt.Sprintf("./%s", fileName)
-	route = r.LoadRoute(path)
+	route, _ = r.LoadRoute(path)
 	// 获取token
 	TOKEN = GetToken(neter.GetTokenFromRoute())
 }
@@ -598,7 +598,7 @@ func SyncEnDataMemorybyMode(mode string) {
 	}
 }
 
-func SyncAllDataMemory(mode string){
+func SyncAllDataMemory(mode string) {
 	wg := &sync.WaitGroup{}
 	num := 3
 	cpeURL := neter.GetCpeFromRoute(mode)

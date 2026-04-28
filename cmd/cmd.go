@@ -3,7 +3,7 @@ package cmd
 import (
 	. "aixc/net"
 	. "aixc/tools/color"
-	. "aixc/tools/log"
+	log "aixc/tools/log"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -29,7 +29,7 @@ var (
 // }
 
 func showSeven(sn string) {
-	Infof("showSeven sn:%s", sn)
+	log.Infof("showSeven sn:%s", sn)
 	SearchSevenBySn(sn)
 }
 

@@ -1,98 +1,81 @@
 package table
 
-
 import (
 	"os"
+
 	"github.com/olekukonko/tablewriter"
 )
 
+func newTable() *tablewriter.Table {
+	t := tablewriter.NewWriter(os.Stdout)
+
+	t.SetAutoWrapText(false)
+	t.SetAutoFormatHeaders(true)
+
+	t.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
+	t.SetAlignment(tablewriter.ALIGN_LEFT)
+
+	t.SetCenterSeparator("")
+	t.SetColumnSeparator("")
+	t.SetRowSeparator("")
+
+	t.SetHeaderLine(false)
+	t.SetBorder(false)
+
+	t.SetTablePadding("\t")
+	t.SetNoWhiteSpace(true)
+
+	return t
+}
+
+func render(headers []string, data [][]string) {
+	t := newTable()
+	t.SetHeader(headers)
+	t.AppendBulk(data)
+	t.Render()
+}
 
 func TableBasic(data [][]string) {
-	ALIGN_LEFT := 3
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ucpesn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	table.SetAutoWrapText(false)
-	table.SetAutoFormatHeaders(true)
-	table.SetHeaderAlignment(ALIGN_LEFT)
-	table.SetAlignment(ALIGN_LEFT)
-	table.SetCenterSeparator("")
-	table.SetColumnSeparator("")
-	table.SetRowSeparator("")
-	table.SetHeaderLine(false)
-	table.SetBorder(false)
-	table.SetTablePadding("\t") // pad with tabs
-	table.SetNoWhiteSpace(true)
-
-	table.AppendBulk(data) // Add Bulk Data
-	table.Render()
+	render([]string{
+		"ucpesn", "model", "version", "updatetime",
+		"masterpopip", "mastercpeip",
+		"backuppopip", "backupcpeip",
+	}, data)
 }
 
 func Table2Basic(data [][]string) {
-	ALIGN_LEFT := 3
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ucpesn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip", "port", "enterprise", "alias"})
-	table.SetAutoWrapText(false)
-	table.SetAutoFormatHeaders(true)
-	table.SetHeaderAlignment(ALIGN_LEFT)
-	table.SetAlignment(ALIGN_LEFT)
-	table.SetCenterSeparator("")
-	table.SetColumnSeparator("")
-	table.SetRowSeparator("")
-	table.SetHeaderLine(false)
-	table.SetBorder(false)
-	table.SetTablePadding("\t") // pad with tabs
-	table.SetNoWhiteSpace(true)
-
-	table.AppendBulk(data) // Add Bulk Data
-	table.Render()
+	render([]string{
+		"ucpesn", "model", "version", "updatetime",
+		"masterpopip", "mastercpeip",
+		"backuppopip", "backupcpeip",
+		"port", "enterprise", "alias",
+	}, data)
 }
-
 
 func Table3Basic(data [][]string) {
-	ALIGN_LEFT := 3
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ucpesn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip",  "port", "alias"})
-	table.SetAutoWrapText(false)
-	table.SetAutoFormatHeaders(true)
-	table.SetHeaderAlignment(ALIGN_LEFT)
-	table.SetAlignment(ALIGN_LEFT)
-	table.SetCenterSeparator("")
-	table.SetColumnSeparator("")
-	table.SetRowSeparator("")
-	table.SetHeaderLine(false)
-	table.SetBorder(false)
-	table.SetTablePadding("\t") // pad with tabs
-	table.SetNoWhiteSpace(true)
-
-	table.AppendBulk(data) // Add Bulk Data
-	table.Render()
-}
-
-func Table4Basic(data [][]string) {
-	ALIGN_LEFT := 3
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"mode", "ucpesn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip", "port", "enterprise", "alias"})
-	table.SetAutoWrapText(false)
-	table.SetAutoFormatHeaders(true)
-	table.SetHeaderAlignment(ALIGN_LEFT)
-	table.SetAlignment(ALIGN_LEFT)
-	table.SetCenterSeparator("")
-	table.SetColumnSeparator("")
-	table.SetRowSeparator("")
-	table.SetHeaderLine(false)
-	table.SetBorder(false)
-	table.SetTablePadding("\t") // pad with tabs
-	table.SetNoWhiteSpace(true)
-
-	table.AppendBulk(data) // Add Bulk Data
-	table.Render()
+	render([]string{
+		"ucpesn", "model", "version", "updatetime",
+		"masterpopip", "mastercpeip",
+		"backuppopip", "backupcpeip",
+		"port", "alias",
+	}, data)
 }
 
 func TableMarkdown(data [][]string) {
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"sn", "model", "version", "updatetime", "masterpopip", "mastercpeip", "backuppopip", "backupcpeip"})
-	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	table.SetCenterSeparator("|")
-	table.AppendBulk(data)
-	table.Render()
+	t := tablewriter.NewWriter(os.Stdout)
+
+	t.SetHeader([]string{
+		"sn", "model", "version", "updatetime",
+		"masterpopip", "mastercpeip",
+		"backuppopip", "backupcpeip",
+	})
+
+	t.SetBorders(tablewriter.Border{
+		Left: true, Right: true,
+	})
+
+	t.SetCenterSeparator("|")
+
+	t.AppendBulk(data)
+	t.Render()
 }

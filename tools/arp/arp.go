@@ -1,6 +1,7 @@
 package arp
 
 import (
+	"bufio"
 	"errors"
 	"os"
 	"strings"
@@ -16,65 +17,57 @@ type Entry struct {
 	Device    string
 }
 
-type Entrys []Entry
+type Entries []Entry
 
-// GetMACFromAddr
-func (entries Entrys) GetMACFromAddr(ADDR string) (string, error) {
-	for _, entry := range entries {
-		addr := strings.Trim(entry.IPAddress, " ")
-		if addr == ADDR {
+func GetEntries() (Entries, error) {
+	f, err := os.Open("/proc/net/arp")
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	var entries Entries
+	scanner := bufio.NewScanner(f)
+
+	line := 0
+	for scanner.Scan() {
+		line++
+		if line == 1 {
+			continue // header
+		}
+
+		fields := strings.Fields(scanner.Text())
+		if len(fields) < 6 {
+			continue // skip invalid line safely
+		}
+
+		entries = append(entries, Entry{
+			IPAddress: fields[0],
+			HWType:    fields[1],
+			Flags:     fields[2],
+			HWAddress: fields[3],
+			Mask:      fields[4],
+			Device:    fields[5],
+		})
+	}
+
+	return entries, scanner.Err()
+}
+
+func (e Entries) GetMACFromAddr(addr string) (string, error) {
+	for _, entry := range e {
+		if entry.IPAddress == addr {
 			return entry.HWAddress, nil
 		}
 	}
-	return "", errors.New("ADDR Not Fond")
+	return "", errors.New("address not found")
 }
 
-// GetEntryFromMAC get an entry by searching with MAC address
-func (entries Entrys) GetEntryFromMAC(mac string) (Entry, error) {
-	for _, entry := range entries {
+func (e Entries) GetEntryFromMAC(mac string) (Entry, error) {
+	for _, entry := range e {
 		if entry.HWAddress == mac {
 			return entry, nil
 		}
 	}
-
-	return Entry{}, errors.New("MAC address not found")
-}
-
-// GetEntries list ARP entries in /proc/net/arp
-func GetEntries() (Entrys, error) {
-	fileDatas, err := os.ReadFile("/proc/net/arp")
-	if err != nil {
-		return nil, err
-	}
-
-	entries := Entrys{}
-	datas := strings.Split(string(fileDatas), "\n")
-	for i, data := range datas {
-		if i == 0 || data == "" {
-			continue
-		}
-		parsedData := removeWhiteSpace(strings.Split(data, " "))
-		entries = append(entries, Entry{
-			IPAddress: parsedData[0],
-			HWType:    parsedData[1],
-			Flags:     parsedData[2],
-			HWAddress: parsedData[3],
-			Mask:      parsedData[4],
-			Device:    parsedData[5],
-		})
-	}
-
-	return entries, nil
-}
-
-func removeWhiteSpace(tab []string) []string {
-	var newTab []string
-	for _, element := range tab {
-		if element == "" {
-			continue
-		}
-		newTab = append(newTab, element)
-	}
-
-	return newTab
+	return Entry{}, errors.New("mac not found")
 }

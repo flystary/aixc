@@ -2,6 +2,7 @@ package utmp
 
 import (
 	"encoding/binary"
+	"fmt"
 	"io"
 	"os"
 )
@@ -10,6 +11,8 @@ const (
 	UT_LINESIZE = 32
 	UT_NAMESIZE = 32
 	UT_HOSTSIZE = 256
+
+	USER_PROCESS = 7
 )
 
 type ExitStatus struct {
@@ -38,28 +41,41 @@ type Utmp struct {
 	Reserved [20]byte
 }
 
-func LoadUtmp() []*Utmp {
+func LoadUtmp() ([]Utmp, error) {
 	file, err := os.Open("/var/run/utmp")
 	if err != nil {
-		panic("open /var/run/tmp failed: %s" + err.Error())
+		return nil, fmt.Errorf("open utmp failed: %w", err)
 	}
 	defer file.Close()
 
-	var utmps = make([]*Utmp, 0)
+	var result []Utmp
+
 	for {
-		utmp := new(Utmp)
-		err = binary.Read(file, binary.LittleEndian, utmp)
+		var u Utmp
+
+		err = binary.Read(file, binary.LittleEndian, &u)
 		if err == io.EOF {
 			break
-		} else if err != nil {
-			panic("read /var/run/tmp failed: " + err.Error())
 		}
+		if err != nil {
+			return nil, fmt.Errorf("read utmp failed: %w", err)
+		}
+
 		// #define USER_PROCESS	7	/* Normal process.  */
-		if utmp.Type != 7 || utmp.User[0] == 0 {
+		if u.Type != USER_PROCESS || u.User[0] == 0 {
 			// 忽略特殊用户,参考 procps-ng/contrib/utmp.c 源码
 			continue
 		}
-		utmps = append(utmps, utmp)
+		result = append(result, u)
 	}
-	return utmps
+
+	return result, nil
+}
+
+func (u Utmp) Username() string {
+	return string(u.User[:])
+}
+
+func (u Utmp) DeviceName() string {
+	return string(u.Device[:])
 }

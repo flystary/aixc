@@ -1,0 +1,107 @@
+package test
+
+import (
+	"io"
+	"log"
+	"os"
+	"regexp"
+	"time"
+
+	expect "github.com/google/goexpect"
+	"golang.org/x/crypto/ssh"
+	"golang.org/x/term"
+)
+
+func main() {
+	sshConfig := &ssh.ClientConfig{
+		User:            "js_user",
+		Auth:            []ssh.AuthMethod{ssh.Password("js_password")},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		Timeout:         15 * time.Second,
+	}
+
+	client, err := ssh.Dial("tcp", "jumpserver.com:22", sshConfig)
+	if err != nil {
+		log.Fatalf("连接堡垒机失败: %v", err)
+	}
+	defer client.Close()
+
+	session, _ := client.NewSession()
+	defer session.Close()
+
+	fd := int(os.Stdin.Fd())
+	state, err := term.MakeRaw(fd)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer term.Restore(fd, state)
+
+	w, h, _ := term.GetSize(fd)
+	session.RequestPty("xterm", h, w, ssh.TerminalModes{ssh.ECHO: 1})
+
+	// 3. 管道挂载与 go-expect 初始化
+	sw, _ := session.StdinPipe()  // 远程输入 (Writer)
+	sr, _ := session.StdoutPipe() // 远程输出 (Reader)
+
+	// 注意这里的字段名：Logger (双g), In (Reader), Out (Writer)
+	exp, _, err := expect.SpawnGeneric(&expect.GenOptions{
+		In:   sw,
+		Out:  sr,
+		Wait: func() error { return nil },
+		// Logger: os.Stdout,
+	}, 20*time.Second)
+
+	if err != nil {
+		term.Restore(fd, state)
+		log.Fatalf("Spawn 失败: %v", err)
+	}
+
+	if err := session.Shell(); err != nil {
+		term.Restore(fd, state)
+		log.Fatal(err)
+	}
+
+	err = executeJumps(exp)
+	if err != nil {
+		term.Restore(fd, state)
+		log.Fatalf("\r\n跳转失败: %v\r\n", err)
+	}
+
+	done := make(chan struct{})
+	go func() {
+		io.Copy(sw, os.Stdin)
+		done <- struct{}{}
+	}()
+	go func() {
+		io.Copy(os.Stdout, sr)
+		done <- struct{}{}
+	}()
+
+	<-done
+}
+
+func executeJumps(exp *expect.GExpect) error {
+	// B -> C
+	exp.Expect(regexp.MustCompile(`Opt`), 5*time.Second)
+	exp.Send("Asset_C_Name\r")
+
+	// C -> D
+	exp.Expect(regexp.MustCompile(`C-host`), 10*time.Second)
+	exp.Send("ssh root@D_IP\r")
+
+	// D 密码
+	exp.Expect(regexp.MustCompile(`password:`), 5*time.Second)
+	exp.Send("D_Password\r")
+
+	// D -> E
+	exp.Expect(regexp.MustCompile(`D-host`), 10*time.Second)
+	exp.Send("ssh root@E_IP\r")
+
+	// E 密码
+	exp.Expect(regexp.MustCompile(`password:`), 5*time.Second)
+	exp.Send("E_Password\r")
+
+	// 确认最后一步
+	exp.Expect(regexp.MustCompile(`E-host`), 5*time.Second)
+	return nil
+}
