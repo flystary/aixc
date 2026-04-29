@@ -24,7 +24,11 @@ func ThreadQueryMode(sn string) string {
 	wg.Add(worker)
 
 	for i := 1; i <= worker; i++ {
-		mode := model.M(i).Enum()
+		m := model.M(i)
+		if !m.Valid() {
+			continue
+		}
+		mode := m.String()
 
 		go func(m string) {
 			defer wg.Done()

@@ -38,7 +38,12 @@ func SearchSnByMode(sn string) string {
 	ms := make([]string, 0)
 	modeExs := make([]map[string]bool, 0, 6)
 	for i := 1; i < 5; i++ {
-		mode := model.M(i).Enum()
+		m := model.M(i)
+		if !m.Valid() {
+			continue
+		}
+
+		mode := m.String()
 		modeEx := make(map[string]bool, 1)
 		switch mode {
 		case "valor":

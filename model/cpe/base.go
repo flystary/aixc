@@ -1,6 +1,6 @@
 package cpe
 
-type Device struct {
+type CpeBase struct {
 	ID              int    `json:"id"`
 	Model           string `json:"model"`
 	Sn              string `json:"sn"`
@@ -29,7 +29,7 @@ type Customer struct {
 }
 
 type Cpe struct {
-	Device
+	CpeBase
 	WanCount                string   `json:"wanCount"`
 	Wan1IP                  string   `json:"wan1IP"`
 	Wan1GW                  string   `json:"wan1GW"`
@@ -74,7 +74,7 @@ type Cpe struct {
 }
 
 type Spe struct {
-	Device
+	CpeBase
 	WanCount                string   `json:"wanCount"`
 	Wan1IP                  string   `json:"wan1IP"`
 	Wan1GW                  string   `json:"wan1GW"`
@@ -119,7 +119,7 @@ type Spe struct {
 }
 
 type Box struct {
-	Device
+	CpeBase
 	HardwareVersion      float32     `json:"hardwareVersion"`
 	Wan1IP               string      `json:"wan1IP"`
 	Wan1GW               string      `json:"wan1GW"`
@@ -158,7 +158,7 @@ type Box struct {
 }
 
 type Vox struct {
-	Device
+	CpeBase
 	WanCount             float64     `json:"wanCount"`
 	HardwareVersion      float32     `json:"hardwareVersion"`
 	Wan1IP               string      `json:"wan1IP"`

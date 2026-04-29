@@ -49,7 +49,7 @@ func init() {
 	// path := fmt.Sprintf("./%s", fileName)
 	route, _ = r.LoadRoute(path)
 	// 获取token
-	TOKEN = GetToken(neter.GetTokenFromRoute())
+	TOKEN, _ = GetToken(neter.GetTokenFromRoute())
 }
 
 // 已知mode获取cpe,dve,pop数据并放入到内存

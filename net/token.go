@@ -1,59 +1,63 @@
 package net
 
-
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"sync"
-	"crypto/md5"
-	"encoding/hex"
 )
 
 // token单例
-var onces  = &sync.Once{}
+var onces = &sync.Once{}
 
 const (
-    username string = "xxxxxxxxxxxxxxxx"
-    password string = "xxxxxxxxxxxxxxxx"
+	username string = "xxxxxxxxxxxxxxxx"
+	password string = "xxxxxxxxxxxxxxxx"
 )
 
 func newMD5(code string) string {
 	m := md5.New()
-    // m.Write([]byte(code))
-    io.WriteString(m, code)
+	// m.Write([]byte(code))
+	io.WriteString(m, code)
 	return hex.EncodeToString(m.Sum(nil))
 }
 
+type tokenResp struct {
+	AccessToken string `json:"access_token"`
+}
+
 // GetToken 获取token
-func GetToken(URL string) string {
-	var Token string
-	var result = make(map[string]interface{})
-	var reData = make(url.Values)
+func GetToken(URL string) (string, error) {
+	data := url.Values{}
+	data.Set("username", username)
+	data.Set("password", newMD5(newMD5(password)))
+	data.Set("client_id", "browser")
+	data.Set("client_secret", "b7n3i7kzg22y3p035rw3rd9sfzvs4cv0")
+	data.Set("grant_type", "password")
 
-	reData["username"] = []string{username}
-	reData["password"] = []string{newMD5(newMD5(password))}
-	reData["client_id"] = []string{"browser"}
-	reData["client_secret"] = []string{"b7n3i7kzg22y3p035rw3rd9sfzvs4cv0"}
-	reData["grant_type"] = []string{"password"}
+	res, err := http.PostForm(URL, data)
+	if err != nil {
+		return "", err
+	}
+	defer res.Body.Close()
 
-	onces.Do(func() {
-		res, err := http.PostForm(URL, reData)
-		if err != nil {
-			fmt.Printf("Login Error: %v", err)
-		}
-		defer res.Body.Close()
-		body, err := io.ReadAll(res.Body)
-		if err != nil {
-			fmt.Printf("ReadAll IO Error: %v", err)
-		}
-		err = json.Unmarshal(body, &result)
-		if err != nil {
-			fmt.Printf("Unmarshal body Error: %v", err)
-		}
-		Token = result["access_token"].(string)
-	})
-	return Token
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return "", err
+	}
+
+	var resp tokenResp
+	if err := json.Unmarshal(body, &resp); err != nil {
+		return "", err
+	}
+
+	if resp.AccessToken == "" {
+		return "", fmt.Errorf("empty token")
+	}
+
+	return resp.AccessToken, nil
 }
