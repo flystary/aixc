@@ -15,38 +15,62 @@ func (u Ucpe) Len() int { return len(u) }
 
 // 字段为空
 func (u Ucpe) NotNull() Ucpe {
-	for i, length := 0, u.Len(); i < length; i++ {
-        ui_str :=  u[i]
-		if len(ui_str) == 0 {
-			break
+	k := 0
+	for _, v := range u {
+		if v != "" {
+			u[k] = v
+			k++
 		}
 	}
-	return u
+	return u[:k]
 }
 
 // 版本不一致
 func (u Ucpe) Version(max string) Ucpe {
-    max_version_str := u[2]
-    if len(max_version_str) != 0 {
-	    if max_version_str == max {
-		    u[2] = Cyan(max_version_str)
-	    } else {
-		    u[2] = Red(max_version_str)
-	    }
-    }
+	if len(u) <= 2 {
+		return u
+	}
+
+	v := u[2]
+	if v == "" {
+		return u
+	}
+
+	if v == max {
+		u[2] = Cyan(v)
+	} else {
+		u[2] = Red(v)
+	}
+
 	return u
 }
 
 // 时间不更新
 func (u Ucpe) Time() Ucpe {
-	var now = time.Now()
-    time_str := u[3]
-    if len(time_str) != 0 {
-	    synctime, _ := time.Parse("2006-01-02 15:04:05", time_str)
-	    if synctime.Year() != now.Year() || synctime.Month() != now.Month() || synctime.Day() != now.Day() || synctime.Hour() != now.Hour() {
-		    u[3] = fmt.Sprintf("%s✗%s", Red(strings.Split(time_str, " ")[0]), Red(strings.Split(time_str, " ")[1]))
-	    }
-    }
+	if len(u) <= 3 {
+		return u
+	}
+
+	timeStr := u[3]
+	if timeStr == "" {
+		return u
+	}
+	t, err := time.Parse("2006-01-02 15:04:05", timeStr)
+	if err != nil {
+		return u
+	}
+
+	now := time.Now()
+
+	if t.Before(now.Add(-1 * time.Hour)) {
+		parts := strings.SplitN(timeStr, " ", 2)
+		if len(parts) == 2 {
+			u[3] = fmt.Sprintf("%s✗%s",
+				Red(parts[0]),
+				Red(parts[1]),
+			)
+		}
+	}
 	return u
 }
 
@@ -68,15 +92,21 @@ func (us Ucpes) NotNull() Ucpes {
 
 // 实现model倒序排序
 func (us Ucpes) Less(i, j int) bool {
-	var one, two int
-	left := (strings.Split(us[i][1], "-")[1])
-	right := (strings.Split(us[j][1], "-")[1])
-
-	if left != "" && right != "" {
-		one, _ = strconv.Atoi(left)
-		two, _ = strconv.Atoi(right)
+	if len(us[i]) <= 1 || len(us[j]) <= 1 {
+		return false
 	}
-	return one > two
+
+	leftParts := (strings.Split(us[i][1], "-"))
+	rightParts := (strings.Split(us[j][1], "-"))
+
+	if len(leftParts) < 2 || len(rightParts) < 2 {
+		return false
+	}
+
+	left, _ := strconv.Atoi(leftParts[1])
+	right, _ := strconv.Atoi(rightParts[1])
+
+	return left > right
 }
 
 func (us Ucpes) Swap(i, j int) { us[i], us[j] = us[j], us[i] }

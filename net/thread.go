@@ -1,81 +1,90 @@
 package net
 
 import (
+	"context"
 	"sync"
 
 	"aixc/model"
 )
 
-var (
-	arr []map[string]string
-)
-
-
-func init() {
-    arr = make([]map[string]string, 0, 6)
-
-}
-
-func modeController(simc map[string]string ) {
-	arr = append(arr, simc)
+type result struct {
+	mode string
+	ok   bool
 }
 
 func ThreadQueryMode(sn string) string {
-	wg := &sync.WaitGroup{}
-	for i := 1; i < 5; i++ {
-		wg.Add(1)
+	const worker = 4
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	ch := make(chan result, worker)
+
+	var wg sync.WaitGroup
+	wg.Add(worker)
+
+	for i := 1; i <= worker; i++ {
 		mode := model.M(i).Enum()
-		go getMapByChan(sn, mode, wg)
-	}
-	wg.Wait()
 
-	return useMapArrgetMode(arr)
-}
+		go func(m string) {
+			defer wg.Done()
 
-func getMapByChan(sn, mode string, wg *sync.WaitGroup) {
-
-	relationMap := make(map[string]string, 1)
-	defer wg.Done()
-	is := "No"
-	// now := time.Now()
-	if SyncDataMemorybySnMode(sn, mode) {
-		is = "Yes"
-	}
-	// useTime := time.Since(now)
-	// fmt.Println(mode ,"use time", useTime)
-
-	relationMap[mode] = is
-	modeController(relationMap)
-}
-
-func useMapArrgetMode(marr []map[string]string) string {
-	ms := make([]string, 0)
-	var m string
-	for _, mp := range marr {
-		for k, v := range mp {
-			if v == "Yes" && k != "" {
-				ms = append(ms, k)
-				break
+			select {
+			case <-ctx.Done():
+				return
+			default:
 			}
-		}
+
+			ok := SyncDataMemorybySnMode(sn, m)
+			select {
+			case <-ctx.Done():
+				return
+			case ch <- result{
+				mode: m, ok: ok,
+			}:
+			}
+		}(mode)
 	}
 
+	go func() {
+		wg.Wait()
+		close(ch)
+	}()
+
+	var ms []string
+
+	for r := range ch {
+		if !r.ok {
+			continue
+		}
+		if r.mode == "valor" {
+			cancel()
+			return "valor"
+		}
+		ms = append(ms, r.mode)
+	}
+
+	return resolve(ms)
+}
+
+func resolve(ms []string) string {
 	if len(ms) >= 2 {
-		for _, i := range ms {
-			m = "unknown"
-            if i == "yifeng" {
-                m = i
-                break
-            }
-			if i == "valor" {
-				m = i
-				break
+		for _, m := range ms {
+			if m == "yifeng" {
+				return m
 			}
 		}
-	} else if len(ms) == 1 {
-		m = ms[0]
-	} else {
-		m = "unknown"
+		for _, m := range ms {
+			if m == "valor" {
+				return m
+			}
+		}
+		return "unknown"
 	}
-	return m
+
+	if len(ms) == 1 {
+		return ms[0]
+	}
+
+	return "unknown"
 }
