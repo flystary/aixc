@@ -115,7 +115,7 @@ func getCpeZeratulData(TOKEN, URL string) error {
 }
 
 func getCpebyValor(sn string) []string {
-	cpe := cv.GetCpeStructBySn(sn)
+	cpe, _ := cv.GetCpeStructBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
@@ -129,7 +129,7 @@ func getCpebyValor(sn string) []string {
 }
 
 func getCpebyYifeng(sn string) []string {
-	cpe := cy.GetCpeStructBySn(sn)
+	cpe, _ := cy.GetCpeStructBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
@@ -143,7 +143,7 @@ func getCpebyYifeng(sn string) []string {
 }
 
 func getCpebyWatsons(sn string) []string {
-	cpe := cw.GetCpeStructBySn(sn)
+	cpe, _ := cw.GetCpeStructBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
@@ -157,7 +157,7 @@ func getCpebyWatsons(sn string) []string {
 }
 
 func getCpebyWatsonsHa(sn string) []string {
-	cpe := ch.GetCpeStructBySn(sn)
+	cpe, _ := ch.GetCpeStructBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
@@ -171,7 +171,7 @@ func getCpebyWatsonsHa(sn string) []string {
 }
 
 func getCpebyZeratul(sn string) []string {
-	spe := cz.GetCpeStructBySn(sn)
+	spe, _ := cz.GetCpeStructBySn(sn)
 	return []string{
 		Cyan(sn),
 		spe.Model,
@@ -191,7 +191,7 @@ func cpeMaxVersionWatsonsHa() string { return ch.MaxVersion() }
 func cpeMaxVersionZeratul() string   { return cz.MaxVersion() }
 
 func uCPEInfoValor(sn string) []string {
-	cpe := cv.GetCpeStructBySn(sn)
+	cpe, _ := cv.GetCpeStructBySn(sn)
 	dve := dv.GetDveStructBySn(sn)
 	return []string{
 		Cyan(sn),
@@ -209,7 +209,7 @@ func uCPEInfoValor(sn string) []string {
 }
 
 func uCPEInfoWatsons(sn string) []string {
-	cpe := cw.GetCpeStructBySn(sn)
+	cpe, _ := cw.GetCpeStructBySn(sn)
 	dve := dw.GetDveStructBySn(sn)
 	return []string{
 		Cyan(sn),
@@ -226,7 +226,7 @@ func uCPEInfoWatsons(sn string) []string {
 	}
 }
 func uCPEInfoYifeng(sn string) []string {
-	cpe := cy.GetCpeStructBySn(sn)
+	cpe, _ := cy.GetCpeStructBySn(sn)
 	dve := dy.GetDveStructBySn(sn)
 	return []string{
 		Cyan(sn),
@@ -244,7 +244,7 @@ func uCPEInfoYifeng(sn string) []string {
 }
 
 func uCPEInfoWatsonsHa(sn string) []string {
-	cpe := ch.GetCpeStructBySn(sn)
+	cpe, _ := ch.GetCpeStructBySn(sn)
 	dve := dh.GetDveStructBySn(sn)
 	return []string{
 		Cyan(sn),
@@ -262,7 +262,7 @@ func uCPEInfoWatsonsHa(sn string) []string {
 }
 
 func uCPEInfoZeratul(sn string) []string {
-	spe := cz.GetCpeStructBySn(sn)
+	spe, _ := cz.GetCpeStructBySn(sn)
 	dve := dz.GetDveStructBySn(sn)
 	return []string{
 		Cyan(sn),
@@ -281,7 +281,7 @@ func uCPEInfoZeratul(sn string) []string {
 
 // show 企业号
 func EuCPEInfoValor(sn string) []string {
-	cpe := cv.GetCpeStructBySn(sn)
+	cpe, _ := cv.GetCpeStructBySn(sn)
 	dve := dv.GetDveStructBySn(sn)
 	return []string{
 		Cyan(sn),
@@ -298,7 +298,7 @@ func EuCPEInfoValor(sn string) []string {
 }
 
 func EuCPEInfoYifeng(sn string) []string {
-	cpe := cy.GetCpeStructBySn(sn)
+	cpe, _ := cy.GetCpeStructBySn(sn)
 	dve := dy.GetDveStructBySn(sn)
 	return []string{
 		Cyan(sn),
@@ -315,7 +315,7 @@ func EuCPEInfoYifeng(sn string) []string {
 }
 
 func EuCPEInfoZeratul(sn string) []string {
-	spe := cz.GetCpeStructBySn(sn)
+	spe, _ := cz.GetCpeStructBySn(sn)
 	dve := dz.GetDveStructBySn(sn)
 	return []string{
 		Cyan(sn),
@@ -337,7 +337,7 @@ func allValor(sn string) [][]string {
 
 	if sn == "ALL" {
 		for _, sn := range cz.SNs() {
-			cpe := cv.GetCpeStructBySn(sn)
+			cpe, _ := cv.GetCpeStructBySn(sn)
 			dve := dv.GetDveStructBySn(sn)
 			ucpe = []string{
 				Cyan(sn),
@@ -365,7 +365,7 @@ func allYifeng(sn string) [][]string {
 
 	if sn == "ALL" {
 		for _, sn := range cy.SNs() {
-			cpe := cy.GetCpeStructBySn(sn)
+			cpe, _ := cy.GetCpeStructBySn(sn)
 			dve := dy.GetDveStructBySn(sn)
 			ucpe = []string{
 				Cyan(sn),
@@ -391,7 +391,7 @@ func allZeratul(sn string) [][]string {
 	cpes := make([][]string, 0)
 	if sn == "ALL" {
 		for _, sn := range cz.SNs() {
-			spe := cz.GetCpeStructBySn(sn)
+			spe, _ := cz.GetCpeStructBySn(sn)
 			dve := dz.GetDveStructBySn(sn)
 			ucpe = []string{
 				Cyan(sn),
@@ -418,7 +418,7 @@ func allWatsonsHa(sn string) [][]string {
 	cpes := make([][]string, 0)
 	if sn == "ALL" {
 		for _, sn := range ch.SNs() {
-			spe := ch.GetCpeStructBySn(sn)
+			spe, _ := ch.GetCpeStructBySn(sn)
 			dve := dh.GetDveStructBySn(sn)
 			ucpe = []string{
 				Cyan(sn),
