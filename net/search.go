@@ -187,7 +187,7 @@ func SearchManyBySns(snMany []string) {
 			}
 		}
 
-		if _, ok := mdMap[mode];!ok {
+		if _, ok := mdMap[mode]; !ok {
 			// ucpes = append(ucpes, ucpe)
 			ss := make([][]string, 0)
 			ss = append(ss, ucpe)

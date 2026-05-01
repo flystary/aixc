@@ -1,7 +1,17 @@
 package dve
 
-func IsSn[T DveGet](data []T, sn string) (bool, T) {
-	for _, v := range data {
+type Collection[T DveInfo] []T
+
+func (c Collection[T]) Len() int {
+	return len(c)
+}
+
+func (c Collection[T]) IsEmpty() bool {
+	return len(c) == 0
+}
+
+func (c Collection[T]) IsSn(sn string) (bool, T) {
+	for _, v := range c {
 		if v.GetSn() == sn {
 			return true, v
 		}
@@ -10,8 +20,8 @@ func IsSn[T DveGet](data []T, sn string) (bool, T) {
 	return false, zero
 }
 
-func GetBySn[T DveGet](data []T, sn string) T {
-	for _, v := range data {
+func (c Collection[T]) GetBySn(sn string) T {
+	for _, v := range c {
 		if v.GetSn() == sn {
 			return v
 		}
@@ -20,10 +30,10 @@ func GetBySn[T DveGet](data []T, sn string) T {
 	return zero
 }
 
-func GetByEnterprise[T DveGet](data []T, enterprise string) []string {
+func (c Collection[T]) GetByEnterprise(enterprise string) []string {
 	sns := make([]string, 0)
 
-	for _, v := range data {
+	for _, v := range c {
 		if v.GetEnterprise() == enterprise && v.GetSn() != "" {
 			sns = append(sns, v.GetSn())
 		}

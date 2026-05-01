@@ -1,7 +1,17 @@
 package cpe
 
-func IsSn[T CpeGet](data []T, sn string) (bool, T) {
-	for _, v := range data {
+type Collection[T CpeInfo] []T
+
+func (c Collection[T]) Len() int {
+	return len(c)
+}
+
+func (c Collection[T]) IsEmpty() bool {
+	return len(c) == 0
+}
+
+func (c Collection[T]) IsSn(sn string) (bool, T) {
+	for _, v := range c {
 		if v.GetSn() == sn {
 			return true, v
 		}
@@ -10,10 +20,10 @@ func IsSn[T CpeGet](data []T, sn string) (bool, T) {
 	return false, zero
 }
 
-func SNs[T CpeGet](data []T) []string {
-	sns := make([]string, 0, len(data))
+func (c Collection[T]) SNs() []string {
+	sns := make([]string, 0, c.Len())
 
-	for _, v := range data {
+	for _, v := range c {
 		if sn := v.GetSn(); sn != "" {
 			sns = append(sns, sn)
 		}
@@ -21,8 +31,8 @@ func SNs[T CpeGet](data []T) []string {
 	return sns
 }
 
-func IsExist[T CpeGet](data []T, sn string) bool {
-	for _, v := range data {
+func (c Collection[T]) IsExist(sn string) bool {
+	for _, v := range c {
 		if v.GetSn() == sn {
 			return true
 		}
@@ -30,10 +40,10 @@ func IsExist[T CpeGet](data []T, sn string) bool {
 	return false
 }
 
-func MaxVersion[T CpeGet](data []T) string {
+func (c Collection[T]) MaxVersion() string {
 	var max string
 
-	for _, v := range data {
+	for _, v := range c {
 		ver := v.GetVersion()
 		if ver == "" {
 			continue
@@ -46,8 +56,8 @@ func MaxVersion[T CpeGet](data []T) string {
 	return max
 }
 
-func GetBySn[T CpeGet](data []T, sn string) (T, bool) {
-	for _, v := range data {
+func (c Collection[T]) GetBySn(sn string) (T, bool) {
+	for _, v := range c {
 		if v.GetSn() == sn {
 			return v, true
 		}
@@ -56,10 +66,36 @@ func GetBySn[T CpeGet](data []T, sn string) (T, bool) {
 	return zero, false
 }
 
-func GetByModel[T CpeGet](data []T, model string) []string {
+// 通用过滤器
+func (c Collection[T]) Filter(predicate func(T) bool) []string {
+	sns := make([]string, 0)
+	for _, v := range c {
+		if predicate(v) && v.GetSn() != "" {
+			sns = append(sns, v.GetSn())
+		}
+	}
+	return sns
+}
+
+func (c Collection[T]) GetByModel(model string) []string {
+	return c.Filter(func(v T) bool { return v.GetModel() == model })
+}
+
+func (c Collection[T]) GetByVersion(version string) []string {
+	return c.Filter(func(v T) bool { return v.GetVersion() == version })
+}
+
+func (c Collection[T]) GetByPopId(id int) []string {
+	return c.Filter(func(v T) bool {
+		return v.GetMasterPopID() == id || v.GetBackupPopID() == id
+	})
+}
+
+/*
+func (c Collection[T]) GetByModel(model string) []string {
 	sns := make([]string, 0)
 
-	for _, v := range data {
+	for _, v := range c {
 		if v.GetModel() == model && v.GetSn() != "" {
 			sns = append(sns, v.GetSn())
 		}
@@ -67,10 +103,10 @@ func GetByModel[T CpeGet](data []T, model string) []string {
 	return sns
 }
 
-func GetByVersion[T CpeGet](data []T, version string) []string {
+func (c Collection[T]) GetByVersion(version string) []string {
 	sns := make([]string, 0)
 
-	for _, v := range data {
+	for _, v := range c {
 		if v.GetVersion() == version && v.GetSn() != "" {
 			sns = append(sns, v.GetSn())
 		}
@@ -78,13 +114,14 @@ func GetByVersion[T CpeGet](data []T, version string) []string {
 	return sns
 }
 
-func GetByPopId[T CpeGet](data []T, id int) []string {
+func (c Collection[T]) GetByPopId(id int) []string {
 	sns := make([]string, 0)
 
-	for _, v := range data {
-		if v.GetMasterPopID() == id || v.GetBackupPopID() == id && v.GetSn() != "" {
+	for _, v := range c {
+		if (v.GetMasterPopID() == id || v.GetBackupPopID() == id) && v.GetSn() != "" {
 			sns = append(sns, v.GetSn())
 		}
 	}
 	return sns
 }
+*/

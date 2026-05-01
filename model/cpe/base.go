@@ -208,28 +208,37 @@ type Vox struct {
 	MobileRedteaCID      int         `json:"mobileRedteaCID"`
 }
 
-type CpeGet interface {
+type CpeInfo interface {
 	GetSn() string
 	GetModel() string
 	GetVersion() string
+	GetAlias() string
 	GetMasterPopID() int
 	GetBackupPopID() int
+	GetMasterPopIP() string
+	GetBackupPopIP() string
+	GetUpdateTime() string
 }
 
-func (c Cpe) GetSn() string       { return c.Sn }
-func (c Cpe) GetModel() string    { return c.Model }
-func (c Cpe) GetVersion() string  { return c.SoftwareVersion }
-func (c Cpe) GetMasterPopID() int { return c.MasterPopID }
-func (c Cpe) GetBackupPopID() int { return c.BackupPopID }
+func (b CpeBase) GetSn() string      { return b.Sn }
+func (b CpeBase) GetModel() string   { return b.Model }
+func (b CpeBase) GetVersion() string { return b.SoftwareVersion }
+func (b CpeBase) GetAlias() string   { return b.Alias }
 
-func (v Vox) GetSn() string       { return v.Sn }
-func (v Vox) GetModel() string    { return v.Model }
-func (v Vox) GetVersion() string  { return v.SoftwareVersion }
-func (v Vox) GetMasterPopID() int { return v.MasterEntryID }
-func (v Vox) GetBackupPopID() int { return v.BackupEntryID }
+func (c Cpe) GetMasterPopID() int    { return c.MasterPopID }
+func (c Cpe) GetBackupPopID() int    { return c.BackupPopID }
+func (c Cpe) GetMasterPopIP() string { return c.MasterPopIP }
+func (c Cpe) GetBackupPopIP() string { return c.BackupPopIP }
+func (c Cpe) GetUpdateTime() string  { return c.EntryUpdateTime }
 
-func (s Spe) GetSn() string       { return s.Sn }
-func (s Spe) GetModel() string    { return s.Model }
-func (s Spe) GetVersion() string  { return s.SoftwareVersion }
-func (s Spe) GetMasterPopID() int { return s.MasterPopID }
-func (s Spe) GetBackupPopID() int { return s.BackupPopID }
+func (v Vox) GetMasterPopID() int    { return v.MasterEntryID }
+func (v Vox) GetBackupPopID() int    { return v.BackupEntryID }
+func (v Vox) GetMasterPopIP() string { return v.MasterEntryIP }
+func (v Vox) GetBackupPopIP() string { return v.BackupEntryIP }
+func (v Vox) GetUpdateTime() string  { return v.EntryUpdateTime }
+
+func (s Spe) GetMasterPopID() int    { return s.MasterPopID }
+func (s Spe) GetBackupPopID() int    { return s.BackupPopID }
+func (s Spe) GetMasterPopIP() string { return s.MasterPopIP }
+func (s Spe) GetBackupPopIP() string { return s.BackupPopIP }
+func (s Spe) GetUpdateTime() string  { return s.PopUpdateTime }

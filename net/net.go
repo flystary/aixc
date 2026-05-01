@@ -32,15 +32,7 @@ type Router interface {
 	GetTokenFromRoute() string
 }
 
-// Requester
-type Requester interface {
-	GetToken(URL string) string
-	// GetMode(service  *Service) *Service
-	// GetBytes(service *Service) *Service
-}
 
-// Serializer 序列化
-type Serializer interface{}
 
 // 加载url路由规则
 func init() {

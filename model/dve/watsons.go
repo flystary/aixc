@@ -1,18 +1,8 @@
 package dve
 
 type Watsons struct {
-	Total int   `json:"total"`
-	Data  []Wde `json:"data"`
+	Total int             `json:"total"`
+	Data  Collection[Wde] `json:"data"` // 定义的泛型切片类型
 }
 
-func (w Watsons) IsSn(sn string) (bool, Wde) {
-	return IsSn(w.Data, sn)
-}
-
-func (w Watsons) GetDveStructBySn(sn string) Wde {
-	return GetBySn(w.Data, sn)
-}
-
-func (w Watsons) GetCpesByEnterprise(enterprise string) []string {
-	return GetByEnterprise(w.Data, enterprise)
-}
+func (w Watsons) Collection() Collection[Wde] { return w.Data }

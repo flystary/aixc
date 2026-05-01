@@ -1,38 +1,8 @@
 package cpe
 
 type Valor struct {
-	Total int   `json:"total"`
-	Data  []Cpe `json:"data"`
+	Total int             `json:"total"`
+	Data  Collection[Cpe] `json:"data"` // 定义的泛型切片类型
 }
 
-func (v Valor) IsSn(sn string) (bool, Cpe) {
-	return IsSn(v.Data, sn)
-}
-
-func (v Valor) SNs() []string {
-	return SNs(v.Data)
-}
-
-func (v Valor) IsExist(sn string) bool {
-	return IsExist(v.Data, sn)
-}
-
-func (v Valor) GetCpeStructBySn(sn string) (Cpe, bool) {
-	return GetBySn(v.Data, sn)
-}
-
-func (v Valor) MaxVersion() string {
-	return MaxVersion(v.Data)
-}
-
-func (v Valor) GetCpesByModel(model string) []string {
-	return GetByModel(v.Data, model)
-}
-
-func (v Valor) GetCpesByVersion(version string) []string {
-	return GetByVersion(v.Data, version)
-}
-
-func (v Valor) GetCpesByPopId(id int) []string {
-	return GetByPopId(v.Data, id)
-}
+func (v Valor) Collection() Collection[Cpe] { return v.Data }
