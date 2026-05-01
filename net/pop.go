@@ -1,15 +1,15 @@
 package net
 
 import (
-	"fmt"
-	"time"
-	"net/http"
-	"io"
-	"encoding/json"
 	"aixc/model/pop"
 	. "aixc/tools"
-
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"time"
 )
+
 var (
 	pv pop.Valor
 	py pop.Valor
