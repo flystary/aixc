@@ -158,7 +158,7 @@ func SetRemoteStatus(mode, sn, token, actionUrl, targetStatus string) bool {
 		if currentStatus == targetStatus {
 			return true
 		}
-		// send action
+		// send ac
 		fullURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(actionUrl, device), targetStatus, token)
 
 		fmt.Println("正在发送远程控制请求:", fullURL)

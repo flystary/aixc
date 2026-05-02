@@ -115,15 +115,15 @@ func getCpeZeratulData(TOKEN, URL string) error {
 }
 
 func getCpebyValor(sn string) []string {
-	cpe, _ := cv.GetCpeStructBySn(sn)
+	cpe, _ := cv.Data.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		pv.GetPopStructById(cpe.MasterPopID).PopIP,
+		pv.Data.GetById(cpe.MasterPopID).GetIP(),
 		cpe.MasterPopIP,
-		pv.GetPopStructById(cpe.BackupPopID).PopIP,
+		pv.Data.GetById(cpe.BackupPopID).GetIP(),
 		cpe.BackupPopIP,
 	}
 }

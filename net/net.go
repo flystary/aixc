@@ -12,16 +12,8 @@ var (
 	// TOKEN
 	TOKEN string
 	err   error
-	route r.Route
-	neter Neter = &route
+	route *r.Route
 )
-
-// Neter
-type Neter interface {
-	Router
-	// Requester
-	// Serializer
-}
 
 // Router
 type Router interface {
@@ -32,8 +24,6 @@ type Router interface {
 	GetTokenFromRoute() string
 }
 
-
-
 // 加载url路由规则
 func init() {
 	fileName := "route.yaml"
@@ -41,7 +31,7 @@ func init() {
 	// path := fmt.Sprintf("./%s", fileName)
 	route, _ = r.LoadRoute(path)
 	// 获取token
-	TOKEN, _ = GetToken(neter.GetTokenFromRoute())
+	TOKEN, _ = GetToken(route.GetTokenFromRoute())
 }
 
 // 已知mode获取cpe,dve,pop数据并放入到内存
@@ -49,9 +39,9 @@ func SyncDataMemorybyMode(mode string) {
 	wg := &sync.WaitGroup{}
 	num := 3
 
-	cpeURL := neter.GetCpeFromRoute(mode)
-	popURL := neter.GetPopFromRoute(mode)
-	dveURL := neter.GetDveFromRoute(mode)
+	cpeURL := route.GetCpeFromRoute(mode)
+	popURL := route.GetPopFromRoute(mode)
+	dveURL := route.GetDveFromRoute(mode)
 	switch mode {
 	case "valor":
 		{
@@ -220,9 +210,9 @@ func SyncDataMemorybyMode(mode string) {
 func SyncDataMemorybySnMode(sn, mode string) bool {
 	wg := &sync.WaitGroup{}
 	num := 3
-	cpeURL := neter.GetCpeFromRoute(mode)
-	popURL := neter.GetPopFromRoute(mode)
-	dveURL := neter.GetDveFromRoute(mode)
+	cpeURL := route.GetCpeFromRoute(mode)
+	popURL := route.GetPopFromRoute(mode)
+	dveURL := route.GetDveFromRoute(mode)
 	switch mode {
 	case "valor":
 		{
@@ -256,7 +246,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(15)
 			}
 
-			if is, _ := cv.IsSn(sn); is {
+			if is, _ := cv.Data.IsSn(sn); is {
 				return true
 			}
 		}
@@ -292,7 +282,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(15)
 			}
 
-			if is, _ := cy.IsSn(sn); is {
+			if is, _ := cy.Data.IsSn(sn); is {
 				return true
 			}
 		}
@@ -329,7 +319,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(15)
 			}
 
-			if is, _ := cw.IsSn(sn); is {
+			if is, _ := cw.Data.IsSn(sn); is {
 				return true
 			}
 		}
@@ -365,7 +355,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(15)
 			}
 
-			if is, _ := ch.IsSn(sn); is {
+			if is, _ := ch.Data.IsSn(sn); is {
 				return true
 			}
 		}
@@ -401,7 +391,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 				os.Exit(15)
 			}
 
-			if is, _ := cz.IsSn(sn); is {
+			if is, _ := cz.Data.IsSn(sn); is {
 				return true
 			}
 		}
@@ -411,7 +401,7 @@ func SyncDataMemorybySnMode(sn, mode string) bool {
 
 // 根据sn去云端接口获取属于哪个mode sdwan6
 func GetModebySevenSn(sn string) string {
-	if err = getOperationData(TOKEN, neter.GetOperationFromRoute()); err != nil {
+	if err = getOperationData(TOKEN, route.GetOperationFromRoute()); err != nil {
 		os.Exit(11)
 	}
 	return op.SnInMode(sn)
@@ -422,9 +412,9 @@ func SyncEnDataMemorybyMode(mode string) {
 	wg := &sync.WaitGroup{}
 	num := 3
 
-	cpeURL := neter.GetCpeFromRoute(mode)
-	popURL := neter.GetPopFromRoute(mode)
-	dveURL := neter.GetDveFromRoute(mode)
+	cpeURL := route.GetCpeFromRoute(mode)
+	popURL := route.GetPopFromRoute(mode)
+	dveURL := route.GetDveFromRoute(mode)
 	switch mode {
 	case "valor":
 		{
@@ -593,9 +583,9 @@ func SyncEnDataMemorybyMode(mode string) {
 func SyncAllDataMemory(mode string) {
 	wg := &sync.WaitGroup{}
 	num := 3
-	cpeURL := neter.GetCpeFromRoute(mode)
-	popURL := neter.GetPopFromRoute(mode)
-	dveURL := neter.GetDveFromRoute(mode)
+	cpeURL := route.GetCpeFromRoute(mode)
+	popURL := route.GetPopFromRoute(mode)
+	dveURL := route.GetDveFromRoute(mode)
 	switch mode {
 	case "valor":
 		{
