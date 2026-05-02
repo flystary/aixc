@@ -136,3 +136,34 @@ func InitAllPops(token string, urls map[string]string) {
 		PopRegistry[mode] = provider
 	}
 }
+
+// SetRemoteStatus 统一远程开关
+func SetRemoteStatus(mode, sn, token, actionUrl, targetStatus string) bool {
+	provider, ok := DveRegistry[mode]
+	if !ok {
+		fmt.Printf("未找到模式 %s 的注册信息\n", mode)
+		return false
+	}
+
+	device := provider.GetCollection().GetBySn(sn)
+	if device == nil {
+		return false
+	}
+
+	if device.IsOnline() {
+		currentStatus := "false"
+		if device.IsRemoteEnabled() {
+			currentStatus = "true"
+		}
+		if currentStatus == targetStatus {
+			return true
+		}
+		// send action
+		fullURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(actionUrl, device), targetStatus, token)
+
+		fmt.Println("正在发送远程控制请求:", fullURL)
+		return true
+	}
+
+	return false
+}

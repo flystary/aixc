@@ -1,8 +1,8 @@
 # route.yaml
 
-initurl: http://xxxx.xxxxx.xxx/xxxx
-tokenurl: oauth/token
-operation: operation/boxes
+baseurl: http://xxxx.xxxxx.xxx/xxxx
+tokenpath: oauth/token
+operationpath: operation/boxes
 
 modes:
   - valor

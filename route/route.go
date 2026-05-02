@@ -10,29 +10,24 @@ import (
 
 // Route
 type Route struct {
-	InitURL   string   `yaml:"initurl"`
-	Tokenurl  string   `yaml:"tokenurl"`
-	Operation string   `yaml:"operation"`
-	Modes     []string `yaml:"modes"`
-
-	Valor     Classify `yaml:"valor"`
-	Nexus     Classify `yaml:"nexus"`
-	Watsons   Classify `yaml:"watsons"`
-	Tassadar  Classify `yaml:"tassadar"`
-	WatsonsHa Classify `yaml:"watsonsha"`
+	BaseURL       string              `yaml:"baseurl"`
+	TokenPath     string              `yaml:"tokenpath"`
+	OperationPath string              `yaml:"operationpath"`
+	Modes         []string            `yaml:"modes"`
+	Platforms     map[string]Classify `yaml:",inline"`
 }
 
 // Classify
 type Classify struct {
-	Cpe string `yaml:"cpe"`
-	Pop string `yaml:"pop"`
-	Dve Device `yaml:"dve"`
-	Pse *int   `yaml:"pse,omitempty"`
+	CpePath string `yaml:"cpe"`
+	PopPath string `yaml:"pop"`
+	DvePath Device `yaml:"dve"`
+	Pse     *int   `yaml:"pse,omitempty"`
 }
 
 type Device struct {
-	Pool   string `yaml:"pool"`
-	Remote string `yaml:"remote"`
+	PoolPath   string `yaml:"pool"`
+	RemotePath string `yaml:"remote"`
 }
 
 var (
@@ -41,7 +36,7 @@ var (
 	errInit error
 )
 
-func LoadRoute(path string) (Route, error) {
+func LoadRoute(path string) (*Route, error) {
 	once.Do(func() {
 		b, err := os.ReadFile(path)
 		if err != nil {
@@ -52,89 +47,61 @@ func LoadRoute(path string) (Route, error) {
 		errInit = yaml.Unmarshal(b, &global)
 	})
 
-	return global, errInit
+	return &global, errInit
 }
-
-func (r Route) get(mode string) (string, Classify, bool) {
-	switch mode {
-	case "nexus":
-		return "nexus", r.Nexus, true
-	case "valor":
-		return "valor", r.Valor, true
-	case "watsons":
-		return "watsons", r.Watsons, true
-	case "watsonsha":
-		return "watsons_ha", r.WatsonsHa, true
-	case "tassadar":
-		return "tassadar", r.Tassadar, true
-	default:
-		return "", Classify{}, false
-	}
-}
-
-func (r Route) build(mode, path string, extra string) string {
-	name, _, ok := r.get(mode)
-	if !ok {
-		return ""
-	}
-	return fmt.Sprintf("%s/%s/%s%s", r.InitURL, name, path, extra)
+func (r Route) getCfg(mode string) (Classify, bool) {
+	c, ok := r.Platforms[mode]
+	return c, ok
 }
 
 func (r Route) GetCpeFromRoute(mode string) string {
-	name, c, ok := r.get(mode)
+	c, ok := r.getCfg(mode)
 	if !ok {
 		return ""
 	}
 
-	switch mode {
-	case "nexus", "tassadar":
-		return fmt.Sprintf("%s/%s/%s?", r.InitURL, name, c.Cpe)
-	default:
-		return fmt.Sprintf("%s/%s/%s?page=1&pageSize=%v&", r.InitURL, name, c.Cpe, c.Pse)
+	baseURL := fmt.Sprintf("%s/%s/%s", r.BaseURL, mode, c.CpePath)
+	if c.Pse != nil {
+		return fmt.Sprintf("%s?page=1&pageSize=%d&", baseURL, *c.Pse)
 	}
+	return baseURL + "?"
 }
 
 func (r Route) GetPopFromRoute(mode string) string {
-	name, c, ok := r.get(mode)
+	c, ok := r.getCfg(mode)
 	if !ok {
 		return ""
 	}
-	return fmt.Sprintf("%s/%s/%s", r.InitURL, name, c.Pop)
+	return fmt.Sprintf("%s/%s/%s", r.BaseURL, mode, c.PopPath)
 }
 
 func (r Route) GetDveFromRoute(mode string) string {
-	name, c, ok := r.get(mode)
+	c, ok := r.getCfg(mode)
 	if !ok {
 		return ""
 	}
 
-	if mode == "watsons" {
-		return fmt.Sprintf("%s/%s/%s?page=1&pageSize=%v&",
-			r.InitURL, name, c.Dve.Pool, c.Pse)
+	baseURL := fmt.Sprintf("%s/%s/%s", r.BaseURL, mode, c.DvePath.PoolPath)
+	// 兼容 watsons 的特殊分页逻辑
+	if mode == "watsons" && c.Pse != nil {
+		return fmt.Sprintf("%s?page=1&pageSize=%d&", baseURL, *c.Pse)
 	}
-
-	return fmt.Sprintf("%s/%s/%s?", r.InitURL, name, c.Dve.Pool)
+	return baseURL + "?"
 }
 
 func (r Route) GetDveRemoteFromRoute(mode string) string {
-	name, c, ok := r.get(mode)
+	c, ok := r.getCfg(mode)
 	if !ok {
 		return ""
 	}
 
-	return fmt.Sprintf(
-		"%s/%s/%s/%%v/%s",
-		r.InitURL,
-		name,
-		c.Dve.Pool,
-		c.Dve.Remote,
-	)
+	return fmt.Sprintf("%s/%s/%s/%%v/%s", r.BaseURL, mode, c.DvePath.PoolPath, c.DvePath.RemotePath)
 }
 
 func (r Route) GetTokenFromRoute() string {
-	return fmt.Sprintf("%s/%s?", r.InitURL, r.Tokenurl)
+	return fmt.Sprintf("%s/%s?", r.BaseURL, r.TokenPath)
 }
 
 func (r Route) GetOperationFromRoute() string {
-	return fmt.Sprintf("%s/%s?", r.InitURL, r.Operation)
+	return fmt.Sprintf("%s/%s?", r.BaseURL, r.OperationPath)
 }
