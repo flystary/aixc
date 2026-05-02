@@ -6,3 +6,12 @@ type Watsons struct {
 }
 
 func (w Watsons) Collection() Collection[Vox] { return w.Data }
+
+func (w Watsons) GetCollection() Collection[CpeInfo] {
+	res := make(Collection[CpeInfo], w.Data.Len())
+	for i, p := range w.Data {
+		res[i] = p
+	}
+	return res
+
+}

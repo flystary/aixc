@@ -125,3 +125,7 @@ func (c Collection[T]) GetByPopId(id int) []string {
 	return sns
 }
 */
+
+type CpeProvider interface {
+	GetCollection() Collection[CpeInfo]
+}

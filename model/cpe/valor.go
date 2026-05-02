@@ -6,3 +6,12 @@ type Valor struct {
 }
 
 func (v Valor) Collection() Collection[Cpe] { return v.Data }
+
+func (v Valor) GetCollection() Collection[CpeInfo] {
+	res := make(Collection[CpeInfo], v.Data.Len())
+	for i, p := range v.Data {
+		res[i] = p
+	}
+	return res
+
+}

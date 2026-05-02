@@ -50,8 +50,9 @@ type Wde struct {
 type DveInfo interface {
 	GetSn() string
 	GetVersion() string
-	IsOnline() bool
 	GetEnterprise() string
+	IsOnline() bool
+	IsRemoteEnabled() bool
 }
 
 func (b DeviceBase) GetSn() string      { return b.Sn }
@@ -59,7 +60,10 @@ func (b DeviceBase) GetVersion() string { return b.SoftwareVersion }
 func (b DeviceBase) IsOnline() bool     { return b.Status == "102" }
 
 func (n Nde) GetEnterprise() string { return n.CustomerName }
+func (n Nde) IsRemoteEnabled() bool { return n.SupportRemote == true }
 
 func (v Vde) GetEnterprise() string { return v.CustomerName }
+func (v Vde) IsRemoteEnabled() bool { return v.EnableRemote == true }
 
 func (w Wde) GetEnterprise() string { return "watsons" }
+func (w Wde) IsRemoteEnabled() bool { return w.SupportRemote == true }

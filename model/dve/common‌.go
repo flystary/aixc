@@ -57,3 +57,7 @@ func (c Collection[T]) GetByEnterprise(enterprise string) []string {
 	return sns
 }
 */
+
+type DveProvider interface {
+	GetCollection() Collection[DveInfo]
+}
