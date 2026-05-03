@@ -48,27 +48,27 @@ func SearchSnByMode(sn string) string {
 		switch mode {
 		case "valor":
 			{
-				modeEx[mode] = cv.IsExist(sn)
+				modeEx[mode] = cv.Data.IsExist(sn)
 				modeExs = append(modeExs, modeEx)
 			}
 		case "yifeng":
 			{
-				modeEx[mode] = cy.IsExist(sn)
+				modeEx[mode] = cy.Data.IsExist(sn)
 				modeExs = append(modeExs, modeEx)
 			}
 		case "tassadar":
 			{
-				modeEx[mode] = cz.IsExist(sn)
+				modeEx[mode] = cz.Data.IsExist(sn)
 				modeExs = append(modeExs, modeEx)
 			}
 		case "watsons":
 			{
-				modeEx[mode] = cw.IsExist(sn)
+				modeEx[mode] = cw.Data.IsExist(sn)
 				modeExs = append(modeExs, modeEx)
 			}
 		case "watsonsha":
 			{
-				modeEx[mode] = ch.IsExist(sn)
+				modeEx[mode] = ch.Data.IsExist(sn)
 				modeExs = append(modeExs, modeEx)
 			}
 		}

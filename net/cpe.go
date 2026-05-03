@@ -129,78 +129,78 @@ func getCpebyValor(sn string) []string {
 }
 
 func getCpebyYifeng(sn string) []string {
-	cpe, _ := cy.GetCpeStructBySn(sn)
+	cpe, _ := cy.Data.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		py.GetPopStructById(cpe.MasterPopID).PopIP,
+		py.Data.GetById(cpe.MasterPopID).PopIP,
 		cpe.MasterPopIP,
-		py.GetPopStructById(cpe.BackupPopID).PopIP,
+		py.Data.GetById(cpe.BackupPopID).PopIP,
 		cpe.BackupPopIP,
 	}
 }
 
 func getCpebyWatsons(sn string) []string {
-	cpe, _ := cw.GetCpeStructBySn(sn)
+	cpe, _ := cw.Data.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		pw.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		pw.Data.GetById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
-		pw.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		pw.Data.GetById(cpe.BackupEntryID).EntryIP,
 		cpe.BackupEntryIP,
 	}
 }
 
 func getCpebyWatsonsHa(sn string) []string {
-	cpe, _ := ch.GetCpeStructBySn(sn)
+	cpe, _ := ch.Data.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		ph.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		ph.Data.GetById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
-		ph.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		ph.Data.GetById(cpe.BackupEntryID).EntryIP,
 		cpe.BackupEntryIP,
 	}
 }
 
 func getCpebyZeratul(sn string) []string {
-	spe, _ := cz.GetCpeStructBySn(sn)
+	spe, _ := cz.Data.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,
-		pz.GetPopStructById(spe.MasterPopID).PopIP,
+		pz.Data.GetById(spe.MasterPopID).PopIP,
 		spe.MasterPopIP,
-		pz.GetPopStructById(spe.BackupPopID).PopIP,
+		pz.Data.GetById(spe.BackupPopID).PopIP,
 		spe.BackupPopIP,
 	}
 }
 
-func cpeMaxVersionValor() string     { return cv.MaxVersion() }
-func cpeMaxVersionYifeng() string    { return cy.MaxVersion() }
-func cpeMaxVersionWatsons() string   { return cw.MaxVersion() }
-func cpeMaxVersionWatsonsHa() string { return ch.MaxVersion() }
-func cpeMaxVersionZeratul() string   { return cz.MaxVersion() }
+func cpeMaxVersionValor() string     { return cv.Data.MaxVersion() }
+func cpeMaxVersionYifeng() string    { return cy.Data.MaxVersion() }
+func cpeMaxVersionWatsons() string   { return cw.Data.MaxVersion() }
+func cpeMaxVersionWatsonsHa() string { return ch.Data.MaxVersion() }
+func cpeMaxVersionZeratul() string   { return cz.Data.MaxVersion() }
 
 func uCPEInfoValor(sn string) []string {
-	cpe, _ := cv.GetCpeStructBySn(sn)
-	dve := dv.GetDveStructBySn(sn)
+	cpe, _ := cv.GetBySn(sn)
+	dve := dv.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		pv.GetPopStructById(cpe.MasterPopID).PopIP,
+		pv.Data.GetById(cpe.MasterPopID).PopIP,
 		cpe.MasterPopIP,
-		pv.GetPopStructById(cpe.BackupPopID).PopIP,
+		pv.Data.GetById(cpe.BackupPopID).PopIP,
 		cpe.BackupPopIP,
 		strconv.Itoa(dve.ServerPort),
 		dve.Customer.Name,
@@ -209,16 +209,16 @@ func uCPEInfoValor(sn string) []string {
 }
 
 func uCPEInfoWatsons(sn string) []string {
-	cpe, _ := cw.GetCpeStructBySn(sn)
-	dve := dw.GetDveStructBySn(sn)
+	cpe, _ := cw.GetBySn(sn)
+	dve := dw.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		pw.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		pw.GetById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
-		pw.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		pw.GetById(cpe.BackupEntryID).EntryIP,
 		cpe.BackupEntryIP,
 		strconv.Itoa(dve.ServerPort),
 		"watsons",
@@ -226,16 +226,16 @@ func uCPEInfoWatsons(sn string) []string {
 	}
 }
 func uCPEInfoYifeng(sn string) []string {
-	cpe, _ := cy.GetCpeStructBySn(sn)
-	dve := dy.GetDveStructBySn(sn)
+	cpe, _ := cy.GetBySn(sn)
+	dve := dy.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		py.GetPopStructById(cpe.MasterPopID).PopIP,
+		py.GetById(cpe.MasterPopID).PopIP,
 		cpe.MasterPopIP,
-		py.GetPopStructById(cpe.BackupPopID).PopIP,
+		py.GetById(cpe.BackupPopID).PopIP,
 		cpe.BackupPopIP,
 		strconv.Itoa(dve.ServerPort),
 		dve.Customer.Name,
@@ -244,16 +244,16 @@ func uCPEInfoYifeng(sn string) []string {
 }
 
 func uCPEInfoWatsonsHa(sn string) []string {
-	cpe, _ := ch.GetCpeStructBySn(sn)
-	dve := dh.GetDveStructBySn(sn)
+	cpe, _ := ch.GetBySn(sn)
+	dve := dh.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		ph.GetPopStructById(cpe.MasterEntryID).EntryIP,
+		ph.GetById(cpe.MasterEntryID).EntryIP,
 		cpe.MasterEntryIP,
-		ph.GetPopStructById(cpe.BackupEntryID).EntryIP,
+		ph.GetById(cpe.BackupEntryID).EntryIP,
 		cpe.BackupEntryIP,
 		strconv.Itoa(dve.ServerPort),
 		"watsonsha",
@@ -262,16 +262,16 @@ func uCPEInfoWatsonsHa(sn string) []string {
 }
 
 func uCPEInfoZeratul(sn string) []string {
-	spe, _ := cz.GetCpeStructBySn(sn)
-	dve := dz.GetDveStructBySn(sn)
+	spe, _ := cz.GetBySn(sn)
+	dve := dz.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,
-		pz.GetPopStructById(spe.MasterPopID).PopIP,
+		pz.GetById(spe.MasterPopID).PopIP,
 		spe.MasterPopIP,
-		pz.GetPopStructById(spe.BackupPopID).PopIP,
+		pz.GetById(spe.BackupPopID).PopIP,
 		spe.BackupPopIP,
 		strconv.Itoa(dve.ServerPort),
 		dve.Customer.Name,
@@ -281,16 +281,16 @@ func uCPEInfoZeratul(sn string) []string {
 
 // show 企业号
 func EuCPEInfoValor(sn string) []string {
-	cpe, _ := cv.GetCpeStructBySn(sn)
-	dve := dv.GetDveStructBySn(sn)
+	cpe, _ := cv.GetBySn(sn)
+	dve := dv.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		pv.GetPopStructById(cpe.MasterPopID).PopIP,
+		pv.GetById(cpe.MasterPopID).PopIP,
 		cpe.MasterPopIP,
-		pv.GetPopStructById(cpe.BackupPopID).PopIP,
+		pv.GetById(cpe.BackupPopID).PopIP,
 		cpe.BackupPopIP,
 		strconv.Itoa(dve.ServerPort),
 		cpe.Alias,
@@ -298,16 +298,16 @@ func EuCPEInfoValor(sn string) []string {
 }
 
 func EuCPEInfoYifeng(sn string) []string {
-	cpe, _ := cy.GetCpeStructBySn(sn)
-	dve := dy.GetDveStructBySn(sn)
+	cpe, _ := cy.GetBySn(sn)
+	dve := dy.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		cpe.Model,
 		cpe.SoftwareVersion,
 		cpe.EntryUpdateTime,
-		py.GetPopStructById(cpe.MasterPopID).PopIP,
+		py.GetById(cpe.MasterPopID).PopIP,
 		cpe.MasterPopIP,
-		py.GetPopStructById(cpe.BackupPopID).PopIP,
+		py.GetById(cpe.BackupPopID).PopIP,
 		cpe.BackupPopIP,
 		strconv.Itoa(dve.ServerPort),
 		cpe.Alias,
@@ -315,16 +315,16 @@ func EuCPEInfoYifeng(sn string) []string {
 }
 
 func EuCPEInfoZeratul(sn string) []string {
-	spe, _ := cz.GetCpeStructBySn(sn)
-	dve := dz.GetDveStructBySn(sn)
+	spe, _ := cz.GetBySn(sn)
+	dve := dz.GetBySn(sn)
 	return []string{
 		Cyan(sn),
 		spe.Model,
 		spe.SoftwareVersion,
 		spe.PopUpdateTime,
-		pz.GetPopStructById(spe.MasterPopID).PopIP,
+		pz.GetById(spe.MasterPopID).PopIP,
 		spe.MasterPopIP,
-		pz.GetPopStructById(spe.BackupPopID).PopIP,
+		pz.GetById(spe.BackupPopID).PopIP,
 		spe.BackupPopIP,
 		strconv.Itoa(dve.ServerPort),
 		spe.Alias,
@@ -337,16 +337,16 @@ func allValor(sn string) [][]string {
 
 	if sn == "ALL" {
 		for _, sn := range cz.SNs() {
-			cpe, _ := cv.GetCpeStructBySn(sn)
-			dve := dv.GetDveStructBySn(sn)
+			cpe, _ := cv.GetBySn(sn)
+			dve := dv.GetBySn(sn)
 			ucpe = []string{
 				Cyan(sn),
 				cpe.Model,
 				cpe.SoftwareVersion,
 				cpe.EntryUpdateTime,
-				pv.GetPopStructById(cpe.MasterPopID).PopIP,
+				pv.GetById(cpe.MasterPopID).PopIP,
 				cpe.MasterPopIP,
-				pv.GetPopStructById(cpe.BackupPopID).PopIP,
+				pv.GetById(cpe.BackupPopID).PopIP,
 				cpe.BackupPopIP,
 				strconv.Itoa(dve.ServerPort),
 				dve.Customer.Name,
@@ -364,17 +364,17 @@ func allYifeng(sn string) [][]string {
 	cpes := make([][]string, 0)
 
 	if sn == "ALL" {
-		for _, sn := range cy.SNs() {
-			cpe, _ := cy.GetCpeStructBySn(sn)
-			dve := dy.GetDveStructBySn(sn)
+		for _, sn := range cy.Data.SNs() {
+			cpe, _ := cy.Data.GetBySn(sn)
+			dve := dy.Data.GetBySn(sn)
 			ucpe = []string{
 				Cyan(sn),
 				cpe.Model,
 				cpe.SoftwareVersion,
 				cpe.EntryUpdateTime,
-				py.GetPopStructById(cpe.MasterPopID).PopIP,
+				py.Data.GetById(cpe.MasterPopID).PopIP,
 				cpe.MasterPopIP,
-				py.GetPopStructById(cpe.BackupPopID).PopIP,
+				py.Data.GetById(cpe.BackupPopID).PopIP,
 				cpe.BackupPopIP,
 				strconv.Itoa(dve.ServerPort),
 				dve.Customer.Name,
@@ -391,16 +391,16 @@ func allZeratul(sn string) [][]string {
 	cpes := make([][]string, 0)
 	if sn == "ALL" {
 		for _, sn := range cz.SNs() {
-			spe, _ := cz.GetCpeStructBySn(sn)
-			dve := dz.GetDveStructBySn(sn)
+			spe, _ := cz.GetBySn(sn)
+			dve := dz.GetBySn(sn)
 			ucpe = []string{
 				Cyan(sn),
 				spe.Model,
 				spe.SoftwareVersion,
 				spe.PopUpdateTime,
-				pz.GetPopStructById(spe.MasterPopID).PopIP,
+				pz.Data.GetById(spe.MasterPopID).PopIP,
 				spe.MasterPopIP,
-				pz.GetPopStructById(spe.BackupPopID).PopIP,
+				pz.Data.GetById(spe.BackupPopID).PopIP,
 				spe.BackupPopIP,
 				strconv.Itoa(dve.ServerPort),
 				dve.Customer.Name,
@@ -417,17 +417,17 @@ func allZeratul(sn string) [][]string {
 func allWatsonsHa(sn string) [][]string {
 	cpes := make([][]string, 0)
 	if sn == "ALL" {
-		for _, sn := range ch.SNs() {
-			spe, _ := ch.GetCpeStructBySn(sn)
-			dve := dh.GetDveStructBySn(sn)
+		for _, sn := range ch.Data.SNs() {
+			spe, _ := ch.Data.GetBySn(sn)
+			dve := dh.Data.GetBySn(sn)
 			ucpe = []string{
 				Cyan(sn),
 				spe.Model,
 				spe.SoftwareVersion,
 				spe.EntryUpdateTime,
-				ph.GetPopStructById(spe.MasterEntryID).EntryIP,
+				ph.Data.GetById(spe.MasterEntryID).EntryIP,
 				spe.MasterEntryIP,
-				ph.GetPopStructById(spe.BackupEntryID).EntryIP,
+				ph.Data.GetById(spe.BackupEntryID).EntryIP,
 				spe.BackupEntryIP,
 				strconv.Itoa(dve.ServerPort),
 				"watsonsha",
@@ -447,23 +447,23 @@ func getSnsByModel(mode, model string) []string {
 	switch mode {
 	case "valor":
 		{
-			sns = cv.GetCpesByModel(model)
+			sns = cv.Data.GetByModel(model)
 		}
 	case "yifeng":
 		{
-			sns = cy.GetCpesByModel(model)
+			sns = cy.Data.GetByModel(model)
 		}
 	case "tassadar":
 		{
-			sns = cz.GetCpesByModel(model)
+			sns = cz.Data.GetByModel(model)
 		}
 	case "watsons":
 		{
-			sns = cw.GetCpesByModel(model)
+			sns = cw.Data.GetByModel(model)
 		}
 	case "watsonsha":
 		{
-			sns = ch.GetCpesByModel(model)
+			sns = ch.Data.GetByModel(model)
 		}
 	}
 	return sns
@@ -475,23 +475,23 @@ func getSnsByVersion(mode, version string) []string {
 	switch mode {
 	case "valor":
 		{
-			sns = cv.GetCpesByVersion(version)
+			sns = cv.GetByVersion(version)
 		}
 	case "yifeng":
 		{
-			sns = cy.GetCpesByVersion(version)
+			sns = cy.GetByVersion(version)
 		}
 	case "tassadar":
 		{
-			sns = cz.GetCpesByVersion(version)
+			sns = cz.GetByVersion(version)
 		}
 	case "watsons":
 		{
-			sns = cw.GetCpesByVersion(version)
+			sns = cw.GetByVersion(version)
 		}
 	case "watsonsha":
 		{
-			sns = ch.GetCpesByVersion(version)
+			sns = ch.GetByVersion(version)
 		}
 	}
 	return sns
@@ -504,28 +504,28 @@ func getSnsByPopAddr(mode, addr string) []string {
 	switch mode {
 	case "valor":
 		{
-			id = pv.GetIdByAddr(addr)
-			sns = cv.GetCpesByPopId(id)
+			id = pv.Data.GetIDByAddr(addr)
+			sns = cv.Data.GetByPopId(id)
 		}
 	case "yifeng":
 		{
-			id = py.GetIdByAddr(addr)
-			sns = cy.GetCpesByPopId(id)
+			id = py.Data.GetIDByAddr(addr)
+			sns = cy.Data.GetByPopId(id)
 		}
 	case "tassadar":
 		{
-			id = pz.GetIdByAddr(addr)
-			sns = cz.GetCpesByPopId(id)
+			id = pz.GetIDByAddr(addr)
+			sns = cz.Data.GetByPopID(id)
 		}
 	case "watsons":
 		{
-			id = pw.GetIdByAddr(addr)
-			sns = cw.GetCpesByPopId(id)
+			id = pw.GetIDByAddr(addr)
+			sns = cw.GetByPopID(id)
 		}
 	case "watsonsha":
 		{
-			id = ph.GetIdByAddr(addr)
-			sns = ch.GetCpesByPopId(id)
+			id = ph.GetIDByAddr(addr)
+			sns = ch.GetByPopID(id)
 		}
 	}
 	return sns
