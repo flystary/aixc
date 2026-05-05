@@ -16,6 +16,5 @@ var execCmd = &cobra.Command{
 
 	Run: func(_ *cobra.Command, args []string) {
 		println("不支持此用法!")
-		return
 	},
 }

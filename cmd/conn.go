@@ -6,7 +6,6 @@ import (
 
 func init() {
     rootCmd.AddCommand(connCmd)
-	// connCmd.Flags().BoolP("seven", "", false, "Appoint that the UCPE Mode belongs to SDWAN6")
 }
 
 var connCmd = &cobra.Command{

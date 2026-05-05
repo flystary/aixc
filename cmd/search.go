@@ -6,6 +6,7 @@ import (
 
 func init() {
 	rootCmd.AddCommand(searchCmd)
+	searchCmd.Flags().StringP("write", "w", "", "Write current data to a file")
 }
 
 var searchCmd = &cobra.Command{
@@ -15,13 +16,16 @@ var searchCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
+		writeOpt, err := cmd.Flags().GetString("write")
+		if err != nil {
+			println("getstring err: ", err)
+			return
+		}
 
-	    if len(args) >= 1 {
-            showMany(args)
-	    } else {
-	        println("不支持此用法!")
-	        return
-        }
-    },
+		var aixc Cmd = &CLI{
+			sns:   args,
+			Write: cli.DecodeWrite(writeOpt),
+		}
+		aixc.run()
+	},
 }
-

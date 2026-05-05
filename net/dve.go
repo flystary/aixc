@@ -106,7 +106,7 @@ access_token=706ef88c-fb97-4cb0-984d-dae945386c8b
 */
 
 func OpenValorRemote(SN, URL, TOKEN string) bool {
-	dve := dv.GetDveStructBySn(SN)
+	dve := dv.Data.GetBySn(SN)
 	if dve.IsOnline() {
 		if dve.EnableRemote {
 			return true
@@ -120,7 +120,7 @@ func OpenValorRemote(SN, URL, TOKEN string) bool {
 }
 
 func CloseValorRemote(SN, TOKEN, URL string) bool {
-	dve := dv.GetDveStructBySn(SN)
+	dve := dv.Data.GetBySn(SN)
 	if dve.IsOnline() {
 		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
 		fmt.Println(OpenRemoteURL)
@@ -130,7 +130,7 @@ func CloseValorRemote(SN, TOKEN, URL string) bool {
 }
 
 func OpenZeratulRemote(SN, URL, TOKEN string) bool {
-	dve := dz.GetDveStructBySn(SN)
+	dve := dz.Data.GetBySn(SN)
 	if dve.IsOnline() {
 		if dve.EnableRemote {
 			return true
@@ -144,7 +144,7 @@ func OpenZeratulRemote(SN, URL, TOKEN string) bool {
 }
 
 func CloseZeratulRemote(SN, TOKEN, URL string) bool {
-	dve := dz.GetDveStructBySn(SN)
+	dve := dz.Data.GetBySn(SN)
 	if dve.IsOnline() {
 		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
 		fmt.Println(OpenRemoteURL)
@@ -155,7 +155,7 @@ func CloseZeratulRemote(SN, TOKEN, URL string) bool {
 }
 
 func OpenWatonsRemote(SN, URL, TOKEN string) bool {
-	dve := dw.GetDveStructBySn(SN)
+	dve := dw.Data.GetBySn(SN)
 	if dve.IsOnline() {
 		if dve.SupportRemote {
 			return true
@@ -169,7 +169,7 @@ func OpenWatonsRemote(SN, URL, TOKEN string) bool {
 }
 
 func CloseWatonsRemote(SN, TOKEN, URL string) bool {
-	dve := dw.GetDveStructBySn(SN)
+	dve := dw.Data.GetBySn(SN)
 	if dve.IsOnline() {
 		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
 		fmt.Println(OpenRemoteURL)
@@ -180,7 +180,7 @@ func CloseWatonsRemote(SN, TOKEN, URL string) bool {
 }
 
 func OpenWatonsHaRemote(SN, URL, TOKEN string) bool {
-	dve := dh.GetDveStructBySn(SN)
+	dve := dh.Data.GetBySn(SN)
 	if dve.IsOnline() {
 		if dve.SupportRemote {
 			return true
@@ -194,7 +194,7 @@ func OpenWatonsHaRemote(SN, URL, TOKEN string) bool {
 }
 
 func CloseWatonsHaRemote(SN, TOKEN, URL string) bool {
-	dve := dh.GetDveStructBySn(SN)
+	dve := dh.Data.GetBySn(SN)
 	if dve.IsOnline() {
 		OpenRemoteURL := fmt.Sprintf("%s%s&access_token=%s", fmt.Sprintf(URL, dve.ID), "false", TOKEN)
 		fmt.Println(OpenRemoteURL)
@@ -209,7 +209,7 @@ func getSnsByModeEn(mode, enterprise string) []string {
 	switch mode {
 	case "valor":
 		{
-			sns = dv.GetCpesByEnterprise(enterprise)
+			sns = dv.Data.GetByEnterprise(enterprise)
 		}
 	// case "yifeng":
 	// 	{
@@ -217,7 +217,7 @@ func getSnsByModeEn(mode, enterprise string) []string {
 	// 	}
 	case "tassadar":
 		{
-			sns = dz.GetCpesByEnterprise(enterprise)
+			sns = dz.Data.GetByEnterprise(enterprise)
 		}
 	}
 	return sns
